@@ -1,27 +1,34 @@
-var express = require('express');
 
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const db = require('./queries')
 
-app.use(function(req, res, next){
-    res.setHeader('Content-Type', 'text/plain');
-    next();
-})
+const app = express();
+const port = 8080;
 
-.get('/', function(req, res) {
-    res.send('You are in home page');
-})
+app.use(bodyParser.json());
 
-.get('/login', function(req, res) {
-    res.send('You are in login page');
-})
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
-.get('/login/:user_name/:password', function(req, res) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello ' + req.params.user_name + '. Your password is: ' + req.params.password);
-})
+app.get('/', function(req, res) {
+  res.json({ info: 'Node.js, Express, and Postgres API' })
+});
 
-.use(function(req, res, next){
+app.get('/users', db.getUsers);
+app.get('/users/:id', db.getUserById);
+app.post('/users', db.createUser);
+app.put('/users/:id', db.updateUser);
+app.delete('/users/:id', db.deleteUser);
+
+app.use(function(req, res){
     res.status(404).send('Page not found !');
 })
 
-.listen(8080);   
+app.listen(port, function(){
+  console.log(`App running on port ${port}`)
+});
+

@@ -1,7 +1,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./queries')
+const db = require('./queries');
 
 const app = express();
 const port = 8080;
@@ -18,17 +18,12 @@ app.get('/', function(req, res) {
   res.json({ info: 'Node.js, Express, and Postgres API' })
 });
 
-app.get('/users', db.getUsers);
-app.get('/users/:id', db.getUserById);
-app.post('/users', db.createUser);
-app.put('/users/:id', db.updateUser);
-app.delete('/users/:id', db.deleteUser);
+app.post('/signup', db.createUser);
 
 app.use(function(req, res){
     res.status(404).send('Page not found !');
 })
 
 app.listen(port, function(){
-  console.log(`App running on port ${port}`)
+  console.log(`App running on port ${port}`);
 });
-

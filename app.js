@@ -19,6 +19,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/signup', db.createUser);
+app.post('/login', db.loginUser);
 
 app.use(function(req, res){
     res.status(404).send('Page not found !');

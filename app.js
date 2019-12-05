@@ -1,12 +1,16 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./queries');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const User = require('./models/user');
+const router = require('./routes/routes');
 
 const app = express();
-const port = 8080;
+app.set('port', 8080);
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use(
   bodyParser.urlencoded({
@@ -14,17 +18,37 @@ app.use(
   })
 );
 
-app.get('/', function(req, res) {
-  res.json({ info: 'Node.js, Express, and Postgres API' })
+
+app.use(session({
+    key: 'user_sid',
+    secret: 'somerandomstuffs',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 600000
+    }
+}));
+
+// This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
+// This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
+app.use(function(req, res, next) {
+    if (req.cookies.user_sid && !req.session.user) {
+        res.clearCookie('user_sid');        
+    }
+    next();
 });
 
-app.post('/signup', db.createUser);
-app.post('/login', db.loginUser);
+router.route(app);
 
-app.use(function(req, res){
-    res.status(404).send('Page not found !');
-})
+// route for handling 404 requests(unavailable routes)
+app.use(function (req, res, next) {
+  res.status(404).send("Page not found!")
+});
 
-app.listen(port, function(){
-  console.log(`App running on port ${port}`);
+
+
+
+// start the express server
+app.listen(app.get('port'), function(){
+  console.log(`App running on port ${app.get('port')}`);
 });

@@ -16,7 +16,7 @@ const createUser = function(req, res) {
 	const { name, password } = req.body;
 	
 	if(!validator.checkValidation(res, name, password))
-		return;
+		//return;
 	
 	pool.query('SELECT * FROM users WHERE name = $1', [name], function(error, results) {
 		
@@ -24,7 +24,7 @@ const createUser = function(req, res) {
 			
 		  throw error;
 		  
-		} if(results.rowCount != 0) {
+		} if(results.rowCount) {
 			
 			res.status(404).send('This user name yet in use!');
 			
@@ -54,7 +54,7 @@ const loginUser = function(req, res) {
 			
 		  throw error;
 		  
-		} if(results.rowCount == 0) {
+		} if(!results.rowCount) {
 				
 			res.status(404).send('You are not registered in the database!');
 		

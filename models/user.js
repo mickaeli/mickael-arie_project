@@ -2,7 +2,7 @@ var Sequelize = require('sequelize');
 var bcrypt = require('bcryptjs');
 
 // create a sequelize instance with our local postgres database information.
-const sequelize = new Sequelize('postgres', 'mickael', 'mickael_israel', {
+const sequelize = new Sequelize('api', 'mickael', 'mickael_israel', {
   host: 'localhost',
   dialect: 'postgres'
 });
@@ -26,7 +26,7 @@ var User = sequelize.define('users', {
     }
 }, {
     hooks: {
-      beforeCreate: (user) => {
+      beforeCreate: function(user) {
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync(user.password, salt);
       }

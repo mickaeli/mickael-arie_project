@@ -1,4 +1,5 @@
 const passValidator = require('password-validator');
+var emailvalidator = require("email-validator");
 
 const schema = new passValidator();
 
@@ -6,20 +7,29 @@ schema
 .is().min(5)
 .has().uppercase();
 
-const checkValidation = function(res, name, password) {
-	if(!name)
+const checkValidation = function(username, email, password) {
+	
+	//return (username && emailvalidator.validate(email) && schema.validate(password));
+	if(!username)
 	{
-		res.status(404).send('user_name is empty!');
+		console.log('user_name is empty!');
 		return false;
 	}
 		
+	if(!emailvalidator.validate(email))
+	{
+		console.log('email don\'t suit the restrictions!');
+		return false;
+	}
+	
 	if(!schema.validate(password))
 	{
-		res.status(404).send('password don\'t suit the restrictions!');
+		console.log('password don\'t suit the restrictions!');
 		return false;
 	}
 	
 	return true;
+	
 };
 
 module.exports = {

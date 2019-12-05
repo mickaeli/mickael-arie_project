@@ -1,6 +1,5 @@
 
 const handlers = require('./rest_handlers');
-const User = require('../models/user');
 
 const sessionChecker = function(req, res, next) {
 	

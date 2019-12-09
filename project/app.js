@@ -1,8 +1,11 @@
 
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+var morgan = require('morgan');
+
 const User = require('./models/user');
 const router = require('./routes/routes');
 
@@ -18,6 +21,9 @@ app.use(
   })
 );
 
+// set morgan to log info about our requests for development use.
+app.use(morgan('dev'));
+
 
 app.use(session({
     key: 'user_sid',
@@ -25,7 +31,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 6000
+        expires: 60 * 1000 * 30 //30 minutes
     }
 }));
 

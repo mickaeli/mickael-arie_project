@@ -31,10 +31,13 @@ const postSignup = function(req, res) {
 	})
 	.then(function(user) {
 		req.session.user = user.dataValues;
+		
 		res.redirect('/dashboard');
 	})
 	.catch(function(error) {
-		console.log('username already in use!');
+		console.log(error.message);
+		//console.log('username already in use!');
+		//console.log('email already in use!');
 		res.redirect('/signup');
 	});
 };
@@ -46,10 +49,9 @@ const getLogin = function(req, res) {
 
 const postLogin = function(req, res) {
 	const { username, password } = req.body;
-
 	User.findOne({ where: { username: username } }).then(function (user) {
 		if (!user) {
-			console.log('username is empty');
+			console.log('You are not registered in the database!');
 			res.redirect('/login');
 		} else if (!user.validPassword(password)) {
 			console.log('password is wrong');

@@ -35,9 +35,7 @@ const postSignup = function(req, res) {
 		res.redirect('/dashboard');
 	})
 	.catch(function(error) {
-		console.log(error.message);
-		//console.log('username already in use!');
-		//console.log('email already in use!');
+		console.log(error.errors[0].message);
 		res.redirect('/signup');
 	});
 };

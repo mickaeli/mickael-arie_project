@@ -1,5 +1,3 @@
-//require('dotenv').config();
-//require('dotenv').config({path: __dirname + '/.env'})
 var Sequelize = require('sequelize');
 var bcrypt = require('bcryptjs');
 const path = require('path');
@@ -35,12 +33,11 @@ var User = sequelize.define('users', {
         user.password = bcrypt.hashSync(user.password, salt);
       }
     },
-    /*instanceMethods: {
+    instanceMethods: {
       validPassword: function(password) {
-		//console.log('I am in validPassword function!!');
         return bcrypt.compareSync(password, this.password);
       }
-    }   */ 
+    }   
 });
 
 User.prototype.validPassword = function(password) {

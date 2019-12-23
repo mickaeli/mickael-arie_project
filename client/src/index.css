@@ -1,13 +1,93 @@
+@charset "UTF-8";
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+/* @import url('https://fonts.googleapis.com/css?family=Heebo:400,700&display=swap'); */
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+
+/* general */
 body {
+  font-weight: 400;
+  font-family: "Roboto", sans-serif;
+  line-height: 1.4;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+}
+h1, h2, h3, h4, h5, h6, b, strong { 
+  font-weight: 700;
+}
+h1 { 
+  margin: 0; /*  שנו את השורה אם אתם רוצים רווח  לפני ואחרי הכותרת  */
+}
+img, iframe {
+  border: 0;
+}
+img {
+  max-width: 100%;
+	width: auto;
+	height: auto;
+}
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* layout */
+.container {
+  overflow: hidden;
+  margin: auto;
+  max-width: 980px;
+  padding: 0 7px;
+}
+.text {
+  max-width: 40em;
+}
+.site-header, .site-footer {
+  padding: 14px 0; /* שנו את הרווח הזה */
+}
+.site-header {
+  border-bottom: 1px solid #000;  /* שנו את הגבול הזה */
+}
+.site-content {
+  padding: 28px 0; /* שנו את הרווח הזה */
+}
+.site-footer {
+  border-top: 1px solid #000;  /* שנו את הגבול הזה */
+}
+
+/* navigation */
+.logo {
+  float: right;
+}
+.main-nav {
+  float: left;
+  font-size: 0; 
+  padding-top: 14px; /* שנו את הרווח הזה */
+}
+.main-nav li {
+  font-size: 16px; /* התאימו את גודל הפונט לפונט שבחרתם */
+  display: inline-block;
+}
+.main-nav a {
+  display: block;
+  text-decoration: none;
+  color: #777; /* שנו את הצבע הזה */
+  padding: 5px 10px; /* שנו את הרווח הזה */
+}
+.main-nav .current a {
+  color: #000; /* שנו את הצבע הזה */
+}
+
+/* helper */
+.alignleft {
+  float: left;
+  margin-right: 14px;
+}
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }

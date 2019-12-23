@@ -1,0 +1,14 @@
+@media only screen and (min-width: 978px) {
+    .desc-section {
+        margin: 80px 250px;
+    }
+}
+
+.desc-section p {
+    margin: 0;
+    font-size: 1.7em;
+    letter-spacing: 0.05em;
+    line-height: 1.45;
+    text-align: center;
+    opacity: 0.6;
+}

@@ -3,6 +3,7 @@ import React from 'react';
 // import Membre from './components/Membre';
 import DescSection from './components/DescSection';
 import SigninSection from './components/SigninSection';
+import DescSection2 from './components/DescSection2';
 
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <div>
       <DescSection />
       <SigninSection />
+      <DescSection2 />
     </div>
   );
 }

@@ -1,7 +1,15 @@
-@media only screen and (min-width: 978px) {
-    .desc-section {
-        margin: 80px 250px;
+@media all and (max-device-width: 480px)
+{
+    .desc-section{
+        width: auto;
     }
+}
+
+.desc-section {
+    margin: auto;
+    margin-top: 80px;
+    margin-bottom: 80px;
+    width: 980px;
 }
 
 .desc-section p {

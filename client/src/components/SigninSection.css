@@ -1,16 +1,13 @@
 .signin-section {
     background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url(../img/beach.jpg);
     background-size: cover;
-    margin-left: auto;
-    margin-right: auto;
     padding-bottom: 150px;
     padding-top: 150px;
 }
 
 .container-wrapper {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 600px;
+    margin:auto;
+    width: 600px;
 }
 
 .container-wrapper h1, 

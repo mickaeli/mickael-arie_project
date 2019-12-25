@@ -5,23 +5,21 @@
     padding-top: 150px;
 }
 
-.container-wrapper {
+.signin-section .container-wrapper {
     margin:auto;
-    width: 600px;
 }
 
-.container-wrapper h1, 
-.container-wrapper p {
+.signin-section .container-wrapper {
     color: white;
     text-align: center;
 }
 
-.container-wrapper h1 {
+.signin-section .container-wrapper h1 {
     margin: 0 25px 25px 25px;
     line-height: 1.2;
     font-size: 2.8em;
 }
 
-.container-wrapper p {
+.signin-section .container-wrapper p {
     font-size: 1.2em;
 }

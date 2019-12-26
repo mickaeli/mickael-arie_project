@@ -1,0 +1,26 @@
+.gradient-section {
+    /* background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url(../img/beach.jpg); */
+    background-size: cover;
+    padding-bottom: 230px;
+    padding-top: 230px;
+    background-position: center center;
+}
+
+.gradient-section .container-wrapper {
+    margin:auto;
+}
+
+.gradient-section .container-wrapper {
+    color: white;
+    text-align: center;
+}
+
+.gradient-section .container-wrapper h1 {
+    margin: 0 25px 25px 25px;
+    line-height: 1.2;
+    font-size: 2.8em;
+}
+
+.gradient-section .container-wrapper p {
+    font-size: 1.2em;
+}

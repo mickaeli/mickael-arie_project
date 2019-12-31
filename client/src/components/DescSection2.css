@@ -1,11 +1,9 @@
 .desc-section2 {
-    margin: auto;
     margin-top: 80px;
     margin-bottom: 80px;
 }
 
 .desc-section2 img {
-    float: left;
     margin-right: 4%;
 }
 
@@ -17,7 +15,6 @@
 
 .desc-section2 .container-wrapper p {
     opacity: 0.6;
-    font-size: 1rem;
     line-height: 1.8;
     margin-bottom: 1.25rem;
     margin-top: 1.25rem;

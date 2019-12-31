@@ -1,8 +1,7 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel'
-import './SlideShow.css';
 import worker from '../img/worker.jpg';
-import GradientSection from './GradientSection';
+import HeroImage from './HeroImage';
 
 const SlideShow = () => {
   const header = 'Become a Gooder'
@@ -10,15 +9,15 @@ const SlideShow = () => {
   'Become a Gooder and discover endless opportunities to contribute and make the world a better place'
 
   return (
-    <Carousel>
+    <Carousel >
       <Carousel.Item>
-        <GradientSection header={header} paragraph={paragraph} url_img={worker}/>
+        <HeroImage header={header} paragraph={paragraph} url_img={worker} blue={true}/>
       </Carousel.Item>
       <Carousel.Item>
-        <GradientSection header={header} paragraph={paragraph} url_img={worker}/>
+        <HeroImage header={header} paragraph={paragraph} url_img={worker} blue={true}/>
       </Carousel.Item>
       <Carousel.Item>
-        <GradientSection header={header} paragraph={paragraph} url_img={worker}/>
+        <HeroImage header={header} paragraph={paragraph} url_img={worker} blue={true}/>
       </Carousel.Item>
       {/* <Carousel.Item>
         <img

@@ -1,12 +1,13 @@
 import React from 'react';
-import './GradientSection.css'
+import './HeroImage.css'
 import Container from 'react-bootstrap/Container'
 
-const GradientSection = ({header, paragraph, url_img}) => {
+const HeroImage = ({header, paragraph, url_img, blue}) => {
   return (
-      <div className='gradient-section' style={{backgroundImage : 'linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url(' + url_img + ')'}}>
+      <div className='hero-image' style={{backgroundImage : blue ? ('linear-gradient(rgba(0, 125, 177, 0.67), rgba(0, 125, 177, 0.67)), url(' + url_img + ')') : 
+      ('linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url(' + url_img + ')')}}>
         <Container>
-          <div className='container-wrapper'>
+          <div className='hero-text'>
             {/* <h1>Know what happens, when it happens, and make a difference!</h1> */}
             <h1>{header}</h1>
             <p>{paragraph}</p>
@@ -18,4 +19,4 @@ const GradientSection = ({header, paragraph, url_img}) => {
   );
 };
 
-export default GradientSection;
+export default HeroImage;

@@ -2,10 +2,12 @@ import React from 'react';
 // import './App.css';
 // import Membre from './components/Membre';
 import DescSection from './components/DescSection';
-import GradientSection from './components/GradientSection';
+import HeroImage from './components/HeroImage';
 import DescSection2 from './components/DescSection2';
 import SlideShow from './components/SlideShow';
 import beach from './img/beach.jpg';
+import Gallery from './components/Gallery';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -15,9 +17,12 @@ function App() {
   return (
     <div>
       <DescSection />
-      <GradientSection header={header} paragraph={paragraph} url_img={beach} />
+      <HeroImage header={header} paragraph={paragraph} url_img={beach} blue={false}/>
       <DescSection2 />
       <SlideShow />
+      <Gallery />
+      <Footer />
+
     </div>
   );
 }

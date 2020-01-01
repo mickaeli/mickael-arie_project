@@ -3,14 +3,12 @@ footer {
     padding-bottom: 5rem;
     padding-top: 5rem;
     background-position: center center;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 footer img {
     margin-right: 4%;
-}
-
-footer {
-    color: rgba(255, 255, 255, 0.8);
+    /* min-height: 13rem; */
 }
 
 footer .container-wrapper h1 {
@@ -23,3 +21,21 @@ footer .container-wrapper p {
     line-height: 1.8;
     margin-top: 1.25rem;
 }
+
+footer ul {
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+footer a {
+    display: block;
+    text-decoration: none;
+    color: #777; /* שנו את הצבע הזה */
+    padding: 5px 10px; /* שנו את הרווח הזה */
+  }
+
+  footer a:hover{
+      color: darkgray;
+  }

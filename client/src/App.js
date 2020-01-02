@@ -6,8 +6,10 @@ import HeroImage from './components/HeroImage';
 import DescSection2 from './components/DescSection2';
 import SlideShow from './components/SlideShow';
 import beach from './img/beach.jpg';
+import hands from './img/hands.jpg';
 import Gallery from './components/Gallery';
 import Footer from './components/Footer';
+import Header from './components/Header';
 
 
 function App() {
@@ -16,8 +18,10 @@ function App() {
   'We believe that everything is possible once people are brought together for a good cause. Start your journey today!'
   return (
     <div>
+      <Header />
+      <HeroImage header='Gooder' paragraph='Socialize your good-doing' url_img={hands} blue={false} parallax={true}/>
       <DescSection />
-      <HeroImage header={header} paragraph={paragraph} url_img={beach} blue={false}/>
+      <HeroImage header={header} paragraph={paragraph} url_img={beach} bg_blue={false} parallax={false}/>
       <DescSection2 />
       <SlideShow />
       <Gallery />

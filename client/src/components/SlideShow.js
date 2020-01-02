@@ -11,13 +11,13 @@ const SlideShow = () => {
   return (
     <Carousel >
       <Carousel.Item>
-        <HeroImage header={header} paragraph={paragraph} url_img={worker} blue={true}/>
+        <HeroImage header={header} paragraph={paragraph} url_img={worker} bg_blue={true} parallax={false}/>
       </Carousel.Item>
       <Carousel.Item>
-        <HeroImage header={header} paragraph={paragraph} url_img={worker} blue={true}/>
+        <HeroImage header={header} paragraph={paragraph} url_img={worker} bg_blue={true} parallax={false}/>
       </Carousel.Item>
       <Carousel.Item>
-        <HeroImage header={header} paragraph={paragraph} url_img={worker} blue={true}/>
+        <HeroImage header={header} paragraph={paragraph} url_img={worker} bg_blue={true} parallax={false}/>
       </Carousel.Item>
       {/* <Carousel.Item>
         <img

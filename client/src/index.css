@@ -56,21 +56,21 @@ nav ul {
 
 /* navigation */
 .logo {
-  float: right;
+  float: left;
 }
 .main-nav {
-  float: left;
   font-size: 0; 
   padding-top: 14px; /* שנו את הרווח הזה */
 }
 .main-nav li {
+  font-family: Montserrat;
   font-size: 16px; /* התאימו את גודל הפונט לפונט שבחרתם */
   display: inline-block;
 }
 .main-nav a {
   display: block;
   text-decoration: none;
-  color: #777; /* שנו את הצבע הזה */
+  color: white;
   padding: 5px 10px; /* שנו את הרווח הזה */
 }
 .main-nav .current a {
@@ -91,4 +91,9 @@ nav ul {
   padding: 0;
   position: absolute;
   width: 1px;
+}
+
+.button {
+  font-family: Montserrat;
+  font-size: 16px;
 }

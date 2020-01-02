@@ -3,8 +3,8 @@
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    padding-bottom: 310px;
-    padding-top: 310px;
+    padding-bottom: 390px;
+    padding-top: 390px;
     position: relative;
 }
 
@@ -25,4 +25,14 @@
 
 .hero-text p {
     font-size: 1.2em;
+}
+
+.hero-image .button {
+    background-color: rgb(47, 173, 237);
+    margin: .5em .2em;
+    padding: 1rem 5rem;
+}
+
+.hero-image .button:hover {
+    background-color: dodgerblue;
 }

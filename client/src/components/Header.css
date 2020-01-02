@@ -1,0 +1,11 @@
+header {
+    background-color: rgb(35, 34, 34);
+    padding-bottom: 5rem;
+    padding-top: 5rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+header .button {
+    margin: .5em .2em;
+    padding: .5rem 2rem;
+}

@@ -1,11 +1,9 @@
 import React from 'react';
 import './Footer.css';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTwitterSquare } from '@fortawesome/free-brands-svg-icons'
-import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons'
-import { faYoutube } from '@fortawesome/free-brands-svg-icons'
-import Skateboard_ramps from '../img/Skateboard_ramps.jpg';
+import { faTwitterSquare, faFacebookSquare, faYoutube } from '@fortawesome/free-brands-svg-icons'
+import skateboard_ramps from '../img/Skateboard_ramps.jpg';
 
 const Footer = () => {
   return (
@@ -13,7 +11,8 @@ const Footer = () => {
       <Container fluid='true'>
         <Row>
           <Col sm={12} lg={6} xl={{ span: 4, offset: 2 }}>
-            <img src={Skateboard_ramps} alt="Skateboard ramps"/>
+          <Image src={skateboard_ramps} alt="skateboard ramps" />
+            {/* <img src={skateboard_ramps} alt="skateboard ramps"/> */}
           </Col>
           <Col sm={12} lg={6} xl={4}>
             <div className='container-wrapper'>

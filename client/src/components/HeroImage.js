@@ -18,7 +18,7 @@ const HeroImage = ({header, paragraph, url_img, bg_blue, parallax}) => {
             <p>{paragraph}</p>
             <div>
               { !bg_blue ? <Button className='button' variant="light" href="#" size="lg">Sign In</Button> : <Fragment></Fragment>}
-              <Button className='button signup-button'  href="#" size="lg">Sign Up</Button>
+              <Button className='button' variant='primary' href="#" size="lg">Sign Up</Button>
             </div>
             {/* <p>Gooder™ will let you explore a world of social, community & good actions. 
               We believe that everything is possible once people are brought together for a good cause. Start your journey today!</p> */}

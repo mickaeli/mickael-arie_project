@@ -55,17 +55,17 @@ nav ul {
 }
 
 /* navigation */
-.logo {
+/* .logo {
   float: left;
   margin-right: 10px;
-}
+} */
 .main-nav {
   font-size: 0; 
   padding-top: 16px;
 }
 .main-nav li {
   font-family: Montserrat;
-  font-size: 16px; /* התאימו את גודל הפונט לפונט שבחרתם */
+  font-size: 18px; /* התאימו את גודל הפונט לפונט שבחרתם */
   display: inline-block;
 }
 .main-nav a {

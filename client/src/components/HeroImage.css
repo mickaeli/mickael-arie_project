@@ -28,11 +28,14 @@
 }
 
 .hero-image .button {
-    background-color: rgb(47, 173, 237);
     margin: .5em .2em;
-    padding: 1rem 5rem;
+    padding: 1rem 4.5rem;
 }
 
-.hero-image .button:hover {
+.hero-image .signup-button {
+    background-color: rgb(47, 173, 237);
+}
+
+.hero-image .signup-button:hover {
     background-color: dodgerblue;
 }

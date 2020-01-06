@@ -2,7 +2,7 @@ import React from 'react';
 import './Footer.css';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTwitterSquare, faFacebookSquare, faYoutube } from '@fortawesome/free-brands-svg-icons'
+import { faTwitterSquare, faFacebookSquare, faYoutube, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import skateboard_ramps from '../img/Skateboard_ramps.jpg';
 
 const Footer = () => {
@@ -18,7 +18,7 @@ const Footer = () => {
             <div className='container-wrapper'>
               <h1>Get in Touch with us</h1>
               <p>Gooder&trade; were made as a final project at Hadassah Academic College, Computer Science department, by Mickael Israel (...) & Arie Noyoz (....)</p>
-              <ul>
+              <ul className="features">
                 <li>
                   <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faTwitterSquare} size='3x' aria-hidden="true">
@@ -34,6 +34,13 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
+                  <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faLinkedin} size='3x' aria-hidden="true">
+                      <span class="sr-only">Linkedin</span>
+                    </FontAwesomeIcon>
+                  </a>
+                </li>
+                <li>
                   <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faYoutube} size='3x' aria-hidden="true">
                       <span class="sr-only">Youtube</span>
@@ -41,6 +48,8 @@ const Footer = () => {
                   </a>
                 </li>
               </ul>
+              <a className="mail" href="mailto:mickaelisrael26@gmail.com">mickaelisrael26@gmail.com </a>
+              <a className="mail" href="mailto:arienoy@gmail.com">arienoy@gmail.com </a>
             </div>
           </Col>
         </Row>

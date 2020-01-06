@@ -32,10 +32,18 @@ footer ul {
 footer a {
     display: block;
     text-decoration: none;
-    color: #777;
     padding: 5px 10px;
   }
 
-  footer a:hover{
+  footer .features a {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  footer .features a:hover{
       color: darkgray;
+  }
+
+  footer .mail {
+    display: inline;
+    color: rgba(255, 255, 255, 0.8);
   }

@@ -57,10 +57,11 @@ nav ul {
 /* navigation */
 .logo {
   float: left;
+  margin-right: 10px;
 }
 .main-nav {
   font-size: 0; 
-  padding-top: 14px; /* שנו את הרווח הזה */
+  padding-top: 16px;
 }
 .main-nav li {
   font-family: Montserrat;
@@ -73,6 +74,11 @@ nav ul {
   color: white;
   padding: 5px 10px; /* שנו את הרווח הזה */
 }
+
+.main-nav a:hover {
+    color: darkgray;
+}
+
 .main-nav .current a {
   color: #000; /* שנו את הצבע הזה */
 }

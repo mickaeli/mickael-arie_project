@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './HeroImage.css'
 import { Container, Button } from 'react-bootstrap'
 
@@ -17,8 +17,8 @@ const HeroImage = ({header, paragraph, url_img, bg_blue, parallax}) => {
             <h1>{header}</h1>
             <p>{paragraph}</p>
             <div>
-              <Button className='button' href="#" variant="primary" size="lg">Sign In</Button>
-              <Button className='button' href="#" variant="primary" size="lg">Sign Up</Button>
+              { !bg_blue ? <Button className='button' variant="light" href="#" size="lg">Sign In</Button> : <Fragment></Fragment>}
+              <Button className='button signup-button'  href="#" size="lg">Sign Up</Button>
             </div>
             {/* <p>Gooder™ will let you explore a world of social, community & good actions. 
               We believe that everything is possible once people are brought together for a good cause. Start your journey today!</p> */}

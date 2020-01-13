@@ -16,7 +16,6 @@ const Header = () => {
               <ul>
                 <li><a href="https://www.linkedin.com">Home</a></li>
                 <li><a href="https://www.linkedin.com">About</a></li>
-                {/* <li class="current"><a href="about.html">אודות</a></li> */}
               </ul>
             </nav>
           </Col>

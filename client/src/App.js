@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 // import './App.css';
 // import Membre from './components/Membre';
 import DescSection from './components/DescSection';
@@ -11,11 +12,17 @@ import Gallery from './components/Gallery';
 import Footer from './components/Footer';
 import Header from './components/Header';
 
+const App = props => {
+  useEffect(() => {
+    axios.get('/api/hello')
+      .then(res => setState(res.data))
+  }, [])
 
-function App() {
+  const [state, setState] = useState('')
   const header = 'Know what happens, when it happens, and make a difference!'
   const paragraph = 'Gooder™ will let you explore a world of social, community & good actions.' +
   'We believe that everything is possible once people are brought together for a good cause. Start your journey today!'
+
   return (
     <div>
       <Header />
@@ -26,10 +33,10 @@ function App() {
       <SlideShow />
       <Gallery />
       <Footer />
-
+      <p>{state}</p>
     </div>
-  );
-}
+)
+};
 
 export default App;
 

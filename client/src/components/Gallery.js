@@ -8,8 +8,7 @@ import children_holding_hands from '../img/children_holding_hands.jpg';
 
 const Gallery = () => {
   return (
-    <Container>
-      <div className='gallery'>
+    <Container className='gallery'>
         <Row>
           <Col md={12} lg={4}>
             <GalleryItem 
@@ -33,7 +32,6 @@ const Gallery = () => {
             />
           </Col>
         </Row>
-      </div>
     </Container>
   );
 };

@@ -5,8 +5,7 @@ import under_gallerie from '../img/underground_gallery.jpg';
 
 const DescSection2 = () => {
   return (
-    <Container fluid='true'>
-      <div className='desc-section2'>
+    <Container fluid='true' className='desc-section2'>
           <Row>
             <Col sm={12} lg={6} xl={{ span: 4, offset: 2 }}>
               <Image src={under_gallerie} alt="underground gallery" />
@@ -26,7 +25,6 @@ const DescSection2 = () => {
               </div>
             </Col>
           </Row>
-        </div>
       </Container>
   );
 };

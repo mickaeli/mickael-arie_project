@@ -4,8 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 const DescSection = () => {
   return (
-    <Container fluid='true'>
-      <div className= 'desc-section'>
+    <Container fluid='true' className= 'desc-section'>
         <Row>
           <Col md={12} lg={{ span: 8, offset: 2 }}>
             <p>Gooder&trade; is a new way of good-doing. Expand your community help while connecting & 
@@ -14,7 +13,6 @@ const DescSection = () => {
               It's all up to you.</p>
           </Col>
         </Row>
-      </div>
     </Container>  
   );
 };

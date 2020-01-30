@@ -8,7 +8,7 @@ import skateboard_ramps from '../img/Skateboard_ramps.jpg';
 const Footer = () => {
   return (
     <footer>
-      <Container fluid='true'>
+      <Container fluid>
         <Row>
           <Col sm={12} lg={6} xl={{ span: 4, offset: 2 }}>
           <Image src={skateboard_ramps} alt="skateboard ramps" />
@@ -22,28 +22,28 @@ const Footer = () => {
                 <li>
                   <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faTwitterSquare} size='3x' aria-hidden="true">
-                      <span class="sr-only">Lindekin</span>
+                      <span classclassName="sr-only">Lindekin</span>
                     </FontAwesomeIcon>
                   </a>
                 </li>
                 <li>
                   <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faFacebookSquare} size='3x' aria-hidden="true">
-                      <span class="sr-only">Facebook</span>
+                      <span className="sr-only">Facebook</span>
                     </FontAwesomeIcon>
                   </a>
                 </li>
                 <li>
                   <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faLinkedin} size='3x' aria-hidden="true">
-                      <span class="sr-only">Linkedin</span>
+                      <span className="sr-only">Linkedin</span>
                     </FontAwesomeIcon>
                   </a>
                 </li>
                 <li>
                   <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faYoutube} size='3x' aria-hidden="true">
-                      <span class="sr-only">Youtube</span>
+                      <span className="sr-only">Youtube</span>
                     </FontAwesomeIcon>
                   </a>
                 </li>

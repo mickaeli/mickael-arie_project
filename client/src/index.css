@@ -59,29 +59,6 @@ nav ul {
   float: left;
   margin-right: 10px;
 } */
-.main-nav {
-  font-size: 0; 
-  padding-top: 16px;
-}
-.main-nav li {
-  font-family: Montserrat;
-  font-size: 18px; /* התאימו את גודל הפונט לפונט שבחרתם */
-  display: inline-block;
-}
-.main-nav a {
-  display: block;
-  text-decoration: none;
-  color: white;
-  padding: 5px 10px; /* שנו את הרווח הזה */
-}
-
-.main-nav a:hover {
-    color: darkgray;
-}
-
-.main-nav .current a {
-  color: #000; /* שנו את הצבע הזה */
-}
 
 /* helper */
 .alignleft {
@@ -103,3 +80,16 @@ nav ul {
   font-family: Montserrat;
   font-size: 16px;
 }
+
+
+/**/
+
+/* form {
+  width: 100%;
+}
+
+@media screen and (max-width: 550px) {
+  .loginBox {
+    width: 85%;
+  }
+} */

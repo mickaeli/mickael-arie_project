@@ -1,0 +1,16 @@
+.not-found {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.not-found h1 {
+    font-size: 2.5em;
+}
+
+.not-found div {
+    margin-top: 40px;
+}
+
+.not-found p {
+    font-size: 1.2em;
+}

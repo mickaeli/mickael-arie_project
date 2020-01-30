@@ -9,3 +9,27 @@ header .button {
     margin: .5em .2em;
     padding: .5rem 2rem;
 }
+
+.main-nav {
+    font-size: 0; 
+    padding-top: 16px;
+  }
+  .main-nav li {
+    font-family: Montserrat;
+    font-size: 18px; /* התאימו את גודל הפונט לפונט שבחרתם */
+    display: inline-block;
+  }
+  .main-nav .link {
+    display: block;
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px; /* שנו את הרווח הזה */
+  }
+  
+  .main-nav .link:hover {
+      color: darkgray;
+  }
+  
+  .main-nav .current .link {
+    color: #000; /* שנו את הצבע הזה */
+  }

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import SigninForm from "./SigninForm";
 import axios from 'axios';
 import { validateSigninForm } from './validate';
-import {Redirect} from 'react-router-dom'
 
 
 class Signin extends Component {
@@ -23,23 +22,27 @@ class Signin extends Component {
   }
 
   componentDidMount() {
-    document.title = 'Log into Gooder - Gooder'
+    document.title = 'Login - Gooder'
   }
 
   validateForm(event) {
     event.preventDefault();
-    var payload = validateSigninForm(this.state.user);
+    let payload = validateSigninForm(this.state.user);
+
     if (payload.success) {
       this.setState({
         errors: {}
       });
-      var user = {
+      let user = {
         usr: this.state.user.username,
         pw: this.state.user.password
       };
       this.submitSignin(user)
-      // if(this.submitSignin(user))
-      //   this.props.history.push('/dashboard')
+      const isAut = localStorage.getItem('isAuthenticated')
+      console.log(isAut)
+      if(isAut){
+        this.props.history.push('/dashboard')
+      }
     } else {
       const errors = payload.errors;
       this.setState({
@@ -49,16 +52,14 @@ class Signin extends Component {
   }
 
   submitSignin(user) {
-    var params = { username: user.usr, password: user.pw };
+    let params = { username: user.usr, password: user.pw };
     axios
       .post("/signin", params)
       .then(res => {
-        console.log(res.data)
         if (res.data.success === true) {
           //localStorage.token = res.data.token;
-          localStorage.isAuthenticated = true;
-          window.location.reload();
-          //return true
+          localStorage.setItem('isAuthenticated', 'true')
+          //window.location.reload();
         } else {
           this.setState({
             errors: res.data.errors
@@ -68,7 +69,6 @@ class Signin extends Component {
       .catch(err => {
         console.log("Sign in data submit error: ", err);
       });
-      //return false
   }
 
   handleChange(event) {

@@ -1,0 +1,37 @@
+.img-next-to-text {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.img-next-to-text img {
+    margin-right: 4%;
+    object-fit: cover;
+}
+
+.img-next-to-text .container-wrapper h1 {
+    letter-spacing: 0.05em;
+    font-size: 1.8rem;
+    line-height: 1.2;
+}
+
+.img-next-to-text .container-wrapper p {
+    opacity: 0.6;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.img-next-to-text .button {
+    opacity: 0.8;
+}
+
+@media screen and (max-width: 991px) {
+    .img-next-to-text img{
+        margin-right: 0;
+    }
+
+    .img-next-to-text .col{
+        padding: 0;
+    }
+
+  }

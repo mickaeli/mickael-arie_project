@@ -1,0 +1,58 @@
+.list {
+    margin: 40px 15px 20px 0
+}
+
+.list ul {
+    list-style-type: none;
+    margin: 0;
+}
+
+.list li {
+    display: flex;
+    margin-top: 20px;
+}
+
+.list .logo {
+    margin-right: 25px;
+    align-self: center;
+}
+
+.list h1 {
+    opacity: 0.8;
+    font-size: 1.1em;
+}
+
+.list p {
+    opacity: 0.8;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    max-width: 600px;
+}
+
+@media screen and (max-width: 1200px) {
+    .list p{
+      margin: 0;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .list{
+        text-align: center;
+        margin-right: 0;
+    }
+
+    .list .logo{
+      margin: 0 0 10px 0;
+    }
+
+    .list ul{
+        padding: 0;
+    }
+  
+    .list li{
+      text-align: center;
+      display: block;
+    }
+}

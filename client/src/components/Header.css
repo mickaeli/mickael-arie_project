@@ -1,8 +1,10 @@
 header {
     background-color: rgb(35, 34, 34);
-    padding-bottom: 5rem;
-    padding-top: 5rem;
     color: white;
+}
+
+.logo {
+  margin-top: 10px;
 }
 
 header .button {
@@ -27,9 +29,12 @@ header .button {
   }
   
   .main-nav .link:hover {
-      color: darkgray;
+      background: #5a5956;
   }
   
-  .main-nav .current .link {
-    color: #000; /* שנו את הצבע הזה */
+  .main-nav .link-active {
+    font-weight: bold;
+    border-bottom: 3px solid;
   }
+
+  

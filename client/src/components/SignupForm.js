@@ -67,10 +67,10 @@ const SignupForm = ({
                   > Sign up
                 </Button>
             </form>
-              <p style={{marginTop: '8px', textAlign: 'center'}}>
-                Already have an account? <br />
-                <Link to='/signin'>Log in here</Link>
-              </p>
+            <p style={{marginTop: '8px', textAlign: 'center'}}>
+              Already have an account? <br />
+              <Link to='/signin'>Log in here</Link>
+            </p>
           </Col>
         </Row>
       </Container>

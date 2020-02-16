@@ -22,11 +22,11 @@ class App extends Component {
             <Route exact path='/about' component={About} />
             <Route exact path='/signup' component={Signup} />
             <Route exact path='/signin' component={Signin} />
-            <Route exact path='/dashboard' component={Dashboard} />
+            { localStorage.isAuthenticated && <Route exact path='/dashboard' component={Dashboard} /> }
             <Route component={NotFound} />
           </Switch>
-        <Footer />
-      </BrowserRouter>
+          <Footer />
+        </BrowserRouter>
     );
   }
 }

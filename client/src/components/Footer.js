@@ -3,16 +3,16 @@ import './Footer.css';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTwitterSquare, faFacebookSquare, faYoutube, faLinkedin } from '@fortawesome/free-brands-svg-icons'
-import skateboard_ramps from '../img/Skateboard_ramps.jpg';
+import skateboard_ramps from '../img/skateboard_ramps.jpg';
+import {withRouter} from 'react-router-dom';
 
-const Footer = () => {
+const Footer = props => {
   return (
     <footer>
       <Container fluid>
         <Row>
           <Col sm={12} lg={6} xl={{ span: 4, offset: 2 }}>
           <Image src={skateboard_ramps} alt="skateboard ramps" />
-            {/* <img src={skateboard_ramps} alt="skateboard ramps"/> */}
           </Col>
           <Col sm={12} lg={6} xl={4}>
             <div className='container-wrapper'>
@@ -22,7 +22,7 @@ const Footer = () => {
                 <li>
                   <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faTwitterSquare} size='3x' aria-hidden="true">
-                      <span classclassName="sr-only">Lindekin</span>
+                      <span className="sr-only">Lindekin</span>
                     </FontAwesomeIcon>
                   </a>
                 </li>
@@ -58,4 +58,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default  withRouter(Footer);

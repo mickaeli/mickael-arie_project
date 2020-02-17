@@ -4,7 +4,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 import Home from './components/Home'
 import Footer from './components/Footer';
-import Header from './components/Header';
+import HomeHeader from './components/HomeHeader';
 import About from './components/About';
 import NotFound from './components/NotFound';
 import Signup from './components/Signup';
@@ -16,7 +16,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-          <Header />
+          <HomeHeader />
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/about' component={About} />

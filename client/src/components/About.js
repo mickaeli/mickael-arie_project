@@ -13,7 +13,7 @@ import { Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComments } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
-import logo from '../img/favicon.jpg';
+import logo from '../img/logo2.jpg';
 import help from '../img/help.jpg';
 
 class About extends Component {
@@ -23,28 +23,36 @@ class About extends Component {
   }
 
   render() {
-    const header = 'Not only do we care about people. We believe in them'
+    const header1 = 'Not only do we care about people. We believe in them'
     const paragraph = 'We in Gooder\u2122 believe that people and communities can build meaningful futures through the use of technology.' + 
     'There are no limitations when people are coming together for a good cause. That is why we established Gooder\u2122 - a unique, new way of doing good, together'
     const header2 = 'So.. who we are and what are we all about?'
-    const paragraphs = [ 'Gooder\u2122 is a social network for good-doing & good causes. ' +
-                  'Whether you need help, have something to offer or run a charity organization - ' + 
-                  'Gooder\u2122 is the place for you. After logging in, you\'ll be able to build a personal ' + 
-                  'or organizational profile page, connect with others, socialize and make good. ',
-                  'Gooder\u2122 is the best place for anyone interested in asking for or doing good actions, ' + 
-                  'gathering around good causes, getting to know people & help. ' +
-                  'By becoming a Gooder you\'ll be able to explore the variety of possibilities a social network can offer - ' +
-                  'in an easy, interactive, modern & fun way - while doing good and improving yourself & the world. ',
-                  'In Gooder\u2122 you\'ll be able to contribute by yourself or join others in a collective manner for a good cause. ' +
-                  'Explore the variety of options of assembling new or existing groups around the causes ' +
-                  'you interested in. Building communities have never been so easy! ',
-                  'We believe that everyone, anywhere can help, contribute & make the world a better place, given the right tools. ' +
-                  'Join in & Socialize your good-doing - as simple but as beautiful as that. ',
-                  'Gooder\u2122 were made as a final project at Hadassah Academic College - Campus Strauss, ' +
-                  'Computer Science department, by Mickael Israel (...) & Arie Noyoz (....).']
+    const paragraphs = { 
+      par1: 
+        'Gooder\u2122 is a social network for good-doing & good causes. ' +
+        'Whether you need help, have something to offer or run a charity organization - ' + 
+        'Gooder\u2122 is the place for you. After logging in, you\'ll be able to build a personal ' + 
+        'or organizational profile page, connect with others, socialize and make good. ',
+      par2:
+        'Gooder\u2122 is the best place for anyone interested in asking for or doing good actions, ' + 
+        'gathering around good causes, getting to know people & help. ' +
+        'By becoming a Gooder you\'ll be able to explore the variety of possibilities a social network can offer - ' +
+        'in an easy, interactive, modern & fun way - while doing good and improving yourself & the world. ',
+      par3:
+        'In Gooder\u2122 you\'ll be able to contribute by yourself or join others in a collective manner for a good cause. ' +
+        'Explore the variety of options of assembling new or existing groups around the causes ' +
+        'you interested in. Building communities have never been so easy! ',
+      par4:
+        'We believe that everyone, anywhere can help, contribute & make the world a better place, given the right tools. ' +
+        'Join in & Socialize your good-doing - as simple but as beautiful as that. ',
+      par5:
+        'Gooder\u2122 were made as a final project at Hadassah Academic College - Campus Strauss, ' +
+        'Computer Science department, by Mickael Israel (...) & Arie Noyoz (....).'
+    }
+
     const header3 = '“There is no exercise better for the heart than reaching down and lifting people up.”'
 
-    const listItem = {
+    const listItems = {
       item1: {
         logo: <Image className='logo' src={logo} alt='logo'/>,
         header: <h1>BECOME A GOODER</h1>,
@@ -74,7 +82,7 @@ class About extends Component {
     }
     return (
       <div className='about'>
-        <HeroImage header={(<h1>{header}</h1>)} paragraph={<p>{paragraph}</p>} url_img={winter} heroType='withArrow' heroSize='large' />  
+        <HeroImage header={(<h1>{header1}</h1>)} paragraph={<p>{paragraph}</p>} url_img={winter} heroType='withArrow' heroSize='large' />  
         <div id='down'>
           <ImgNextToText url_img={mountain} header={header2} paragraphs={paragraphs} imgSize='large' hasButton={false} />
         </div>
@@ -82,7 +90,7 @@ class About extends Component {
         <Container fluid className='list-next-to-image'>
           <Row>
             <Col className='col' xs={12} lg={{ span: 6, offset: 1 }}>
-              <List listItem = {listItem} />
+              <List listItems = {listItems} />
             </Col>
             <Col className='col' xs={12} lg={5}>
               <HeroImage paragraph={(<p>We believe in the potential of what people can achieve</p>)} url_img={desktop} heroType='desktop' heroSize='large' hasSignupButton />

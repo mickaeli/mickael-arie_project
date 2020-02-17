@@ -2,15 +2,15 @@ import React from 'react';
 import './List.css';
 
 const List = ({
-  listItem
+  listItems
 }) => {
-  const list = Object.keys(listItem)
+  const list = Object.keys(listItems)
     .map(item => (
-      <li>
-        {listItem[item].logo}
+      <li key={item}>
+        {listItems[item].logo}
         <div className='container-wrapper'>
-          {listItem[item].header}
-          {listItem[item].paragraph}
+          {listItems[item].header}
+          {listItems[item].paragraph}
         </div>
       </li>
     ))

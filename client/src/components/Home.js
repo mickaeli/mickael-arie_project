@@ -22,13 +22,18 @@ class Home extends Component {
     const paragraph = 'Gooder™ will let you explore a world of social, community & good actions.' +
     'We believe that everything is possible once people are brought together for a good cause. Start your journey today!'
     const header2 = 'So.. who we are and what are we all about?'
-    const paragraphs = [ 'Gooder\u2122 is a social network for good-doing & good causes.' +
-                  'Whether you need help, have something to offer or run a charity organization -' + 
-                  'Gooder\u2122 is the place for you. After logging in, you\'ll be able to build a personal' + 
-                  'or organizational profile page, connect with others, socialize and make good.' + 
-                  'Gooder\u2122 is the best place for anyone interested in asking for or doing good actions,' + 
-                  'gathering around good causes, getting to know people & help.',
-                  'Gooder\u2122 were made as a final project at Hadassah Academic College, Computer Science department.' ]
+    const paragraphs = {
+      paragraph1: 
+        'Gooder\u2122 is a social network for good-doing & good causes.' +
+        'Whether you need help, have something to offer or run a charity organization -' + 
+        'Gooder\u2122 is the place for you. After logging in, you\'ll be able to build a personal' + 
+        'or organizational profile page, connect with others, socialize and make good.' + 
+        'Gooder\u2122 is the best place for anyone interested in asking for or doing good actions,' + 
+        'gathering around good causes, getting to know people & help.',
+      paragraph2:
+        'Gooder\u2122 were made as a final project at Hadassah Academic College, Computer Science department.' 
+    }
+
     return (
       <div className='home'>
         <HeroImage header= {<h1>Gooder</h1>} paragraph={<p>Socialize your good-doing</p>} url_img={hands} heroType='parallax' heroSize='small' hasSignupButton hasSigninButton />

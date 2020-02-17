@@ -2,10 +2,10 @@ import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import {Link, NavLink, withRouter} from 'react-router-dom';
 
-import './Header.css';
+import './HomeHeader.css';
 import logo from '../img/logo.png';
 
-const Header = props => {
+const HomeHeader = props => {
       //if(props.location.pathname.match(/^(\/signup|\/signin)$/)) return null;
       if(props.location.pathname.match(/^(\/dashboard)$/) && localStorage.isAuthenticated) return null;
       return (
@@ -53,4 +53,4 @@ const Header = props => {
   );
 };
 
-export default withRouter(Header);
+export default withRouter(HomeHeader);

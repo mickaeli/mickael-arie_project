@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import SignupForm from "./SignupForm";
 import axios from 'axios';
-import { validateSignupForm } from './validate';
+import { validateSignupForm } from '../validate';
 
 
 class Signup extends Component {
@@ -41,9 +41,9 @@ class Signup extends Component {
         pwconfirm: this.state.user.pwconfirm
       };
       this.submitSignup(user)
-      if(localStorage.isAuthenticated){
-        this.props.history.push('/dashboard')
-      }
+      //add verification in cookie
+      this.props.history.push('/dashboard')
+
     } else {
       const errors = payload.errors;
       this.setState({
@@ -58,8 +58,7 @@ class Signup extends Component {
       .then(res => {
         console.log(res.data)
         if (res.data.success === true) {
-          //localStorage.token = res.data.token;
-          localStorage.isAuthenticated = true;
+          //add setting in cookie
           //window.location.reload();
         } else {
           this.setState({

@@ -2,29 +2,28 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
-import {BrowserRouter} from 'react-router-dom';
+//redux
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
-import rootReducer from './reducers/rootReducer'
+import rootReducer from './reducers'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, composeWithDevTools());
 
 
 const Root = () => {
   return (
-    <BrowserRouter>
+    <Provider store={store}>
       <App />
-    </BrowserRouter>
+    </Provider>
   );
 };
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Root />
-  </Provider>, 
+    <Root />, 
   document.getElementById('root')
   );
 

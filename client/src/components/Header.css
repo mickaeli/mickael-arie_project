@@ -1,0 +1,15 @@
+header .link {
+    width: fit-content;
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px; /* שנו את הרווח הזה */
+}
+    
+header .link:hover {
+    color: #cbd3da;
+}
+
+header .link-active {
+    color: #cbd3da;
+    border-bottom: 1px solid;
+}

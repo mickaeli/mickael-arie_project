@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import SigninForm from "./SigninForm";
 import axios from 'axios';
-import { validateSigninForm } from './validate';
+import { validateSigninForm } from '../validate';
+
+//redux
+import { connect } from 'react-redux'
+import { userLogin } from '../actions/auth_action'
 
 
 class Signin extends Component {
@@ -18,6 +22,7 @@ class Signin extends Component {
 
     this.validateForm = this.validateForm.bind(this);
     this.submitSignin = this.submitSignin.bind(this);
+    //this.updateLoginState = this.updateLoginState.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -38,16 +43,13 @@ class Signin extends Component {
         pw: this.state.user.password
       };
       this.submitSignin(user)
-      const isAut = localStorage.getItem('isAuthenticated')
-      console.log(isAut)
-      if(isAut){
+      //do verification in cookie
+      if(this.props.isLoggedIn){
         this.props.history.push('/dashboard')
       }
     } else {
       const errors = payload.errors;
-      this.setState({
-        errors
-      });
+      this.setState({errors});
     }
   }
 
@@ -57,8 +59,9 @@ class Signin extends Component {
       .post("/signin", params)
       .then(res => {
         if (res.data.success === true) {
-          //localStorage.token = res.data.token;
-          localStorage.setItem('isAuthenticated', 'true')
+          //do setting in cookie
+          //this.props.userLogin(true)
+          this.props.userLogin(true)
           //window.location.reload();
         } else {
           this.setState({
@@ -70,6 +73,11 @@ class Signin extends Component {
         console.log("Sign in data submit error: ", err);
       });
   }
+
+  // updateLoginState(){
+  //   this.props.userLogin(true)
+  //   return true
+  // }
 
   handleChange(event) {
     const field = event.target.name;
@@ -93,4 +101,18 @@ class Signin extends Component {
   }
 }
 
-export default Signin;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.isLoggedIn
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    userLogin: isLoggedIn => {
+      dispatch(userLogin(isLoggedIn))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (Signin);

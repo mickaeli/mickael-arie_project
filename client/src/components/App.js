@@ -16,11 +16,6 @@ import Groups from './Groups';
 import Photos from './Photos';
 import PrivateRoute from './PrivateRoute'
 
-//redux
-import { connect } from 'react-redux'
-import { userLogin } from '../actions/auth_action'
-
-
 class App extends Component { 
 
   constructor(props) {
@@ -31,7 +26,8 @@ class App extends Component {
 
   handleLogout(event){
     if (event.key === 'logout-event') { 
-      this.props.userLogin(false)
+      //this.props.userLogin(false)
+      sessionStorage.setItem('isLoggedIn', false)
       this.props.history.push('/')
     }
   }
@@ -46,7 +42,7 @@ class App extends Component {
 
   render() {
 
-    const isLoggedIn = this.props.isLoggedIn
+    const isLoggedIn = JSON.parse(sessionStorage.getItem('isLoggedIn'))
 
     return (
       <Fragment>
@@ -74,18 +70,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.isLoggedIn
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    userLogin: isLoggedIn => {
-      dispatch(userLogin(isLoggedIn))
-    }
-  }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(App);

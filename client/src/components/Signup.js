@@ -41,9 +41,6 @@ class Signup extends Component {
         pwconfirm: this.state.user.pwconfirm
       };
       this.submitSignup(user)
-      //add verification in cookie
-      this.props.history.push('/dashboard')
-
     } else {
       const errors = payload.errors;
       this.setState({
@@ -58,8 +55,13 @@ class Signup extends Component {
       .then(res => {
         console.log(res.data)
         if (res.data.success === true) {
-          //add setting in cookie
-          //window.location.reload();
+          //do setting in cookie
+          sessionStorage.setItem('isLoggedIn', true)
+
+          //do verification in cookie
+          if(JSON.parse(sessionStorage.getItem('isLoggedIn'))){
+            this.props.history.push('/dashboard')
+          }
         } else {
           this.setState({
             errors: res.data.errors

@@ -6,10 +6,6 @@ import logo from '../img/logo.png'
 import {Navbar, Nav, Form, FormControl, Button} from 'react-bootstrap'
 import {Link, NavLink, withRouter} from 'react-router-dom';
 
-//redux
-import { connect } from 'react-redux'
-import { userLogin } from '../actions/auth_action'
-
 class DashboardHeader extends Component {
 
   constructor(props) {
@@ -19,7 +15,8 @@ class DashboardHeader extends Component {
   }
 
   handleClick() {
-    this.props.userLogin(false)
+    //this.props.userLogin(false)
+    sessionStorage.setItem('isLoggedIn', false)
     localStorage.setItem('logout-event', 'logout' + Math.random());
   }
 
@@ -54,18 +51,4 @@ class DashboardHeader extends Component {
   }
 };
 
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.isLoggedIn
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    userLogin: isLoggedIn => {
-      dispatch(userLogin(isLoggedIn))
-    }
-  }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps) (DashboardHeader));
+export default withRouter(DashboardHeader);

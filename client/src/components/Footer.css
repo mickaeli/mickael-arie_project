@@ -1,5 +1,4 @@
 footer {
-    background-color: rgb(35, 34, 34);
     padding-bottom: 1rem;
     padding-top: 1rem;
     color: rgba(255, 255, 255, 0.8);
@@ -40,10 +39,14 @@ footer a {
   }
 
   footer .features a:hover{
-      color: darkgray;
+      color: ghostwhite;
   }
 
   footer .mail {
     display: inline;
     color: rgba(255, 255, 255, 0.8);
+  }
+
+  footer .mail:hover {
+    color: ghostwhite;
   }

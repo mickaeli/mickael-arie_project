@@ -8,6 +8,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div className='dashboard'>
+        <h1>dash board</h1>
       </div>
     );
   }

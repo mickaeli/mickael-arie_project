@@ -5,6 +5,9 @@ import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
+import {BrowserRouter} from 'react-router-dom'
+import ScrollToTop from './components/ScrollToTop'
+
 //redux
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
@@ -13,11 +16,14 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 const store = createStore(rootReducer, composeWithDevTools());
 
-
 const Root = () => {
   return (
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <ScrollToTop>
+          <App />
+        </ScrollToTop>
+      </BrowserRouter>
     </Provider>
   );
 };

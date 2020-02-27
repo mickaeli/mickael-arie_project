@@ -8,7 +8,7 @@ import {withRouter} from 'react-router-dom';
 
 const Footer = props => {
   return (
-    <footer>
+    <footer style={{ backgroundColor : !(props.location.pathname.match(/^(\/dashboard)/)) ? 'rgb(35, 34, 34)' : 'rgb(91, 189, 239)' }}>
       <Container fluid>
         <Row>
           <Col sm={12} lg={6} xl={{ span: 4, offset: 2 }}>

@@ -24,7 +24,7 @@ class About extends Component {
 
   render() {
     const header1 = 'Not only do we care about people. We believe in them'
-    const paragraph = 'We in Gooder\u2122 believe that people and communities can build meaningful futures through the use of technology.' + 
+    const paragraph = 'We in Gooder\u2122 believe that people and communities can build meaningful futures through the use of technology. ' + 
     'There are no limitations when people are coming together for a good cause. That is why we established Gooder\u2122 - a unique, new way of doing good, together'
     const header2 = 'So.. who we are and what are we all about?'
     const paragraphs = { 

@@ -43,10 +43,6 @@ class Signin extends Component {
         pw: this.state.user.password
       };
       this.submitSignin(user)
-      //do verification in cookie
-      if(this.props.isLoggedIn){
-        this.props.history.push('/dashboard')
-      }
     } else {
       const errors = payload.errors;
       this.setState({errors});
@@ -62,6 +58,10 @@ class Signin extends Component {
           //do setting in cookie
           //this.props.userLogin(true)
           this.props.userLogin(true)
+          //do verification in cookie
+          if(this.props.isLoggedIn){
+            this.props.history.push('/dashboard')
+          }
           //window.location.reload();
         } else {
           this.setState({

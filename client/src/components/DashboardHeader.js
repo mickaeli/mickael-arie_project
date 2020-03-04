@@ -15,9 +15,8 @@ class DashboardHeader extends Component {
   }
 
   handleClick() {
-    //this.props.userLogin(false)
-    sessionStorage.setItem('isLoggedIn', false)
-    localStorage.setItem('logout-event', 'logout' + Math.random());
+    localStorage.setItem('isLoggedIn', false)
+    localStorage.setItem('logout-event', 'logout ' + new Date().getTime());
   }
 
   render() {

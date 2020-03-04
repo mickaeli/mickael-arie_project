@@ -53,15 +53,21 @@ class Signup extends Component {
     let params = { username: user.usr, email: user.email, password: user.pw, pwconfirm: user.pwconfirm };
     axios.post("/signup", params)
       .then(res => {
-        console.log(res.data)
         if (res.data.success === true) {
           //do setting in cookie
-          sessionStorage.setItem('isLoggedIn', true)
+          //let details_connexion = { value: "true", timestamp: new Date().getTime() + 1000*10 }
+          //localStorage.setItem('isLoggedIn', JSON.stringify(details_connexion))
+
+          //do setting in cookie
+          localStorage.setItem('isLoggedIn', 'true')
+          
+          this.props.history.push('/dashboard')
 
           //do verification in cookie
-          if(JSON.parse(sessionStorage.getItem('isLoggedIn'))){
-            this.props.history.push('/dashboard')
-          }
+          //details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
+          // if(details_connexion.value){
+          //   this.props.history.push('/dashboard')
+          // }
         } else {
           this.setState({
             errors: res.data.errors

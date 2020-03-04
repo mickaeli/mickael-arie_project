@@ -20,29 +20,43 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+
+    // this.state = {
+    //   intervalSession : {}
+    // }
     
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    //this.handleSession = this.handleSession.bind(this);
   }
 
   handleLogout(event){
-    if (event.key === 'logout-event') { 
-      //this.props.userLogin(false)
-      sessionStorage.setItem('isLoggedIn', false)
+    if (event.key === 'logout-event') {
       this.props.history.push('/')
+    }
+  }
+
+  handleLogin(event){
+    if (event.key === 'login-event') {
+      this.props.history.push('/dashboard')
     }
   }
   
   componentDidMount(){
     window.addEventListener('storage', this.handleLogout)
+    window.addEventListener('storage', this.handleLogin)
+    //this.setState({ intervalSession: intervalSession })
+    //this.handleSession()
   }
 
   componentWillUnmount() {
     window.removeEventListener('storage', this.handleLogout)
+    window.removeEventListener('storage', this.handleLogin)
   }
 
   render() {
 
-    const isLoggedIn = JSON.parse(sessionStorage.getItem('isLoggedIn'))
+    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
 
     return (
       <Fragment>

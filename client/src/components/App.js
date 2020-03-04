@@ -21,37 +21,56 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    // this.state = {
-    //   intervalSession : {}
-    // }
+    this.state = {
+      timeoutSession : {}
+    }
     
-    this.handleLogout = this.handleLogout.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
-    //this.handleSession = this.handleSession.bind(this);
+    this.handleSession = this.handleSession.bind(this);
+    this.destroySession = this.destroySession.bind(this);
   }
 
-  handleLogout(event){
-    if (event.key === 'logout-event') {
-      this.props.history.push('/')
-    }
+  destroySession(){
+    // const now = new Date().getTime()
+    // const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
+    // if(!details_connexion || !details_connexion.timestamp || details_connexion.timestamp < now) {
+    //   localStorage.setItem('isLoggedIn', false)
+
+      localStorage.setItem('isLoggedIn', false)
+      //this.props.history.push('/')
   }
 
-  handleLogin(event){
-    if (event.key === 'login-event') {
-      this.props.history.push('/dashboard')
-    }
+  handleSession(event) {
+    console.log('the storage changed')
   }
+
+  // handleSession(event){
+  //   console.log('I am in handleSession')
+  //   if (event.key === 'isLoggedIn') {
+  //     const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+  //     if(isLoggedIn === true) {
+  //       this.props.history.push('/dashboard')
+  //       const timeoutSession = setTimeout(this.destroySession, 1000*20)
+  //       this.setState({ timeoutSession: timeoutSession })
+
+  //     } else {
+  //         clearTimeout(this.state.timeoutSession)
+  //         this.props.history.push('/')
+  //     }
+  //   }
+  // }
   
   componentDidMount(){
-    window.addEventListener('storage', this.handleLogout)
-    window.addEventListener('storage', this.handleLogin)
+    console.log('app.js went mount')
+    window.addEventListener('storage', this.handleSession)
+    //window.addEventListener('storage', this.handleLogout)
     //this.setState({ intervalSession: intervalSession })
     //this.handleSession()
   }
 
   componentWillUnmount() {
-    window.removeEventListener('storage', this.handleLogout)
-    window.removeEventListener('storage', this.handleLogin)
+    console.log('app.js went unmount')
+    window.removeEventListener('storage', this.handleSession)
+    //window.removeEventListener('storage', this.handleLogout)
   }
 
   render() {

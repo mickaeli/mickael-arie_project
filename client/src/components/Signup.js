@@ -61,7 +61,7 @@ class Signup extends Component {
           //do setting in cookie
           localStorage.setItem('isLoggedIn', 'true')
           
-          this.props.history.push('/dashboard')
+          //this.props.history.push('/dashboard')
 
           //do verification in cookie
           //details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))

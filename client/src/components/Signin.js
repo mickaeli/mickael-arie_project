@@ -55,11 +55,11 @@ class Signin extends Component {
           //localStorage.setItem('isLoggedIn', JSON.stringify(details_connexion))
 
           //do setting in cookie
-          localStorage.setItem('isLoggedIn', 'true')
-          localStorage.setItem('login-event', 'login ' + new Date().getTime());
-          localStorage.setItem('user', JSON.stringify(params.username))
+          localStorage.setItem('isLoggedIn', true)
+          //localStorage.setItem('login-event', 'login ' + new Date().getTime());
+          //localStorage.setItem('user', JSON.stringify(params.username))
 
-          this.props.history.push('/dashboard')
+          //this.props.history.push('/dashboard')
 
           //do verification in cookie
           //details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))

@@ -11,12 +11,11 @@ class DashboardHeader extends Component {
   constructor(props) {
     super(props);
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleClick() {
+  handleLogout() {
     localStorage.setItem('isLoggedIn', false)
-    localStorage.setItem('logout-event', 'logout ' + new Date().getTime());
   }
 
   render() {
@@ -41,7 +40,7 @@ class DashboardHeader extends Component {
               <Button variant="info">Search</Button>
             </Form>
             <Link to='/'>
-              <Button className='signout-button' variant="light" onClick={this.handleClick}>Sign out</Button>
+              <Button className='signout-button' variant="light" onClick={this.handleLogout}>Sign out</Button>
             </Link>
           </Navbar.Collapse>
         </Navbar>

@@ -16,6 +16,10 @@ class DashboardHeader extends Component {
 
   handleLogout() {
     localStorage.setItem('isLoggedIn', false)
+    let event = new Event('storage')
+    event.key = 'isLoggedIn'
+    event.value = false
+    window.dispatchEvent(event);
   }
 
   render() {

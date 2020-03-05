@@ -30,52 +30,55 @@ class App extends Component {
   }
 
   destroySession(){
-    // const now = new Date().getTime()
-    // const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
-    // if(!details_connexion || !details_connexion.timestamp || details_connexion.timestamp < now) {
-    //   localStorage.setItem('isLoggedIn', false)
-
+      console.log('I am here')
       localStorage.setItem('isLoggedIn', false)
-      //this.props.history.push('/')
+      let event = new Event('storage')
+      event.key = 'isLoggedIn'
+      event.value = false
+      window.dispatchEvent(event);
   }
 
-  handleSession(event) {
-    console.log('the storage changed')
+  handleSession(event){
+    if (event.key === 'isLoggedIn') {
+      const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')).value
+      console.log(isLoggedIn)
+      if(isLoggedIn === true) {
+        console.log('isLoggedIn === true')
+        this.props.history.push('/dashboard')
+        const timeoutSession = setTimeout(this.destroySession, 1000*20)
+        this.setState({ timeoutSession: timeoutSession })
+
+      } else {
+          clearTimeout(this.state.timeoutSession)
+          this.props.history.push('/')
+      }
+    }
   }
-
-  // handleSession(event){
-  //   console.log('I am in handleSession')
-  //   if (event.key === 'isLoggedIn') {
-  //     const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-  //     if(isLoggedIn === true) {
-  //       this.props.history.push('/dashboard')
-  //       const timeoutSession = setTimeout(this.destroySession, 1000*20)
-  //       this.setState({ timeoutSession: timeoutSession })
-
-  //     } else {
-  //         clearTimeout(this.state.timeoutSession)
-  //         this.props.history.push('/')
-  //     }
-  //   }
-  // }
   
   componentDidMount(){
-    console.log('app.js went mount')
     window.addEventListener('storage', this.handleSession)
-    //window.addEventListener('storage', this.handleLogout)
-    //this.setState({ intervalSession: intervalSession })
-    //this.handleSession()
+
+    const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
+
+    if(details_connexion) {
+      const now = new Date().getTime()
+      if(!details_connexion.timestamp || (details_connexion.timestamp + 1000*20) < now){
+        localStorage.setItem('isLoggedIn', false)
+        let event = new Event('storage')
+        event.key = 'isLoggedIn'
+        event.value = false
+        window.dispatchEvent(event);
+      }
+    }
   }
 
   componentWillUnmount() {
-    console.log('app.js went unmount')
     window.removeEventListener('storage', this.handleSession)
-    //window.removeEventListener('storage', this.handleLogout)
   }
 
   render() {
 
-    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')).value
 
     return (
       <Fragment>

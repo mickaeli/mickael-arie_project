@@ -50,22 +50,14 @@ class Signin extends Component {
       .post("/signin", params)
       .then(res => {
         if (res.data.success === true) {
-          //do setting in cookie
-          //let details_connexion = { value: "true", timestamp: new Date().getTime() + 1000*10 }
-          //localStorage.setItem('isLoggedIn', JSON.stringify(details_connexion))
 
           //do setting in cookie
-          localStorage.setItem('isLoggedIn', true)
-          //localStorage.setItem('login-event', 'login ' + new Date().getTime());
-          //localStorage.setItem('user', JSON.stringify(params.username))
-
-          //this.props.history.push('/dashboard')
-
-          //do verification in cookie
-          //details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
-          // if(details_connexion.value){
-          //   this.props.history.push('/dashboard')
-          // }
+          let details_connexion = { value: true, timestamp: new Date().getTime() }
+          localStorage.setItem('isLoggedIn', JSON.stringify(details_connexion))
+          let event = new Event('storage')
+          event.key = 'isLoggedIn'
+          event.value = JSON.stringify(details_connexion)
+          window.dispatchEvent(event);
         } else {
           this.setState({
             errors: res.data.errors

@@ -30,7 +30,6 @@ class App extends Component {
   }
 
   destroySession(){
-      console.log('I am here')
       localStorage.setItem('isLoggedIn', false)
       let event = new Event('storage')
       event.key = 'isLoggedIn'
@@ -41,9 +40,7 @@ class App extends Component {
   handleSession(event){
     if (event.key === 'isLoggedIn') {
       const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')).value
-      console.log(isLoggedIn)
       if(isLoggedIn === true) {
-        console.log('isLoggedIn === true')
         this.props.history.push('/dashboard')
         const timeoutSession = setTimeout(this.destroySession, 1000*20)
         this.setState({ timeoutSession: timeoutSession })
@@ -78,7 +75,8 @@ class App extends Component {
 
   render() {
 
-    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')).value
+    const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
+    const isLoggedIn = details_connexion ? details_connexion.value : false
 
     return (
       <Fragment>

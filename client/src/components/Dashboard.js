@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { Container } from 'react-bootstrap'
+//import child from '../img/child.jpg';
+
+import './Dashboard.css';
+import PictureModal from './PictureModal';
 
 class Dashboard extends Component {
 
@@ -9,7 +14,9 @@ class Dashboard extends Component {
   render() {
     return (
       <div className='dashboard'>
-        <h1>dash board</h1>
+        <Container>
+          <PictureModal />
+        </Container>
       </div>
     );
   }

@@ -1,0 +1,20 @@
+.btn-picture {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: none;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .btn-picture:focus{
+      outline:none;
+  }
+  
+  .icon-picture {
+      color: #5bbdef;
+  }
+  
+  /* .profile-picture {
+      background-size: cover;
+  } */

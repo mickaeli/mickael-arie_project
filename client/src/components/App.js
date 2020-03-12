@@ -42,7 +42,7 @@ class App extends Component {
       const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')).value
       if(isLoggedIn === true) {
         this.props.history.push('/dashboard')
-        const timeoutSession = setTimeout(this.destroySession, 1000*20)
+        const timeoutSession = setTimeout(this.destroySession, 1000*60*6)
         this.setState({ timeoutSession: timeoutSession })
 
       } else {
@@ -59,7 +59,7 @@ class App extends Component {
 
     if(details_connexion) {
       const now = new Date().getTime()
-      if(!details_connexion.timestamp || (details_connexion.timestamp + 1000*20) < now){
+      if(!details_connexion.timestamp || (details_connexion.timestamp + 1000*60*6) < now){
         localStorage.setItem('isLoggedIn', false)
         let event = new Event('storage')
         event.key = 'isLoggedIn'
@@ -89,7 +89,7 @@ class App extends Component {
           <Route exact path='/signup' render={props => !isLoggedIn ? (<Signup {...props} />) : (<Redirect to='/dashboard' />)} />
           <Route exact path='/signin' render={props => !isLoggedIn ? (<Signin {...props} />) : (<Redirect to='/dashboard' />)} />
 
-          <PrivateRoute exact path='/dashboard' component={Dashboard} isLoggedIn={isLoggedIn} />
+          <PrivateRoute exact path='/dashboard' component={Dashboard} isLoggedIn={true} />
           <PrivateRoute exact path='/dashboard/profile' component={Profile} isLoggedIn={isLoggedIn} />
           <PrivateRoute exact path='/dashboard/friends' component={Friends} isLoggedIn={isLoggedIn} />
           <PrivateRoute exact path='/dashboard/groups' component={Groups} isLoggedIn={isLoggedIn} />

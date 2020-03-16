@@ -1,4 +1,4 @@
-.btn-picture {
+.profile-picture .btn-picture {
     height: 150px;
     width: 150px;
     border-radius: 50%;
@@ -7,14 +7,10 @@
     background-position: center;
   }
   
-  .btn-picture:focus{
+  .profile-picture .btn-picture:focus{
       outline:none;
   }
   
-  .icon-picture {
+  .profile-picture .icon-picture {
       color: #5bbdef;
   }
-  
-  /* .profile-picture {
-      background-size: cover;
-  } */

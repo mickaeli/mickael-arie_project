@@ -14,6 +14,10 @@ import {Provider} from 'react-redux'
 import rootReducer from './reducers'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
+//ie11
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
+
 const store = createStore(rootReducer, composeWithDevTools());
 
 const Root = () => {

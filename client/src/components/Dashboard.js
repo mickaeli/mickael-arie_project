@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap'
 //import child from '../img/child.jpg';
 
 import './Dashboard.css';
-import PictureModal from './PictureModal';
+import ProfilePicture from './ProfilePicture';
 
 class Dashboard extends Component {
 
@@ -15,7 +15,7 @@ class Dashboard extends Component {
     return (
       <div className='dashboard'>
         <Container>
-          <PictureModal />
+          <ProfilePicture />
         </Container>
       </div>
     );

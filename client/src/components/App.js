@@ -39,10 +39,14 @@ class App extends Component {
 
   handleSession(event){
     if (event.key === 'isLoggedIn') {
-      const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')).value
+      const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
+
+      const isLoggedIn = details_connexion.value
+      const username = details_connexion.username
+
       if(isLoggedIn === true) {
-        this.props.history.push('/dashboard')
-        const timeoutSession = setTimeout(this.destroySession, 1000*60*6)
+        this.props.history.push(`/dashboard/${username}`)
+        const timeoutSession = setTimeout(this.destroySession, 1000*60*60*6)
         this.setState({ timeoutSession: timeoutSession })
 
       } else {
@@ -59,7 +63,7 @@ class App extends Component {
 
     if(details_connexion) {
       const now = new Date().getTime()
-      if(!details_connexion.timestamp || (details_connexion.timestamp + 1000*60*6) < now){
+      if(!details_connexion.timestamp || (details_connexion.timestamp + 1000*60*60*6) < now){
         localStorage.setItem('isLoggedIn', false)
         let event = new Event('storage')
         event.key = 'isLoggedIn'
@@ -77,6 +81,7 @@ class App extends Component {
 
     const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
     const isLoggedIn = details_connexion ? details_connexion.value : false
+    const username = details_connexion.username ? details_connexion.username : ''
 
     return (
       <Fragment>
@@ -84,16 +89,16 @@ class App extends Component {
         <DashboardHeader />
         <Switch>
 
-          <Route exact path='/' render={props => !isLoggedIn ? (<Home {...props} />) : (<Redirect to='/dashboard' />)} />
-          <Route exact path='/about' render={props => !isLoggedIn ? (<About {...props} />) : (<Redirect to='/dashboard' />)} />
-          <Route exact path='/signup' render={props => !isLoggedIn ? (<Signup {...props} />) : (<Redirect to='/dashboard' />)} />
-          <Route exact path='/signin' render={props => !isLoggedIn ? (<Signin {...props} />) : (<Redirect to='/dashboard' />)} />
+          <Route exact path='/' render={props => !isLoggedIn ? (<Home {...props} />) : (<Redirect to={`/dashboard/${username}`} />)} />
+          <Route exact path='/about' render={props => !isLoggedIn ? (<About {...props} />) : (<Redirect to={`/dashboard/${username}`} />)} />
+          <Route exact path='/signup' render={props => !isLoggedIn ? (<Signup {...props} />) : (<Redirect to={`/dashboard/${username}`} />)} />
+          <Route exact path='/signin' render={props => !isLoggedIn ? (<Signin {...props} />) : (<Redirect to={`/dashboard/${username}`} />)} />
 
-          <PrivateRoute exact path='/dashboard' component={Dashboard} isLoggedIn={true} />
-          <PrivateRoute exact path='/dashboard/profile' component={Profile} isLoggedIn={isLoggedIn} />
-          <PrivateRoute exact path='/dashboard/friends' component={Friends} isLoggedIn={isLoggedIn} />
-          <PrivateRoute exact path='/dashboard/groups' component={Groups} isLoggedIn={isLoggedIn} />
-          <PrivateRoute exact path='/dashboard/photos' component={Photos} isLoggedIn={isLoggedIn} />
+          <PrivateRoute exact path={`/dashboard/:username`} component={Dashboard} isLoggedIn={isLoggedIn} />
+          <PrivateRoute exact path='/dashboard/:username/profile' component={Profile} isLoggedIn={isLoggedIn} />
+          <PrivateRoute exact path='/dashboard/:username/friends' component={Friends} isLoggedIn={isLoggedIn} />
+          <PrivateRoute exact path='/dashboard/:username/groups' component={Groups} isLoggedIn={isLoggedIn} />
+          <PrivateRoute exact path='/dashboard/:username/photos' component={Photos} isLoggedIn={isLoggedIn} />
 
           <Route component={NotFound} />
 

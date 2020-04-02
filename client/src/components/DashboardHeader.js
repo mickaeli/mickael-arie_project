@@ -23,7 +23,13 @@ class DashboardHeader extends Component {
   }
 
   render() {
-    if(!this.props.location.pathname.match(/^(\/dashboard)/)) return null;
+    const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
+
+    if(!details_connexion.value) return null;
+    const username = details_connexion.username ? details_connexion.username : ''
+    
+
+
     return(
       <header className='dashboard-header'>
         <Navbar className='dash-navbar' expand='lg'>
@@ -33,11 +39,11 @@ class DashboardHeader extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse>
             <Nav className="mr-auto">
-              <NavLink exact to="/dashboard" activeClassName='link-active' className='link'>Home</NavLink>
-              <NavLink exact to="/dashboard/profile" activeClassName='link-active' className='link'>Profile</NavLink>
-              <NavLink exact to="/dashboard/friends" activeClassName='link-active' className='link'>Friends</NavLink>
-              <NavLink exact to="/dashboard/groups" activeClassName='link-active' className='link'>Groups</NavLink>
-              <NavLink exact to="/dashboard/photos" activeClassName='link-active' className='link'>Photos</NavLink>
+              <NavLink exact to={`/dashboard/${username}`} activeClassName='link-active' className='link'>Home</NavLink>
+              <NavLink exact to={`/dashboard/${username}/profile`} activeClassName='link-active' className='link'>Profile</NavLink>
+              <NavLink exact to={`/dashboard/${username}/friends`} activeClassName='link-active' className='link'>Friends</NavLink>
+              <NavLink exact to={`/dashboard/${username}/groups`} activeClassName='link-active' className='link'>Groups</NavLink>
+              <NavLink exact to={`/dashboard/${username}/photos`} activeClassName='link-active' className='link'>Photos</NavLink>
             </Nav>
             <Form inline className='mr-4 search-form'>
               <FormControl type="text" placeholder="Search" className="mr-2 input-form" />

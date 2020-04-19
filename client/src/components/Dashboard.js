@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap'
 
 import './Dashboard.css';
 import ProfilePicture from './ProfilePicture';
+import ProfileBackground from './ProfileBackground';
 
 class Dashboard extends Component {
 
@@ -15,6 +16,7 @@ class Dashboard extends Component {
     return (
       <div className='dashboard'>
         <Container>
+          <ProfileBackground />
           <ProfilePicture />
         </Container>
       </div>

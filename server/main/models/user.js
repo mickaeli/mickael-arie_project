@@ -8,7 +8,6 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, pr
   host: process.env.DB_HOST,
   dialect: 'postgres'
 });
-//var sequelize = new Sequelize('postgres://mickael@localhost:5432/api');
 
 // setup User model and its fields.
 var User = sequelize.define('users', {
@@ -49,8 +48,6 @@ var User = sequelize.define('users', {
 User.prototype.validPassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
-
-// User.hasOne(Profile_picture);
 
 // create all the defined tables in the specified database.
 sequelize.sync()

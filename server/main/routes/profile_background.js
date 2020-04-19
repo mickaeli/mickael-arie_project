@@ -3,22 +3,25 @@ var router = express.Router({ mergeParams: true })
 var cloudinary = require('cloudinary').v2;
 const UserDetails = require('../models/userDetails');
 
-
 cloudinary.config({ 
   cloud_name: 'gooder', 
   api_key: '412392824469739', 
-  api_secret: '7pGkecxCL-pku_7F4rRadLUDlI0' 
+  api_secret: '7pGkecxCL-pku_7F4rRadLUDlI0'
 });
 
 router.post('/', (req, res) => {
 
   var username = req.params.username
 
-  file = req.files.profile_picture
+  console.log(req.files.profile_background)
 
-  //upload picture to cloudinary account
+  file = req.files.profile_background
+
+  //upload background to cloudinary account
   cloudinary.uploader.upload(file.tempFilePath,
-    { public_id: username + '_picture' },
+    { public_id: username + '_background' },
+    // { eager: [
+    //   {gravity: "face", width: 150, height: 150, crop: "thumb"} ]},
      (err, result) => {
 
     // console.log(JSON.stringify(result))
@@ -26,7 +29,7 @@ router.post('/', (req, res) => {
 
     // res.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
 
-        //picture uploaded successfully
+        //background uploaded successfully
         if(!err) {
 
           UserDetails.findOne({ where: { username: username } })
@@ -37,10 +40,10 @@ router.post('/', (req, res) => {
 
               UserDetails.create({
                 username: username,
-                url_picture: result['url']
+                url_background: result['url']
               })
               .then(function(user_details) {
-                console.log(`user ${user_details.dataValues.url_picture} is added`)
+                console.log(`user ${user_details.dataValues.url_background} is added`)
                 res.json({
                   success: true,
                   url: result['url']
@@ -56,7 +59,7 @@ router.post('/', (req, res) => {
             } else {
 
               UserDetails.update(
-                { url_picture: result['url'] },
+                { url_background: result['url'] },
                 { where: { username: user_details.dataValues.username } }
               )
                 .then(reslt =>
@@ -77,7 +80,7 @@ router.post('/', (req, res) => {
             }
           })
 
-          //picture upload failed
+          //background upload failed
         } else {
           res.json({
             success: false
@@ -103,19 +106,20 @@ router.get('/', (req, res) => {
     } else {
       res.json({
         success: true,
-        url: user_details.dataValues.url_picture
+        url: user_details.dataValues.url_background
       })
 
     }
   })
 })
 
+
 router.delete('/', (req, res) => {
 
   var username = req.params.username
 
   //delete picture from cloudinary account
-  cloudinary.uploader.destroy(username + '_picture', (err, result) => {
+  cloudinary.uploader.destroy(username + '_background', (err, result) => {
 
     //image deleted successfully
     if(!err) {
@@ -132,7 +136,7 @@ router.delete('/', (req, res) => {
         } else {
 
           UserDetails.update(
-            { url_picture: 'https://res.cloudinary.com/gooder/image/upload/default_profile_picture.png' },
+            { url_background: 'https://res.cloudinary.com/gooder/image/upload/default_profile_background.jpg' },
             { where: { username: user_details.dataValues.username } }
           )
             .then(reslt =>

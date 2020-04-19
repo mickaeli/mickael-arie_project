@@ -9,10 +9,8 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, pr
 });
 //var sequelize = new Sequelize('postgres://mickael@localhost:5432/api');
 
-// const users = require('./user')
-
-// setup Profile_picture model and its fields.
-var Profile_picture = sequelize.define('profile_pictures', {
+// setup UserDetails model and its fields.
+var UserDetails = sequelize.define('users_details', {
   username: {
     type: Sequelize.STRING,
     unique: true,
@@ -22,16 +20,31 @@ var Profile_picture = sequelize.define('profile_pictures', {
         key: 'username', // 'username' refers to column name in users table
       }
   },
-  url_photo: {
-      type: Sequelize.STRING,
-      allowNull: false
+  // fullname: {
+  //   type: Sequelize.STRING,
+  //   allowNull: false
+  // },
+  url_picture: {
+    type: Sequelize.STRING,
+    defaultValue: 'https://res.cloudinary.com/gooder/image/upload/default_profile_picture.png',
+    allowNull: false
+  },
+  url_background: {
+    type: Sequelize.STRING,
+    defaultValue: 'https://res.cloudinary.com/gooder/image/upload/default_profile_background.jpg',
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.STRING,
+    defaultValue: 'No description yet',
+    allowNull: false
   }
 });
 
 // create all the defined tables in the specified database.
 sequelize.sync()
-.then(() => console.log('profile_pictures table has been successfully created, if one doesn\'t exist'))
+.then(() => console.log('UserDetails table has been successfully created, if one doesn\'t exist'))
 .catch(error => console.log('This error occured', error));
 
-// export Profile_picture model for use in other files.
-module.exports =  Profile_picture;
+// export UserDetails model for use in other files.
+module.exports =  UserDetails;

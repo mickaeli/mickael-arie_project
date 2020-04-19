@@ -43,8 +43,10 @@ class App extends Component {
 
       const isLoggedIn = details_connexion.value
       const username = details_connexion.username
+      console.log(username)
 
       if(isLoggedIn === true) {
+        console.log(username)
         this.props.history.push(`/dashboard/${username}`)
         const timeoutSession = setTimeout(this.destroySession, 1000*60*60*6)
         this.setState({ timeoutSession: timeoutSession })

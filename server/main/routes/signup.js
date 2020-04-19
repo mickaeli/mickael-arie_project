@@ -2,6 +2,8 @@ var express = require('express')
 var router = express.Router()
 
 const User = require('../models/user');
+const UserDetails = require('../models/userDetails');
+
 const validation = require('../utils/validate')
 
 router.post('/', (req, res) => {
@@ -17,9 +19,22 @@ router.post('/', (req, res) => {
 		})
 		.then(function(user) {
 			console.log(`user ${user.dataValues.username} is added`)
-			res.json(payload)
-			// req.session.user = user.dataValues;
-			//res.redirect('/dashboard');
+
+			UserDetails.create({
+				username: user.dataValues.username
+			})
+			.then(function(user_details) { 
+				res.json(payload)
+				// req.session.user = user.dataValues;
+				//res.redirect('/dashboard');
+
+			})
+			.catch(function(error) {
+				payload.success = false;
+				payload.errors = {message: error.errors[0].message}
+				res.json(payload)
+				//res.redirect('/signup');
+			});
 		})
 		.catch(function(error) {
 			payload.success = false;

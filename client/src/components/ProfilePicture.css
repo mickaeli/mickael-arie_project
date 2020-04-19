@@ -1,6 +1,6 @@
 .profile-picture .btn-picture {
-    height: 150px;
-    width: 150px;
+    height: 10rem;
+    width: 10rem;
     border-radius: 50%;
     border: none;
     background-size: cover;
@@ -8,9 +8,18 @@
   }
   
   .profile-picture .btn-picture:focus{
-      outline:none;
+      outline: none;
   }
   
   .profile-picture .icon-picture {
-      color: #5bbdef;
+      filter: invert(73%) sepia(8%) saturate(3762%) hue-rotate(170deg) brightness(95%) contrast(97%);
+      -webkit-filter: invert(73%) sepia(8%) saturate(3762%) hue-rotate(170deg) brightness(95%) contrast(97%);
+      /* color: #5bbdef; */
+  }
+
+  .spinner {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 50%;
   }

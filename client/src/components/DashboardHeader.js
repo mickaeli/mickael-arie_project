@@ -33,7 +33,7 @@ class DashboardHeader extends Component {
     return(
       <header className='dashboard-header'>
         <Navbar className='dash-navbar' expand='lg'>
-          <Link to='/dashboard' className='mr-3'>
+          <Link to={`/dashboard/${username}`} className='mr-3'>
             <img src={logo} alt="Gooder logo" />
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

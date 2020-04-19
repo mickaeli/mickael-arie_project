@@ -9,7 +9,7 @@ var fileupload = require('express-fileupload')
 var signupRouter = require('./routes/signup')
 var signinRouter = require('./routes/signin')
 var profileImgRouter = require('./routes/profile_picture')
-var deleteProfileImgRouter = require('./routes/delete_profile_picture')
+var profileBgRouter = require('./routes/profile_background')
 
 var app = express();
 
@@ -30,6 +30,6 @@ app.use(fileupload({
 app.use('/signup', signupRouter)
 app.use('/signin', signinRouter)
 app.use('/profile_picture/:username', profileImgRouter)
-app.use('/delete_profile_picture/:username', deleteProfileImgRouter)
+app.use('/profile_background/:username', profileBgRouter)
 
 module.exports = app;

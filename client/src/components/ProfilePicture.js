@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCamera } from '@fortawesome/free-solid-svg-icons'
+import { Modal, Button, Spinner } from 'react-bootstrap';
 import {withRouter} from 'react-router-dom';
-import child from '../img/child.jpg';
 
 import './ProfilePicture.css';
 import axios from 'axios';
@@ -17,7 +14,8 @@ class ProfilePicture extends Component {
       profile_picture: null,
       selected_picture: null,
       show: false,
-      isButtonDisabled: true
+      isButtonDisabled: true,
+      loading: false
     };
   }
 
@@ -25,7 +23,6 @@ class ProfilePicture extends Component {
     axios.get(`/profile_picture/${this.state.username}`)
     .then(res => {
       if(res.data.success === true) {
-        console.log(res.data.url)
         this.setState({
           profile_picture: res.data.url
         })
@@ -40,16 +37,16 @@ class ProfilePicture extends Component {
   handleShow = () => this.setState({show: true})
 
   selectedPictureHandler = event => {
-    //console.log(event.target.files[0])
     this.setState({
       selected_picture: event.target.files[0],
       isButtonDisabled : false
     })
   }
 
-  pictureHandler = () => {
-    console.log(this.state.selected_picture)
-
+  addPictureHandler = () => {
+    this.setState({
+      loading: true
+    })
     const data = new FormData()
     data.append('profile_picture', this.state.selected_picture)
 
@@ -58,75 +55,56 @@ class ProfilePicture extends Component {
       if (res.data.success === true) {
         this.setState({
           profile_picture: res.data.url,
-          show: false
+          show: false,
+          loading: false
         })
       }
     })
     .catch(err => {
       console.log("Upload data error: ", err);
     });
+
+    this.setState({
+      isButtonDisabled : true
+    })
 }
 
 deletePictureHandler = () => {
 
-  const data = new FormData()
-  data.append('profile_picture', this.state.profile_picture)
-
-  axios.post(`/delete_profile_picture/${this.state.username}`, data)
-  .then(res => {
-    if (res.data.success === true) {
-      this.setState({
-        profile_picture: null,
-        selected_picture: null,
-        show: false
-      })
-    }
+  this.setState({
+    loading: true
   })
+
+  axios.delete(`/profile_picture/${this.state.username}`)
+  .then(res => {
+      if (res.data.success === true) {
+        this.setState({
+          profile_picture: 'https://res.cloudinary.com/gooder/image/upload/default_profile_picture.png',
+          selected_picture: null,
+          show: false,
+          loading: false
+        })
+      }
+    })
   .catch(err => {
     console.log("delete picture error: ", err);
   });
 
 }
 
-
-
-  // uploadedImageHandler = () => {
-  //   console.log(this.state.selected_picture)
-
-  //   const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/gooder/image/upload'
-  //   const CLOUDINARY_UPLOAD_PRESET = 'upload'
-
-  //   const data = new FormData()
-  //   data.append('file', this.state.selected_picture)
-  //   data.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-
-  //   const config = {
-  //     header: {
-  //       'Content-Type': 'application/x-www-form-urlencoded'
-  //     }
-  //   }
-
-  //   axios
-  //   .post(CLOUDINARY_URL, data, config)
-  //   .then(res => {console.log(res)})
-  //   .catch(err => {console.error(err)})
-
-  // }
-
   render() {
 
     const profile_picture = this.state.profile_picture
-    let button
+    const url_profile_picture = 'https://res.cloudinary.com/gooder/image/upload/default_profile_picture.png'
     const del_modal_button = (<Button onClick={this.deletePictureHandler} className='mr-auto' style={{backgroundColor: '#5bbdef', border: 'none'}}>Delete picture</Button>)
+    let button
 
-    if(profile_picture) {
+    if(profile_picture && profile_picture !== url_profile_picture) {
       button = (<button className='btn-picture' onClick={this.handleShow} style={{backgroundImage: `url(${profile_picture})`}}> </button>)
-
-      //button = (<button className='btn-picture' onClick={this.handleShow} style={{backgroundImage: `url(${profile_picture})`}}>
 
     } else {
       button = (<button className='btn-picture' onClick={this.handleShow}>
-                  <FontAwesomeIcon className='icon-picture' icon={faCamera} size='3x' aria-hidden="true" />
+                  <img className='icon-picture' src={profile_picture} alt="default_profile_picture"/>
                 </button>)
     }
 
@@ -136,13 +114,22 @@ deletePictureHandler = () => {
         {button}
         <Modal show={this.state.show} onHide={this.handleClose} size='lg'>
           <Modal.Header closeButton>
-            <Modal.Title>{profile_picture ? 'Edit picture' : 'Add picture'}</Modal.Title>
+            <Modal.Title>{profile_picture && profile_picture !== url_profile_picture ? 'Edit picture' : 'Add picture'}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>{profile_picture ? 'You can edit your picture' : 'Add picture of you'}</Modal.Body>
+          <Modal.Body>
+            {profile_picture && profile_picture !== url_profile_picture ? 'You can edit your picture' : 'Add picture of you'}
+            {
+              this.state.loading &&
+              <Spinner animation="border" role="status" className='spinner'>
+                <span className="sr-only">Loading...</span>
+              </Spinner>
+            }
+          </Modal.Body>
           <Modal.Footer>
-            {profile_picture ? del_modal_button : null}
+            {profile_picture && profile_picture !== url_profile_picture ? del_modal_button : null}
             <input type="file" name="profile_picture" accept="image/*" onChange={this.selectedPictureHandler}/>
-            <Button disabled = {this.state.isButtonDisabled} onClick={this.pictureHandler} style={{backgroundColor: '#5bbdef', border: 'none'}}>{profile_picture ? 'Modify ' : 'Add '} picture</Button>
+            <Button disabled = {this.state.isButtonDisabled} onClick={this.addPictureHandler} style={{backgroundColor: '#5bbdef', border: 'none'}}>
+              {profile_picture && profile_picture !== url_profile_picture ? 'Modify ' : 'Add '} picture</Button>
           </Modal.Footer>
         </Modal>
       </div>

@@ -10,6 +10,8 @@ var signupRouter = require('./routes/signup')
 var signinRouter = require('./routes/signin')
 var profileImgRouter = require('./routes/profile_picture')
 var profileBgRouter = require('./routes/profile_background')
+var profileDescriptionRouter = require('./routes/profile_description')
+var profileFullnameRouter = require('./routes/profile_fullname')
 
 var app = express();
 
@@ -31,5 +33,7 @@ app.use('/signup', signupRouter)
 app.use('/signin', signinRouter)
 app.use('/profile_picture/:username', profileImgRouter)
 app.use('/profile_background/:username', profileBgRouter)
+app.use('/profile_description/:username', profileDescriptionRouter)
+app.use('/profile_fullname/:username', profileFullnameRouter)
 
 module.exports = app;

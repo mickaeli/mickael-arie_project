@@ -1,9 +1,23 @@
+.profile-background {
+  width: auto;
+}
+
 .profile-background .btn-background {
     height: 15rem;
     width: 50rem;
     border: none;
     background-size: cover;
     background-position: center;
+    position: relative;
+  }
+
+  .profile-background .btn-background .info {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    color: #f8f9fa;
+    border: 1px solid transparent;
+    padding: 10px;
   }
   
   .profile-background .btn-background:focus{

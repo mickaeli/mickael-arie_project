@@ -21,6 +21,14 @@ const validateSignupForm = payload => {
   }
 
   if (
+    typeof payload.fullname !== "string" ||
+    payload.fullname.trim().length === 0
+  ) {
+    isFormValid = false;
+    errors.fullname = "Please provide a full name.";
+  }
+
+  if (
     typeof payload.email !== "string" ||
     !validator.isEmail(payload.email)
   ) {

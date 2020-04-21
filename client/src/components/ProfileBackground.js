@@ -16,7 +16,8 @@ class ProfileBackground extends Component {
       selected_background: null,
       show: false,
       isButtonDisabled: true,
-      loading: false
+      loading: false,
+      hovered: false
     };
   }
 
@@ -36,6 +37,14 @@ class ProfileBackground extends Component {
 
   handleClose = () => this.setState({show: false})
   handleShow = () => this.setState({show: true})
+
+  onMouseEnter = e => {
+    this.setState({ hovered: true });
+  };
+
+  onMouseLeave = e => {
+    this.setState({ hovered: false });
+  };
 
   selectedBackgroundHandler = event => {
     this.setState({
@@ -100,11 +109,18 @@ class ProfileBackground extends Component {
     const profile_background = this.state.profile_background
     const url_profile_background = 'https://res.cloudinary.com/gooder/image/upload/default_profile_background.jpg'
     const del_modal_button = (<Button onClick={this.deleteBackgroundHandler} className='mr-auto' style={{backgroundColor: '#5bbdef', border: 'none'}}>Delete background</Button>)
+    const { hovered } = this.state;
+    const style = hovered ? { border: '1px solid' } : null;
 
     return (
 
       <div className='profile-background'>
-        <button className='btn-background' onClick={this.handleShow} style={{backgroundImage: `url(${profile_background})`}}> </button>
+        <button className='btn-background' onClick={this.handleShow} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} style={{backgroundImage: `url(${profile_background})`}}> 
+        {profile_background === url_profile_background &&
+          <span className='info' style={style}>
+            add your personal background
+          </span>}
+        </button>
         <Modal show={this.state.show} onHide={this.handleClose} size='lg'>
           <Modal.Header closeButton>
             <Modal.Title>{profile_background && profile_background !== url_profile_background ? 'Edit background' : 'Add background'}</Modal.Title>

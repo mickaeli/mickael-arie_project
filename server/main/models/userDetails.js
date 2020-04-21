@@ -20,10 +20,10 @@ var UserDetails = sequelize.define('users_details', {
         key: 'username', // 'username' refers to column name in users table
       }
   },
-  // fullname: {
-  //   type: Sequelize.STRING,
-  //   allowNull: false
-  // },
+  fullname: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   url_picture: {
     type: Sequelize.STRING,
     defaultValue: 'https://res.cloudinary.com/gooder/image/upload/default_profile_picture.png',

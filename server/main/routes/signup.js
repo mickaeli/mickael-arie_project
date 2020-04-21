@@ -10,7 +10,7 @@ router.post('/', (req, res) => {
 	var payload = validation.validateSignupForm(req.body)
 	if(payload.success)
 	{
-		const { username, email, password, pwconfirm } = req.body;
+		const { username, fullname, email, password, pwconfirm } = req.body;
 		
 		User.create({
 			username: username,
@@ -19,28 +19,25 @@ router.post('/', (req, res) => {
 		})
 		.then(function(user) {
 			console.log(`user ${user.dataValues.username} is added`)
-
+			console.log(fullname)
 			UserDetails.create({
-				username: user.dataValues.username
+				username: user.dataValues.username,
+				fullname: fullname
 			})
 			.then(function(user_details) { 
 				res.json(payload)
-				// req.session.user = user.dataValues;
-				//res.redirect('/dashboard');
 
 			})
 			.catch(function(error) {
 				payload.success = false;
 				payload.errors = {message: error.errors[0].message}
 				res.json(payload)
-				//res.redirect('/signup');
 			});
 		})
 		.catch(function(error) {
 			payload.success = false;
 			payload.errors = {message: error.errors[0].message}
 			res.json(payload)
-			//res.redirect('/signup');
 		});
 	}
 	else{

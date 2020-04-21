@@ -12,6 +12,7 @@ class Signup extends Component {
       errors: {},
       user: {
         username: "",
+        fullname: "",
         email: "",
         password: "",
         pwconfirm: ""
@@ -36,27 +37,27 @@ class Signup extends Component {
       });
       let user = {
         usr: this.state.user.username,
+        name: this.state.user.fullname,
         email: this.state.user.email,
         pw: this.state.user.password,
         pwconfirm: this.state.user.pwconfirm
       };
       this.submitSignup(user)
     } else {
-      const errors = payload.errors;
       this.setState({
-        errors
+        errors : payload.errors
       });
     }
   }
 
   submitSignup(user) {
-    let params = { username: user.usr, email: user.email, password: user.pw, pwconfirm: user.pwconfirm };
+    let params = { username: user.usr, fullname: user.name, email: user.email, password: user.pw, pwconfirm: user.pwconfirm };
     axios.post("/signup", params)
       .then(res => {
         if (res.data.success === true) {
 
           //do setting in cookie
-          let details_connexion = { value: true, username: user.usr, timestamp: new Date().getTime() }
+          let details_connexion = { value: true, username: user.usr, fullname: user.name, timestamp: new Date().getTime() }
           localStorage.setItem('isLoggedIn', JSON.stringify(details_connexion))
           let event = new Event('storage')
           event.key = 'isLoggedIn'
@@ -83,13 +84,13 @@ class Signup extends Component {
 
   render() {
     return (
-      <div>
-          <SignupForm
-            onSubmit={this.validateForm}
-            onChange={this.handleChange}
-            errors={this.state.errors}
-            user={this.state.user}
-          />
+      <div className='signup-form'>
+        <SignupForm
+          onSubmit={this.validateForm}
+          onChange={this.handleChange}
+          errors={this.state.errors}
+          user={this.state.user}
+        />
       </div>
     );
   }

@@ -1,3 +1,21 @@
+/* .profile-picture {
+  z-index: 2;
+  position: absolute;
+  top: 220px;
+  left: 480px
+} */
+
+.profile-picture {
+  height: 50px;
+}
+
+.profile-picture .btn-picture{
+  position: relative;
+  top: -110px;
+  right: -20px;
+  width: fit-content;
+}
+
 .profile-picture .btn-picture {
     height: 10rem;
     width: 10rem;

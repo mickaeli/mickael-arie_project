@@ -50,14 +50,22 @@ class Signin extends Component {
       .post("/signin", params)
       .then(res => {
         if (res.data.success === true) {
+          axios.get(`/profile_fullname/${user.usr}`)
+          .then(res => {
+            if(res.data.success === true) {
+              //do setting in cookie
+              let details_connexion = { value: true, username: user.usr, fullname: res.data.fullname, timestamp: new Date().getTime() }
+              localStorage.setItem('isLoggedIn', JSON.stringify(details_connexion))
+              let event = new Event('storage')
+              event.key = 'isLoggedIn'
+              event.value = JSON.stringify(details_connexion)
+              window.dispatchEvent(event);
+            }
+          })
+          .catch(err => {
+            console.log("get data error: ", err);
+          });
 
-          //do setting in cookie
-          let details_connexion = { value: true, username: user.usr, timestamp: new Date().getTime() }
-          localStorage.setItem('isLoggedIn', JSON.stringify(details_connexion))
-          let event = new Event('storage')
-          event.key = 'isLoggedIn'
-          event.value = JSON.stringify(details_connexion)
-          window.dispatchEvent(event);
         } else {
           this.setState({
             errors: res.data.errors

@@ -22,6 +22,14 @@ export const validateSignupForm = payload => {
   }
 
   if (
+    typeof payload.fullname !== "string" ||
+    payload.fullname.trim().length === 0
+  ) {
+    isFormValid = false;
+    errors.fullname = "Please provide a full name.";
+  }
+
+  if (
     typeof payload.email !== "string" ||
     !validator.isEmail(payload.email)
   ) {
@@ -32,7 +40,6 @@ export const validateSignupForm = payload => {
   if (
     typeof payload.password !== "string" ||
     !schema.validate(payload.password.trim())
-    //payload.password.trim().length < 8
   ) {
     isFormValid = false;
     errors.password = "Password must have at least 8 characters and one uppercase.";
@@ -47,13 +54,11 @@ export const validateSignupForm = payload => {
     message = "Check the form for errors.";
   }
 
-  if(!payload)
-    console.log('true');
-  return {
-    success: isFormValid,
-    message,
-    errors
-  };
+    return {
+      success: isFormValid,
+      message,
+      errors
+    };
 };
 
 export const validateSigninForm = payload => {

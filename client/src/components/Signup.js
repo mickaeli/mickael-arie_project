@@ -53,25 +53,25 @@ class Signup extends Component {
   submitSignup(user) {
     let params = { username: user.usr, fullname: user.name, email: user.email, password: user.pw, pwconfirm: user.pwconfirm };
     axios.post("/signup", params)
-      .then(res => {
-        if (res.data.success === true) {
+    .then(res => {
+      if (res.data.success === true) {
 
-          //do setting in cookie
-          let details_connexion = { value: true, username: user.usr, fullname: user.name, timestamp: new Date().getTime() }
-          localStorage.setItem('isLoggedIn', JSON.stringify(details_connexion))
-          let event = new Event('storage')
-          event.key = 'isLoggedIn'
-          event.value = JSON.stringify(details_connexion)
-          window.dispatchEvent(event);
-        } else {
-          this.setState({
-            errors: res.data.errors
-          });
-        }
-      })
-      .catch(err => {
-        console.log("Sign up data submit error: ", err);
-      });
+        //do setting in cookie
+        let details_connexion = { value: true, username: user.usr, fullname: user.name, timestamp: new Date().getTime() }
+        localStorage.setItem('isLoggedIn', JSON.stringify(details_connexion))
+        let event = new Event('storage')
+        event.key = 'isLoggedIn'
+        event.value = JSON.stringify(details_connexion)
+        window.dispatchEvent(event);
+      } else {
+        this.setState({
+          errors: res.data.errors
+        });
+      }
+    })
+    .catch(err => {
+      console.log("Sign up data submit error: ", err);
+    });
   }
 
   handleChange(event) {

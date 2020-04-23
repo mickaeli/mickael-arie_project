@@ -11,8 +11,8 @@ class ProfilePicture extends Component {
 
     this.state = {
       username: props.match.params.username,
-      profile_picture: null,
-      selected_picture: null,
+      profile_picture: "",
+      selected_picture: "",
       show: false,
       isButtonDisabled: true,
       loading: false
@@ -29,7 +29,7 @@ class ProfilePicture extends Component {
       }
     })
     .catch(err => {
-      console.log("Upload data error: ", err);
+      console.log("Get data error: ", err);
     });
   }
 
@@ -50,7 +50,7 @@ class ProfilePicture extends Component {
     const data = new FormData()
     data.append('profile_picture', this.state.selected_picture)
 
-    axios.post(`/profile_picture/${this.state.username}`, data)
+    axios.put(`/profile_picture/${this.state.username}`, data)
     .then(res => {
       if (res.data.success === true) {
         this.setState({
@@ -87,7 +87,7 @@ deletePictureHandler = () => {
       }
     })
   .catch(err => {
-    console.log("delete picture error: ", err);
+    console.log("Delete picture error: ", err);
   });
 
 }

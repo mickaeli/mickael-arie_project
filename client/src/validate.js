@@ -4,10 +4,12 @@ const passValidator = require('password-validator');
 
 const schema = new passValidator();
 
+//sets 2 password requirements
 schema
 .is().min(5)
 .has().uppercase();
 
+//make validation for data in signup form (username + fullname + email + password)
 export const validateSignupForm = payload => {
   let isFormValid = true;
   let message = "";
@@ -61,6 +63,7 @@ export const validateSignupForm = payload => {
     };
 };
 
+//make validation for data in signin form (username + password)
 export const validateSigninForm = payload => {
   const errors = {};
   let message = "";
@@ -80,6 +83,31 @@ export const validateSigninForm = payload => {
   ) {
     isFormValid = false;
     errors.password = "Please provide your password.";
+  }
+
+  if (!isFormValid) {
+    message = "Check the form for errors.";
+  }
+
+  return {
+    success: isFormValid,
+    message,
+    errors
+  };
+};
+
+//make validation for data in profileDetails form (fullname + description)
+export const validateProfileDetailsForm = payload => {
+  let isFormValid = true;
+  let message = "";
+  const errors = {};
+
+  if (
+    typeof payload.fullname !== "string" ||
+    payload.fullname.trim().length === 0
+  ) {
+    isFormValid = false;
+    errors.fullname = "Please provide a full name.";
   }
 
   if (!isFormValid) {

@@ -9,11 +9,13 @@ router.get('/', (req, res) => {
   UserDetails.findOne({ where: { username: username } })
   .then(function (user_details) {
 
+    //case 1: there is not record in the db for this user
     if (!user_details) {
       res.json({
         success: false
       })
 
+    //case 2: record founded
     } else {
       res.json({
         success: true,
@@ -22,6 +24,10 @@ router.get('/', (req, res) => {
 
     }
   })
+  .catch(function(error) {
+    success = false;
+  });
+
 })
 
 module.exports = router

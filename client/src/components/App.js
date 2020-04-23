@@ -39,10 +39,10 @@ class App extends Component {
 
   handleSession(event){
     if (event.key === 'isLoggedIn') {
-      const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
+      const details_connection = JSON.parse(localStorage.getItem('isLoggedIn'))
 
-      const isLoggedIn = details_connexion.value
-      const username = details_connexion.username
+      const isLoggedIn = details_connection.value
+      const username = details_connection.username
 
       if(isLoggedIn === true) {
         this.props.history.push(`/dashboard/${username}`)
@@ -59,11 +59,11 @@ class App extends Component {
   componentDidMount(){
     window.addEventListener('storage', this.handleSession)
 
-    const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
+    const details_connection = JSON.parse(localStorage.getItem('isLoggedIn'))
 
-    if(details_connexion) {
+    if(details_connection) {
       const now = new Date().getTime()
-      if(!details_connexion.timestamp || (details_connexion.timestamp + 1000*60*60*6) < now){
+      if(!details_connection.timestamp || (details_connection.timestamp + 1000*60*60*6) < now){
         localStorage.setItem('isLoggedIn', false)
         let event = new Event('storage')
         event.key = 'isLoggedIn'
@@ -79,9 +79,9 @@ class App extends Component {
 
   render() {
 
-    const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
-    const isLoggedIn = details_connexion ? details_connexion.value : false
-    const username = details_connexion.username ? details_connexion.username : ''
+    const details_connection = JSON.parse(localStorage.getItem('isLoggedIn'))
+    const isLoggedIn = details_connection ? details_connection.value : false
+    const username = details_connection.username ? details_connection.username : ''
 
     return (
       <Fragment>

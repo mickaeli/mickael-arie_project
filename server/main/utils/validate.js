@@ -3,10 +3,12 @@ const passValidator = require('password-validator');
 
 const schema = new passValidator();
 
+//sets 2 password requirements
 schema
 .is().min(5)
 .has().uppercase();
 
+//make validation for data in signup route (username + fullname + email + password)
 const validateSignupForm = payload => {
   let isFormValid = true;
   let message = "";
@@ -39,7 +41,6 @@ const validateSignupForm = payload => {
   if (
     typeof payload.password !== "string" ||
     !schema.validate(payload.password.trim())
-    //payload.password.trim().length < 8
   ) {
     isFormValid = false;
     console.log('I am here')
@@ -62,6 +63,7 @@ const validateSignupForm = payload => {
   };
 };
 
+//make validation for data in signin route (username + password)
 const validateSigninForm = payload => {
   const errors = {};
   let message = "";
@@ -94,7 +96,33 @@ const validateSigninForm = payload => {
   };
 };
 
+//make validation for data in profile_details route (fullname + description)
+const validateProfileDetailsForm = payload => {
+  let isFormValid = true;
+  let message = "";
+  const errors = {};
+
+  if (
+    typeof payload.fullname !== "string" ||
+    payload.fullname.trim().length === 0
+  ) {
+    isFormValid = false;
+    errors.fullname = "Please provide a full name.";
+  }
+
+  if (!isFormValid) {
+    message = "Check the form for errors.";
+  }
+
+  return {
+    success: isFormValid,
+    message,
+    errors
+  };
+};
+
 module.exports = {
   validateSignupForm,
-  validateSigninForm
+  validateSigninForm,
+  validateProfileDetailsForm
 }

@@ -1,10 +1,10 @@
 .profile-background {
-  width: auto;
+  /* width: fit-content; */
 }
 
 .profile-background .btn-background {
     height: 15rem;
-    width: 50rem;
+    width: 100%;
     border: none;
     background-size: cover;
     background-position: center;

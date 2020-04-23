@@ -12,8 +12,8 @@ class ProfileBackground extends Component {
 
     this.state = {
       username: props.match.params.username,
-      profile_background: null,
-      selected_background: null,
+      profile_background: "",
+      selected_background: "",
       show: false,
       isButtonDisabled: true,
       loading: false,
@@ -31,7 +31,7 @@ class ProfileBackground extends Component {
       }
     })
     .catch(err => {
-      console.log("Upload data error: ", err);
+      console.log("Get data error: ", err);
     });
   }
 
@@ -60,7 +60,7 @@ class ProfileBackground extends Component {
     const data = new FormData()
     data.append('profile_background', this.state.selected_background)
 
-    axios.post(`/profile_background/${this.state.username}`, data)
+    axios.put(`/profile_background/${this.state.username}`, data)
     .then(res => {
       if (res.data.success === true) {
         this.setState({

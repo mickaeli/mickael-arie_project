@@ -1,0 +1,12 @@
+.wall {
+    margin-top: 20px;
+    width: 95%;
+    padding: 5px 8px;
+    border-radius: 6px 6px 6px 6px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.wall .post-text {
+    width: 100%;
+}

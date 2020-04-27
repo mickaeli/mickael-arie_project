@@ -6,6 +6,7 @@ import axios from 'axios';
 import './Dashboard.css';
 import ProfilePicture from './ProfilePicture';
 import ProfileBackground from './ProfileBackground';
+import Wall from './Wall'
 
 class Dashboard extends Component {
 
@@ -49,6 +50,7 @@ class Dashboard extends Component {
             <ProfilePicture />
             <h1>{this.state.fullname}</h1>
             <p>{this.state.profile_description}</p>
+            <Wall />
           </Col>
         </Row>
       </Container>

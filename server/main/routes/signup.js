@@ -22,24 +22,24 @@ router.post('/', (req, res) => {
 			password: password
 		})
 		.then(function(user) {
-			console.log(`user ${user.dataValues.username} is added`)
+			console.log(`user ${user.dataValues.username} added`)
 			UserDetails.create({
 				username: user.dataValues.username,
 				fullname: fullname
 			})
-			.then(function(user_details) { 
+			.then(function(user_details) {
+				console.log("user_details row added")
 				res.json(payload)
 
 			})
 			.catch(function(error) {
-				payload.success = false;
-				payload.errors = {message: error.errors[0].message} //error message for addition new record in users_details table
+				console.log("create user_details row failed")
 				res.json(payload)
 			});
 		})
 		.catch(function(error) {
+			console.log("create user failed")
 			payload.success = false;
-			payload.errors = {message: error.errors[0].message} //error message for addition new record in users table
 			res.json(payload)
 		});
   }

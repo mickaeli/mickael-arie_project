@@ -25,7 +25,8 @@ router.put('/', (req, res) => {
 
     //picture uploaded successfully
     if(!err) {
-      
+      console.log("background uploaded successfully")
+
       UserDetails.update(
         { url_picture: result['url'] },
         { where: { username: username } }
@@ -44,6 +45,8 @@ router.put('/', (req, res) => {
 
     //picture upload failed
     } else {
+      console.log("background upload failed")
+      
       res.json({
         success: false
       })

@@ -58,6 +58,12 @@ class ProfilePicture extends Component {
           show: false,
           loading: false
         })
+      } else {
+        this.setState({
+          show: false,
+          loading: false
+        })
+        alert("Picture upload failed. Please try again")
       }
     })
     .catch(err => {

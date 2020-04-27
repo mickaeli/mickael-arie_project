@@ -28,10 +28,12 @@ router.post('/', (req, res) => {
       }
       //case 2: all it's ok
       else{
+        console.log("user found")
         res.json(payload)
       }
     })
     .catch(function(error) {
+      console.log("user search failed")
       payload.success = false;
       res.json(payload)
 		});
@@ -40,6 +42,7 @@ router.post('/', (req, res) => {
 
   //failed validation
   else{
+    console.log("failed validation")
     res.json(payload)
   }
 })

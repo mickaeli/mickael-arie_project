@@ -68,6 +68,13 @@ class ProfileBackground extends Component {
           show: false,
           loading: false
         })
+
+      } else {
+        this.setState({
+          show: false,
+          loading: false
+        })
+        alert("Background upload failed. Please try again")
       }
     })
     .catch(err => {

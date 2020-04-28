@@ -2,7 +2,14 @@
     margin-bottom: 80px;
 }
 
+.dashboard h1, h2 {
+    margin: 1rem 0;
+}
+
 .dashboard h1 {
     font-size: 1.5rem;
-    margin: 1rem 0;
+}
+
+.dashboard h2 {
+    font-size: .9rem;
 }

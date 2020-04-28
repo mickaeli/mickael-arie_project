@@ -14,9 +14,6 @@ h1, h2, h3, h4, h5, h6, b, strong {
   font-weight: 600;
   font-family: "Montserrat", sans-serif;
 }
-h1 { 
-  margin: 0; /*  שנו את השורה אם אתם רוצים רווח  לפני ואחרי הכותרת  */
-}
 img, iframe {
   border: 0;
 }
@@ -54,12 +51,6 @@ nav ul {
   border-top: 1px solid #000;  /* שנו את הגבול הזה */
 }
 
-/* navigation */
-/* .logo {
-  float: left;
-  margin-right: 10px;
-} */
-
 /* helper */
 .alignleft {
   float: left;
@@ -79,17 +70,17 @@ nav ul {
 .button {
   font-family: Montserrat;
   font-size: 16px;
+  margin: .5em .2em;
 }
 
-
-/**/
-
-/* form {
-  width: 100%;
+.box {
+  padding: 5px 8px;
+  border: solid 1px #d4d4d5;
+  border-radius: 6px 6px 6px 6px;
 }
 
-@media screen and (max-width: 550px) {
-  .loginBox {
-    width: 85%;
-  }
-} */
+textarea {
+  padding: 5px 8px;
+  border-radius: 6px 6px 6px 6px;
+  margin: 1rem 0;
+}

@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 
+import Post from './Post';
+
 import './Wall.css';
 
 class Wall extends Component {
   render() {
     return (
       <div className='wall'>
-        <textarea placeholder="Post something" className='post-text' name="post-text" rows="10"></textarea>
-        
+        <textarea className='box' placeholder="Post something" name="post-text" rows="10"></textarea>
+        <Post />
+        <Post />
       </div>
     );
   }

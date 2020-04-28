@@ -12,19 +12,19 @@ const ImgNextToText = ({url_img, header, paragraphs,imgSize, hasButton}) => {
 
   return (
     <Container fluid className='img-next-to-text'>
-        <Row>
-          <Col sm={12} lg={6} xl={{ span: 4, offset: 2 }} className='col'>
-            <Image src={url_img} alt={url_img} style={{ minHeight: height}}/>
-          </Col>
-          <Col sm={12} lg={6} xl={4}>
-            <div className='container-wrapper'>
-              <h1>{header}</h1>
-              {list}
-              {button}
-            </div>
-          </Col>
-        </Row>
-      </Container>
+      <Row>
+        <Col sm={12} lg={6} xl={{ span: 4, offset: 2 }} className='col'>
+          <Image src={url_img} alt={url_img} style={{ minHeight: height}}/>
+        </Col>
+        <Col sm={12} lg={6} xl={4}>
+          <div className='container-wrapper'>
+            <h1>{header}</h1>
+            {list}
+            {button}
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

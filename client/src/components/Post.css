@@ -1,0 +1,21 @@
+.post {
+    overflow: hidden;
+    margin-bottom: 1rem;;
+}
+
+.post h1 {
+    font-size: 1.3rem;
+    padding-bottom: 1rem;
+    border-bottom: solid 1px #d4d4d5; 
+}
+
+.post .comment-header {
+    text-align: center;
+    border-bottom: 1px solid #d4d4d5; 
+    line-height: 0.1em;
+}
+
+.post h2 span {
+    background:#fff;
+    padding:0 10px; 
+}

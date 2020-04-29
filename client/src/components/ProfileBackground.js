@@ -98,7 +98,7 @@ class ProfileBackground extends Component {
       .then(res => {
         if (res.data.success === true) {
           this.setState({
-            profile_background: 'https://res.cloudinary.com/gooder/image/upload/default_profile_background.jpg',
+            profile_background: 'https://res.cloudinary.com/gooder/image/upload/v1588001427/default_profile_background.jpg',
             selected_background: null,
             show: false,
             loading: false
@@ -114,7 +114,7 @@ class ProfileBackground extends Component {
   render() {
 
     const profile_background = this.state.profile_background
-    const url_profile_background = 'https://res.cloudinary.com/gooder/image/upload/default_profile_background.jpg'
+    const url_profile_background = 'https://res.cloudinary.com/gooder/image/upload/v1588001427/default_profile_background.jpg'
     const del_modal_button = (<Button onClick={this.deleteBackgroundHandler} className='mr-auto' style={{backgroundColor: '#5bbdef', border: 'none'}}>Delete background</Button>)
     const { hovered } = this.state;
     const style = hovered ? { border: '1px solid' } : null;

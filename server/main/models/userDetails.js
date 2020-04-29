@@ -9,6 +9,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, pr
 });
 //var sequelize = new Sequelize('postgres://mickael@localhost:5432/api');
 
+
 // setup UserDetails model and its fields.
 var UserDetails = sequelize.define('users_details', {
   username: {
@@ -40,11 +41,6 @@ var UserDetails = sequelize.define('users_details', {
     allowNull: false
   }
 });
-
-// create all the defined tables in the specified database.
-sequelize.sync()
-.then(() => console.log('UserDetails table has been successfully created, if one doesn\'t exist'))
-.catch(error => console.log('This error occured', error));
 
 // export UserDetails model for use in other files.
 module.exports =  UserDetails;

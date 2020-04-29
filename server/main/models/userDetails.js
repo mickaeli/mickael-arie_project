@@ -26,12 +26,12 @@ var UserDetails = sequelize.define('users_details', {
   },
   url_picture: {
     type: Sequelize.STRING,
-    defaultValue: 'https://res.cloudinary.com/gooder/image/upload/default_profile_picture.png',
+    defaultValue: 'https://res.cloudinary.com/gooder/image/upload/v1588001434/default_profile_picture.png',
     allowNull: false
   },
   url_background: {
     type: Sequelize.STRING,
-    defaultValue: 'https://res.cloudinary.com/gooder/image/upload/default_profile_background.jpg',
+    defaultValue: 'https://res.cloudinary.com/gooder/image/upload/v1588001427/default_profile_background.jpg',
     allowNull: false
   },
   description: {

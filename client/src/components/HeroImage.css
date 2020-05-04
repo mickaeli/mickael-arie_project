@@ -44,8 +44,8 @@
 }
 
 .arrow:hover {
-    border-bottom-width: 4px;
-    border-right-width: 4px;
+  border-bottom-width: 4px;
+  border-right-width: 4px;
 }
 
 .hero-image .link {
@@ -60,5 +60,5 @@
   }
   .hero-text p {
     font-size: 1.1em;
-}
+  }
 }

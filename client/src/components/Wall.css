@@ -1,10 +1,10 @@
 .wall {
-    margin-top: 20px;
-    width: 85%;
-    margin-right: auto;
-    margin-left: auto;
+  margin-top: 20px;
+  width: 85%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .wall textarea {
-    width: 100%;
+  width: 100%;
 }

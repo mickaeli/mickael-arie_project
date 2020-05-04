@@ -1,19 +1,19 @@
 .dashboard-header .dash-navbar {
-    background-color: rgb(91, 189, 239);
+  background-color: rgb(91, 189, 239);
 }
 
 .dashboard-header .signout-button {
-    color: rgb(0, 145, 219);
+  color: rgb(0, 145, 219);
 }
 
 
 @media screen and (max-width: 991px) {
-    .search-form{
-        margin-bottom: .2em;
-    }
+  .search-form{
+      margin-bottom: .2em;
+  }
 
-    .input-form{
-        margin-bottom: .2em;
-    }
+  .input-form{
+      margin-bottom: .2em;
+  }
 
 }

@@ -122,13 +122,8 @@ class ProfileBackground extends Component {
     return (
 
       <div className='profile-background'>
-<<<<<<< HEAD
-        <button className='btn-background' onClick={this.handleShow} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} style={ profile_background !== '' ? {backgroundImage: `url(${profile_background})`} : {} }> 
-        {profile_background === url_profile_background &&
-=======
-	<button className='btn-background' onClick={this.handleShow} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} style={ profile_background !== '' ? {backgroundImage: `url(${profile_background})`} : {} }> 
+	      <button className='btn-background' onClick={this.handleShow} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} style={ profile_background !== '' ? {backgroundImage: `url(${profile_background})`} : {} }> 
           {profile_background === url_profile_background &&
->>>>>>> 864d6823185e4a4fa4601c616c3f8fb537c50bc6
           <span className='info' style={style}>
             add your personal background
           </span>}

@@ -42,13 +42,10 @@ var UserDetails = sequelize.define('users_details', {
   }
 });
 
-<<<<<<< HEAD
 // create all the defined tables in the specified database.
 // sequelize.sync()
 // .then(() => console.log('users_details table has been successfully created, if one doesn\'t exist'))
 // .catch(error => console.log('This error occured', error));
 
-=======
->>>>>>> 864d6823185e4a4fa4601c616c3f8fb537c50bc6
 // export UserDetails model for use in other files.
 module.exports =  UserDetails;

@@ -1,13 +1,13 @@
 .desc-section {
-    margin-top: 80px;
-    margin-bottom: 80px;
+  margin-bottom: 80px;
+  margin-top: 80px;
 }
 
 .desc-section p {
-    margin: 0; 
-    font-size: 1.7em;
-    letter-spacing: 0.05em;
-    line-height: 1.45;
-    text-align: center;
-    opacity: 0.6;
+  font-size: 1.7em;
+  margin: 0; 
+  letter-spacing: 0.05em;
+  line-height: 1.45;
+  text-align: center;
+  opacity: 0.6;
 }

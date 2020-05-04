@@ -37,21 +37,6 @@ const ProfileDetailsForm = ({
               margin='dense'
               variant="outlined"
             />
-
-
-
-
-            {/* <TextField
-              type='description'
-              name="description"
-              label="description"
-              value={profile_details.description}
-              onChange={onChange}
-              helperText='Please enter a description of you'
-              fullWidth
-              margin='dense'
-              error={errors.description !== undefined}
-            /> */}
             <Button 
               className='button' 
               variant="primary" 

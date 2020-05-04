@@ -46,10 +46,6 @@ app.use('/profile_description/:username', profileDescriptionRouter)
 app.use('/profile_fullname/:username', profileFullnameRouter)
 app.use('/profile_details/:username', profileDetailsRouter)
 
-<<<<<<< HEAD
 app.use('/post/:id?', postRouter)
 
 module.exports = app;
-=======
-module.exports = app;
->>>>>>> 864d6823185e4a4fa4601c616c3f8fb537c50bc6

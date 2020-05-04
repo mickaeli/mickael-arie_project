@@ -1,8 +1,18 @@
 var express = require('express')
+var Sequelize = require('sequelize')
 var router = express.Router()
 
 const User = require('../models/user');
 const UserDetails = require('../models/userDetails');
+
+User.sync()
+              .then(() => {
+			 console.log('users table has been successfully created, if one doesn\'t exist')
+			 UserDetails.sync()
+                                 .then(() => console.log('usersDetails table has been successfully created, if one doesn\'t exist'))
+                                 .catch(error => console.log('This error occured', error));
+	      })
+              .catch(error => console.log('This error occured', error))
 
 const validation = require('../utils/validate')
 

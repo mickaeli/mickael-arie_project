@@ -9,6 +9,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, pr
 });
 //var sequelize = new Sequelize('postgres://mickael@localhost:5432/api');
 
+
 // setup UserDetails model and its fields.
 var UserDetails = sequelize.define('users_details', {
   username: {
@@ -31,7 +32,7 @@ var UserDetails = sequelize.define('users_details', {
   },
   url_background: {
     type: Sequelize.STRING,
-    defaultValue: 'https://res.cloudinary.com/gooder/image/upload/default_profile_background.jpg',
+    defaultValue: 'https://res.cloudinary.com/gooder/image/upload/v1588001427/default_profile_background.jpg',
     allowNull: false
   },
   description: {
@@ -41,10 +42,13 @@ var UserDetails = sequelize.define('users_details', {
   }
 });
 
+<<<<<<< HEAD
 // create all the defined tables in the specified database.
 // sequelize.sync()
 // .then(() => console.log('users_details table has been successfully created, if one doesn\'t exist'))
 // .catch(error => console.log('This error occured', error));
 
+=======
+>>>>>>> 864d6823185e4a4fa4601c616c3f8fb537c50bc6
 // export UserDetails model for use in other files.
 module.exports =  UserDetails;

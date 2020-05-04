@@ -98,7 +98,7 @@ class ProfileBackground extends Component {
       .then(res => {
         if (res.data.success === true) {
           this.setState({
-            profile_background: 'https://res.cloudinary.com/gooder/image/upload/default_profile_background.jpg',
+            profile_background: 'https://res.cloudinary.com/gooder/image/upload/v1588001427/default_profile_background.jpg',
             selected_background: null,
             show: false,
             loading: false
@@ -114,7 +114,7 @@ class ProfileBackground extends Component {
   render() {
 
     const profile_background = this.state.profile_background
-    const url_profile_background = 'https://res.cloudinary.com/gooder/image/upload/default_profile_background.jpg'
+    const url_profile_background = 'https://res.cloudinary.com/gooder/image/upload/v1588001427/default_profile_background.jpg'
     const del_modal_button = (<Button onClick={this.deleteBackgroundHandler} className='mr-auto' style={{backgroundColor: '#5bbdef', border: 'none'}}>Delete background</Button>)
     const { hovered } = this.state;
     const style = hovered ? { border: '1px solid' } : null;
@@ -122,8 +122,13 @@ class ProfileBackground extends Component {
     return (
 
       <div className='profile-background'>
+<<<<<<< HEAD
         <button className='btn-background' onClick={this.handleShow} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} style={ profile_background !== '' ? {backgroundImage: `url(${profile_background})`} : {} }> 
         {profile_background === url_profile_background &&
+=======
+	<button className='btn-background' onClick={this.handleShow} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} style={ profile_background !== '' ? {backgroundImage: `url(${profile_background})`} : {} }> 
+          {profile_background === url_profile_background &&
+>>>>>>> 864d6823185e4a4fa4601c616c3f8fb537c50bc6
           <span className='info' style={style}>
             add your personal background
           </span>}

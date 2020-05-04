@@ -93,7 +93,7 @@ router.delete('/', (req, res) => {
     if(!err) {
 
       UserDetails.update(
-        { url_background: 'https://res.cloudinary.com/gooder/image/upload/default_profile_background.jpg' },
+        { url_background: 'https://res.cloudinary.com/gooder/image/upload/v1588001427/default_profile_background.jpg' },
         { where: { username: username } }
       )
       .then(function(query_result) {

@@ -22,6 +22,7 @@ var postRouter = require('./routes/post')
 var app = express();
 
 var bodyParser = require('body-parser');
+
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit:50000}));
 
@@ -45,6 +46,10 @@ app.use('/profile_description/:username', profileDescriptionRouter)
 app.use('/profile_fullname/:username', profileFullnameRouter)
 app.use('/profile_details/:username', profileDetailsRouter)
 
+<<<<<<< HEAD
 app.use('/post/:id?', postRouter)
 
 module.exports = app;
+=======
+module.exports = app;
+>>>>>>> 864d6823185e4a4fa4601c616c3f8fb537c50bc6

@@ -46,7 +46,7 @@ class Dashboard extends Component {
       <Container fluid className='dashboard'>
         <Row>
           <Col lg={{ offset: 3, span : 6}}>
-	     <ProfileBackground />
+	    <ProfileBackground />
             <ProfilePicture />
             <h1>{this.state.fullname}</h1>
             <p>{this.state.profile_description}</p>

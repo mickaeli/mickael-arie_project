@@ -25,7 +25,7 @@ class DashboardHeader extends Component {
   render() {
     const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
 
-    if(!details_connexion.value) return null;
+    if(!details_connexion || !details_connexion.value) return null;
     const username = details_connexion.username ? details_connexion.username : ''
     
 

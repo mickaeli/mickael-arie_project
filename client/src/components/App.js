@@ -81,7 +81,7 @@ class App extends Component {
 
     const details_connection = JSON.parse(localStorage.getItem('isLoggedIn'))
     const isLoggedIn = details_connection ? details_connection.value : false
-    const username = details_connection.username ? details_connection.username : ''
+    const username = (details_connection && details_connection.username) ? details_connection.username : ''
 
     return (
       <Fragment>

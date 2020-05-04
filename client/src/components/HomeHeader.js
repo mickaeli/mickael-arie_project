@@ -9,7 +9,10 @@ import logo from '../img/logo.png';
 const HomeHeader = (props) => {
 
     //if(props.location.pathname.match(/^(\/dashboard)/)) return null;
-    if(JSON.parse(localStorage.getItem('isLoggedIn')).value) return null;
+
+    const details_connection = JSON.parse(localStorage.getItem('isLoggedIn'))
+
+    if( details_connection && details_connection.value) return null;
 
     return (
       <header className='home-header'>

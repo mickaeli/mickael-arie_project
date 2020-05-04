@@ -7,8 +7,11 @@ import skateboard_ramps from '../img/skateboard_ramps.jpg';
 import {withRouter} from 'react-router-dom';
 
 const Footer = props => {
+
+  const details_connection = JSON.parse(localStorage.getItem('isLoggedIn'))
+
   return (
-    <footer style={{ backgroundColor : !(JSON.parse(localStorage.getItem('isLoggedIn')).value) ? 'rgb(35, 34, 34)' : 'rgb(91, 189, 239)' }}>
+    <footer style={{ backgroundColor : (details_connection && details_connection.value) ? 'rgb(91, 189, 239)' : 'rgb(35, 34, 34)' }}>
       <Container fluid>
         <Row>
           <Col sm={12} lg={6} xl={{ span: 4, offset: 2 }}>

@@ -6,9 +6,23 @@ const UserDetails = require('../models/userDetails');
 
 const validation = require('../utils/validate')
 
+// create user table
+User.sync()
+.then(() => {
+	console.log('users table has been successfully created, if one doesn\'t exist')
+	// create users_details table
+	UserDetails.sync()
+	.then(() => console.log('users_details table has been successfully created, if one doesn\'t exist'))
+	.catch(error => console.log('This error occured', error));
+
+})
+.catch(error => console.log('This error occured', error));
+
+
+
 router.post('/', (req, res) => {
 
-	//make validation for request data (username + fullname + email + password)
+  //make validation for request data (username + fullname + email + password)
   var payload = validation.validateSignupForm(req.body)
   
   //successful validation

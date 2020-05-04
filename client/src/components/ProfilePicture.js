@@ -85,7 +85,7 @@ deletePictureHandler = () => {
   .then(res => {
       if (res.data.success === true) {
         this.setState({
-          profile_picture: 'https://res.cloudinary.com/gooder/image/upload/default_profile_picture.png',
+          profile_picture: 'https://res.cloudinary.com/gooder/image/upload/v1588001434/default_profile_picture.png',
           selected_picture: null,
           show: false,
           loading: false
@@ -101,7 +101,7 @@ deletePictureHandler = () => {
   render() {
 
     const profile_picture = this.state.profile_picture
-    const url_profile_picture = 'https://res.cloudinary.com/gooder/image/upload/default_profile_picture.png'
+    const url_profile_picture = 'https://res.cloudinary.com/gooder/image/upload/v1588001434/default_profile_picture.png'
     const del_modal_button = (<Button onClick={this.deletePictureHandler} className='mr-auto' style={{backgroundColor: '#5bbdef', border: 'none'}}>Delete picture</Button>)
     let button
 

@@ -16,9 +16,9 @@ var UserDetails = sequelize.define('users_details', {
     unique: true,
     allowNull: false,
     references: {
-        model: 'users', // 'users' refers to table name
-        key: 'username', // 'username' refers to column name in users table
-      }
+      model: 'users', // 'users' refers to table name
+      key: 'username', // 'username' refers to column name in users table
+    }
   },
   fullname: {
     type: Sequelize.STRING,
@@ -26,7 +26,7 @@ var UserDetails = sequelize.define('users_details', {
   },
   url_picture: {
     type: Sequelize.STRING,
-    defaultValue: 'https://res.cloudinary.com/gooder/image/upload/default_profile_picture.png',
+    defaultValue: 'https://res.cloudinary.com/gooder/image/upload/v1588001434/default_profile_picture.png',
     allowNull: false
   },
   url_background: {
@@ -42,9 +42,9 @@ var UserDetails = sequelize.define('users_details', {
 });
 
 // create all the defined tables in the specified database.
-sequelize.sync()
-.then(() => console.log('UserDetails table has been successfully created, if one doesn\'t exist'))
-.catch(error => console.log('This error occured', error));
+// sequelize.sync()
+// .then(() => console.log('users_details table has been successfully created, if one doesn\'t exist'))
+// .catch(error => console.log('This error occured', error));
 
 // export UserDetails model for use in other files.
 module.exports =  UserDetails;

@@ -25,9 +25,9 @@ var Post = sequelize.define('posts', {
 });
 
 // create all the defined tables in the specified database.
-sequelize.sync()
-.then(() => console.log('posts table has been successfully created, if one doesn\'t exist'))
-.catch(error => console.log('This error occured', error));
+//sequelize.sync()
+//.then(() => console.log('posts table has been successfully created, if one doesn\'t exist'))
+//.catch(error => console.log('This error occured', error));
 
 // export Post model for use in other files.
 module.exports =  Post;

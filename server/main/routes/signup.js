@@ -4,22 +4,12 @@ var router = express.Router()
 
 const User = require('../models/user');
 const UserDetails = require('../models/userDetails');
+const DB_sync = require('../models/db_sync');
 
 const validation = require('../utils/validate')
 
-// create user table
-User.sync()
-.then(() => {
-	console.log('users table has been successfully created, if one doesn\'t exist')
-	// create users_details table
-	UserDetails.sync()
-	.then(() => console.log('users_details table has been successfully created, if one doesn\'t exist'))
-	.catch(error => console.log('This error occured', error));
-
-})
-.catch(error => console.log('This error occured', error));
-
-
+// create user tables
+DB_sync.create_tables();
 
 router.post('/', (req, res) => {
 

@@ -13,6 +13,7 @@ class Wall extends Component {
 
     this.state = {
       username: props.match.params.username,
+      fullname: props.fullname,
       // post_text: '',
       posts: []
     }
@@ -102,18 +103,40 @@ class Wall extends Component {
     });
   }
 
+  editPost = (post_id, post_text) => {
+
+    axios.put(`/post/${post_id}`, { post_text: post_text })
+    .then(res => {
+      if (res.data.success === true) {
+        
+        let posts = this.state.posts
+
+        posts.forEach(post => {
+          if(post.id === post_id) {
+            post.text = post_text
+          }
+        })
+        
+        this.setState({posts});
+      }
+    })
+    .catch(err => {
+      console.log("Upload post error: ", err);
+    })
+}
+
 
   render() {
 
     var posts = this.state.posts.slice().reverse().map(post => {
-      return <Post key={post.id} username={this.state.username} data={post} deletePost={this.deletePost} />
+      return <Post key={post.id} username={this.state.username} data={post} deletePost={this.deletePost} editPost = {this.editPost} />
     })
 
     return (
       <div className='wall'>
         <textarea 
         className='box' 
-        placeholder="Post something" 
+        placeholder="Post something"
         // value={this.state.post_text} 
         // onChange={this.onChange} 
         onKeyPress={this.addPost}

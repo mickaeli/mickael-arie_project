@@ -27,6 +27,28 @@ router.post('/', (req, res) => {
 
 })
 
+router.put('/', (req, res) => {
+
+  const post_id = req.params.id
+  const { post_text } = req.body;
+
+  Post.update(
+    { text: post_text },
+    { where: { id: post_id } }
+  )
+  .then(function(query_result) {
+    res.json({
+      success: true
+    })
+  })
+  .catch(function(err) {
+    res.json({
+      success: false
+    })
+  })
+
+})
+
 router.get('/', (req, res) => {
   Post.findAll({raw: true})
   .then(function (posts) {

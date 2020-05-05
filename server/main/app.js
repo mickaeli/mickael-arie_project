@@ -33,7 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(fileupload({
-    useTempFiles: true
+  useTempFiles: true
 }))
 
 app.use('/signup', signupRouter)

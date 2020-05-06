@@ -8,8 +8,16 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, pr
   dialect: 'postgres'
 });
 
-// setup Post model and its fields.
-var Post = sequelize.define('posts', {
+// setup Comment model and its fields.
+var Comment = sequelize.define('comments', {
+  post_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'posts', // 'posts' refers to table name
+      key: 'id', // 'id' refers to column name in posts table
+    }
+  },
   text: {
     type: Sequelize.STRING,
     allowNull: false
@@ -21,20 +29,13 @@ var Post = sequelize.define('posts', {
       model: 'users', // 'users' refers to table name
       key: 'username', // 'username' refers to column name in users table
     }
-  },
-  createdAt: {
-    field: 'createdAt',
-    type: Sequelize.DATE,                 
-    get() {
-        return moment(this.getDataValue('createdAt')).format('DD/MM/YYYY h:mm:ss');
-      }
   }
 });
 
 // create all the defined tables in the specified database.
 // sequelize.sync()
-// .then(() => console.log('posts table has been successfully created, if one doesn\'t exist'))
+// .then(() => console.log('comments table has been successfully created, if one doesn\'t exist'))
 // .catch(error => console.log('This error occured', error));
 
-// export Post model for use in other files.
-module.exports =  Post;
+// export Comment model for use in other files.
+module.exports =  Comment;

@@ -8,3 +8,15 @@
 .wall textarea {
   width: 100%;
 }
+
+.wall textarea:first-child {
+  margin-bottom: 0;
+}
+
+.posts {
+  margin-top: 1rem;
+}
+
+.wall .wrapper-button {
+  text-align: center;
+}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Post from './Post';
 import {withRouter} from 'react-router-dom';
+import { Button } from 'react-bootstrap'
 import axios from 'axios';
 
 import './Wall.css';
@@ -14,7 +15,7 @@ class Wall extends Component {
     this.state = {
       username: props.match.params.username,
       fullname: props.fullname,
-      // post_text: '',
+      post_text: '',
       posts: []
     }
 
@@ -35,51 +36,41 @@ class Wall extends Component {
   }
   
 
-  // onChange = (event) => {
-  //   this.setState({
-  //     post_text: event.target.value
-  //   });
-  // }
+  onChange = (event) => {
+    this.setState({
+      post_text: event.target.value
+    });
+  }
 
   addPost = (event) => {
 
-    //press on enter key
-    if(event.charCode === 13) {
-      event.preventDefault();
+    let post_text = this.state.post_text.trim();
 
-      let post_text = event.target.value.trim();
+    if(post_text !== "") {
 
-      if(post_text !== "") {
-
-        const params = { post_author: this.state.username, post_text: post_text }
-        
-        axios.post('/post/', params)
-        .then(res => {
-          if (res.data.success === true) {
-            
-            //add the new post at end of this.state.posts array
-            let posts = this.state.posts
-            const new_post = {
-              id: res.data.post_id,
-              text: post_text,
-              author: this.state.username
-            }
-            posts.push(new_post);
-            this.setState({posts});
+      const params = { post_author: this.state.username, post_text: post_text }
+      
+      axios.post('/post/', params)
+      .then(res => {
+        if (res.data.success === true) {
+          
+          //add the new post at end of this.state.posts array
+          let posts = this.state.posts
+          const new_post = {
+            id: res.data.post_id,
+            text: post_text,
+            author: this.state.username
           }
-        })
-        .catch(err => {
-          console.log("Upload post error: ", err);
-        })
-      }
-
-      //empty the textarea
-      event.target.value = ''
-
-      // this.setState({
-      //   post_text: ''
-      // })
+          posts.push(new_post);
+          this.setState({posts});
+        }
+      })
+      .catch(err => {
+        console.log("Upload post error: ", err);
+      })
     }
+
+    this.setState({post_text:''})
   }
 
   deletePost = (post_id) => {
@@ -103,6 +94,15 @@ class Wall extends Component {
     });
   }
 
+  onKeyPress = (event) => {
+
+    //press on enter key
+    if(event.charCode === 13) {
+      event.preventDefault();
+      this.addPost()
+    }
+  }
+
   editPost = (post_id, post_text) => {
 
     axios.put(`/post/${post_id}`, { post_text: post_text })
@@ -121,9 +121,9 @@ class Wall extends Component {
       }
     })
     .catch(err => {
-      console.log("Upload post error: ", err);
+      console.log("Edit post error: ", err);
     })
-}
+  }
 
 
   render() {
@@ -137,13 +137,25 @@ class Wall extends Component {
         <textarea 
         className='box' 
         placeholder="Post something"
-        // value={this.state.post_text} 
-        // onChange={this.onChange} 
-        onKeyPress={this.addPost}
+        value={this.state.post_text} 
+        onChange={this.onChange} 
+        onKeyPress={this.onKeyPress}
         name="post-text" 
         rows="10"
         />
-        { posts }
+        <div className='wrapper-button'>
+          <Button
+            className='button'
+            variant="primary"
+            onClick={this.addPost}
+            >Publish 
+          </Button>
+        </div>
+        
+        <div className='posts'>
+          { posts }
+        </div>
+        
       </div>
     );
   }

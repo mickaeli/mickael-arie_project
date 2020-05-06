@@ -3,10 +3,22 @@
   margin-bottom: 1rem;
 }
 
-.post h1 {
-  font-size: 1.3rem;
-  padding-bottom: 1rem;
+.post-author-date {
   border-bottom: solid 1px #d4d4d5; 
+}
+
+.post-author-date h1 {
+  display: inline-block;
+  font-size: 1.3rem;
+}
+
+.post-author-date p {
+  display: inline-block;
+  margin: 16px 0;
+}
+
+.post .post-text {
+  margin-top: 16px;
 }
 
 .post .comment-header {

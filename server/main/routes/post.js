@@ -60,6 +60,7 @@ router.get('/', (req, res) => {
 
       //case 2: record founded
     } else {
+      console.log(posts[0].createdAt)
       var posts_array = []
 
       posts.forEach( post => {

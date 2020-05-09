@@ -12,10 +12,12 @@ router.post('/', (req, res) => {
     author: post_author
   })
   .then(function(post) {
+    
     console.log(`post added`)
     res.json({
       success: true,
-      post_id: post.dataValues.id
+      post_id: post.dataValues.id,
+      post_date: post.dataValues.updatedAt
     })
   })
   .catch(function(error) {
@@ -34,11 +36,15 @@ router.put('/', (req, res) => {
 
   Post.update(
     { text: post_text },
-    { where: { id: post_id } }
-  )
+    { where: { id: post_id },
+    returning: true,
+    plain: true
+  })
   .then(function(query_result) {
+    console.log(query_result)
     res.json({
-      success: true
+      success: true,
+      post_date: query_result[1].dataValues.updatedAt
     })
   })
   .catch(function(err) {
@@ -60,14 +66,15 @@ router.get('/', (req, res) => {
 
       //case 2: record founded
     } else {
-      console.log(posts[0].createdAt)
+
       var posts_array = []
 
       posts.forEach( post => {
         posts_array.push({
           id: post.id,
           text: post.text,
-          author: post.author
+          author: post.author,
+          date: post.updatedAt
         })
       })
       

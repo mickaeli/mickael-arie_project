@@ -59,7 +59,8 @@ class Wall extends Component {
           const new_post = {
             id: res.data.post_id,
             text: post_text,
-            author: this.state.username
+            author: this.state.username,
+            date: res.data.post_date
           }
           posts.push(new_post);
           this.setState({posts});
@@ -114,6 +115,7 @@ class Wall extends Component {
         posts.forEach(post => {
           if(post.id === post_id) {
             post.text = post_text
+            post.date = res.data.post_date
           }
         })
         
@@ -129,7 +131,13 @@ class Wall extends Component {
   render() {
 
     var posts = this.state.posts.slice().reverse().map(post => {
-      return <Post key={post.id} username={this.state.username} data={post} deletePost={this.deletePost} editPost = {this.editPost} />
+      return <Post 
+        key={post.id} 
+        username={this.state.username} 
+        data={post} 
+        deletePost={this.deletePost} 
+        editPost = {this.editPost} 
+      />
     })
 
     return (

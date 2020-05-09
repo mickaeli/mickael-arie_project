@@ -22,13 +22,13 @@ var Post = sequelize.define('posts', {
       key: 'username', // 'username' refers to column name in users table
     }
   },
-  createdAt: {
-    field: 'createdAt',
-    type: Sequelize.DATE,                 
-    get() {
-        return moment(this.getDataValue('createdAt')).format('DD/MM/YYYY h:mm:ss');
-      }
-  }
+  // createdAt: {
+  //   field: 'createdAt',
+  //   type: Sequelize.DATE,
+  //   get() {
+  //       return moment(this.getDataValue('createdAt')).format('DD/MM/YYYY h:mm:ss');
+  //     }
+  // }
 });
 
 // create all the defined tables in the specified database.

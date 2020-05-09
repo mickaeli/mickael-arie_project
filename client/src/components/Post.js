@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap'
 import Comment from './Comment'
 
+import { getDateAndTime } from '../utils';
+
 import './Post.css'
 
 class Post extends Component {
@@ -89,10 +91,11 @@ class Post extends Component {
     }
 
     return (
+
       <div className='post box'>
         <div className='post-author-date'>
           <h1>{ this.props.data.author }</h1>
-          <p className='float-right'>date</p>
+          <p className='float-right'>{ getDateAndTime(new Date(this.props.data.date)) }</p>
         </div>
         
         { content }

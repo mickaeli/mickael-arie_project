@@ -74,8 +74,15 @@ class Post extends Component {
     let post_text = this.state.textarea_value.trim();
 
     if(post_text !== "") {
+
       this.setState({
-        edit_mode: false,
+        edit_mode: false
+      })
+
+      //the post is edited
+      if(post_text !== this.state.post_text) {
+
+      this.setState({
         post_edited: true,
         post_text
       })
@@ -84,6 +91,7 @@ class Post extends Component {
 
     }
   }
+}
 
   render() {
 
@@ -132,7 +140,7 @@ class Post extends Component {
         <div className='post-author-date'>
           <h1>{ this.props.data.author }</h1>
           <p className='float-right'>{
-            this.state.post_edited ? [ <strong>edited</strong>, " - ",  getDateAndTime(new Date(this.props.data.date)) ]: getDateAndTime(new Date(this.props.data.date))
+            this.state.post_edited ? [ <strong key={'edited'}>edited</strong>, ' - ', getDateAndTime(new Date(this.props.data.date)) ] : getDateAndTime(new Date(this.props.data.date))
           }</p>
         </div>
 

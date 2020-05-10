@@ -60,7 +60,8 @@ class Wall extends Component {
             id: res.data.post_id,
             text: post_text,
             author: this.state.username,
-            date: res.data.post_date
+            date: res.data.post_date,
+            edited: false
           }
           posts.push(new_post);
           this.setState({posts});
@@ -114,8 +115,10 @@ class Wall extends Component {
 
         posts.forEach(post => {
           if(post.id === post_id) {
+            post.id = res.data.post_id
             post.text = post_text
             post.date = res.data.post_date
+            post.edited = true
           }
         })
         

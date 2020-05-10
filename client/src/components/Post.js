@@ -85,12 +85,10 @@ class Post extends Component {
 
   render() {
 
-    console.log(this.state.post_text.split('\n'))
-
     let content
     if(this.state.edit_mode) {
       content = (
-        <div>
+        <div className="wrapper-button">
           <textarea 
             className='box'
             value={ this.state.textarea_value } 
@@ -149,8 +147,8 @@ class Post extends Component {
             <Button
               className='button'
               variant='light'
-              onClick={this.editOn}
-              >Edit 
+              onClick={ this.state.edit_mode ? this.editOff : this.editOn}
+              >{ this.state.edit_mode ? 'Close' : 'Edit' }
             </Button>
           </div>
           : null

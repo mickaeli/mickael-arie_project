@@ -85,6 +85,8 @@ class Post extends Component {
 
   render() {
 
+    console.log(this.state.post_text.split('\n'))
+
     let content
     if(this.state.edit_mode) {
       content = (
@@ -113,8 +115,13 @@ class Post extends Component {
       content = (
           <div className='post-text'>
             {this.state.post_text.split('\n').map((line, i) => {
-              return (<p className='post-text' key={i}>{line}</p>)
-              }) }
+              if(line) {
+                return (<p className='post-text' key={i}>{line}</p>)
+              } else {
+                return (<br key={i}/>)
+              }
+              
+            }) }
           </div>
         )
       }

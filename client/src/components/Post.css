@@ -18,8 +18,16 @@
   margin: 16px 0;
 }
 
-.post .post-text {
+.post-text p {
+  margin: 0;
+}
+
+.post-text p:first-child {
   margin-top: 16px;
+}
+
+.post-text p:last-child {
+  margin-bottom: 16px;
 }
 
 .post .comment-header {

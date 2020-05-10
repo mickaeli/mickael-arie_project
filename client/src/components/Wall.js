@@ -42,7 +42,7 @@ class Wall extends Component {
     });
   }
 
-  addPost = (event) => {
+  addPost = () => {
 
     let post_text = this.state.post_text.trim();
 
@@ -95,14 +95,14 @@ class Wall extends Component {
     });
   }
 
-  onKeyPress = (event) => {
+  // onKeyPress = (event) => {
 
-    //press on enter key
-    if(event.charCode === 13) {
-      event.preventDefault();
-      this.addPost()
-    }
-  }
+  //   //press on enter key
+  //   if(event.charCode === 13) {
+  //     event.preventDefault();
+  //     this.addPost()
+  //   }
+  // }
 
   editPost = (post_id, post_text) => {
 
@@ -147,7 +147,7 @@ class Wall extends Component {
         placeholder="Post something"
         value={this.state.post_text} 
         onChange={this.onChange} 
-        onKeyPress={this.onKeyPress}
+        // onKeyPress={this.onKeyPress}
         name="post-text" 
         rows="10"
         />

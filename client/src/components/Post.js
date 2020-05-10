@@ -46,25 +46,40 @@ class Post extends Component {
     this.props.deletePost(this.props.data.id)
   }
 
-  editPost = (event) => {
+  // editPost = (event) => {
 
-    let post_text = event.target.value.trim();
+  //   let post_text = event.target.value.trim();
 
-    //press on enter key
-    if(event.which === 13 && post_text !== "") {
-      event.preventDefault();
+  //   //press on enter key
+  //   if(event.which === 13 && post_text !== "") {
+  //     event.preventDefault();
 
-        this.setState({
-          edit_mode: false,
-          post_text
-        })
+  //       this.setState({
+  //         edit_mode: false,
+  //         post_text
+  //       })
         
-        this.props.editPost(this.props.data.id, post_text)
+  //       this.props.editPost(this.props.data.id, post_text)
       
 
-      //press on escape key
-    } else if(event.which === 27) {
-        this.editOff()
+  //     //press on escape key
+  //   } else if(event.which === 27) {
+  //       this.editOff()
+  //   }
+  // }
+
+  editPost = () => {
+
+    let post_text = this.state.textarea_value.trim();
+
+    if(post_text !== "") {
+      this.setState({
+        edit_mode: false,
+        post_text
+      })
+      
+      this.props.editPost(this.props.data.id, post_text)
+
     }
   }
 
@@ -73,22 +88,36 @@ class Post extends Component {
     let content
     if(this.state.edit_mode) {
       content = (
-        <textarea 
-          className='box'
-          value={ this.state.textarea_value } 
-          onChange={this.onChange} 
-          onKeyDown={this.editPost}
-          name="post-text" 
-          rows="10"
-          autoFocus
-          onFocus={this.moveCursortAtEnd}
-          onBlur={this.editOff}
-          >
-        </textarea>
+        <div>
+          <textarea 
+            className='box'
+            value={ this.state.textarea_value } 
+            onChange={this.onChange} 
+            // onKeyDown={this.editPost}
+            name="post-text" 
+            rows="10"
+            autoFocus
+            onFocus={this.moveCursortAtEnd}
+            // onBlur={this.editOff}
+            >
+          </textarea>
+          <Button
+            className='button'
+            variant="primary"
+            onClick={this.editPost}
+            >Edit
+          </Button>
+        </div>
       )
     } else {
-      content = (<p className='post-text' >{ this.state.post_text } </p>)
-    }
+      content = (
+          <div className='post-text'>
+            {this.state.post_text.split('\n').map((line, i) => {
+              return (<p className='post-text' key={i}>{line}</p>)
+              }) }
+          </div>
+        )
+      }
 
     return (
 
@@ -97,7 +126,7 @@ class Post extends Component {
           <h1>{ this.props.data.author }</h1>
           <p className='float-right'>{ getDateAndTime(new Date(this.props.data.date)) }</p>
         </div>
-        
+
         { content }
 
         {/* check whether author of the post is the user logged in now */}

@@ -29,30 +29,104 @@ router.post('/', (req, res) => {
 
 })
 
+// router.put('/', (req, res) => {
+
+//   const post_id = req.params.id
+//   const { post_text } = req.body;
+
+//   Post.update(
+//     { text: post_text },
+//     { where: { id: post_id },
+//     returning: true,
+//     plain: true
+//   })
+//   .then(function(query_result) {
+//     res.json({
+//       success: true,
+//       post_date: query_result[1].dataValues.updatedAt
+//     })
+//   })
+//   .catch(function(err) {
+//     res.json({
+//       success: false
+//     })
+//   })
+
+// })
+
 router.put('/', (req, res) => {
 
   const post_id = req.params.id
   const { post_text } = req.body;
 
-  Post.update(
-    { text: post_text },
-    { where: { id: post_id },
-    returning: true,
-    plain: true
-  })
-  .then(function(query_result) {
-    console.log(query_result)
-    res.json({
-      success: true,
-      post_date: query_result[1].dataValues.updatedAt
-    })
-  })
-  .catch(function(err) {
-    res.json({
-      success: false
-    })
-  })
+  Post.findOne({ 
+    where: { id: post_id },
+    raw : true
+   })
+    .then(function (post) {
 
+      //case 1: post not founded
+      if (!post) {
+        console.log("post not found")
+        res.json({
+          success: false
+        })
+        //case 2: post founded
+      } else {
+        console.log("post found")
+
+        var post_author = post.author
+
+        Post.destroy({ where: { id: post_id } })
+        .then(row_deleted => {
+
+          //post deleted successfully from db
+          if(row_deleted === 1) {
+              console.log('post deleted successfully')
+          //image deletion from db failed
+          } else {
+              console.log('post deleted failed')
+              res.json({
+                  success: false
+              })
+          }
+
+        })
+        .catch(function(error) {
+          res.json({
+            success: false
+          })
+        });
+
+        Post.create({
+          text: post_text,
+          author: post_author,
+          edited : true
+        })
+        .then(function(new_post) {
+          
+          console.log(`post added`)
+          res.json({
+            success: true,
+            post_id: new_post.dataValues.id,
+            post_date: new_post.dataValues.updatedAt
+          })
+        })
+        .catch(function(error) {
+          console.log("create post failed")
+          res.json({
+            success: false
+          })
+        });
+
+      }
+    })
+    .catch(function(error) {
+      console.log("post search failed")
+      res.json({
+        success: false
+      })
+		});
 })
 
 router.get('/', (req, res) => {
@@ -74,7 +148,8 @@ router.get('/', (req, res) => {
           id: post.id,
           text: post.text,
           author: post.author,
-          date: post.updatedAt
+          date: post.updatedAt,
+          edited: post.edited
         })
       })
       

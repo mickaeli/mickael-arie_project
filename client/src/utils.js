@@ -1,11 +1,15 @@
 
 export const getDateAndTime = (date_object) => {
 
+  const minutes = date_object.getMinutes()
+
+
+
   var date_and_time = date_object.getDate() + " "
                 + (date_object.toLocaleString('en', { month: 'long' }))  + " " 
                 + date_object.getFullYear() + ", "  
                 + date_object.getHours() + ":"  
-                + date_object.getMinutes()
+                + (minutes < 10 ? '0' : '') + minutes
 
 
 

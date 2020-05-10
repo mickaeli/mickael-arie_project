@@ -13,9 +13,10 @@ class Post extends Component {
     super(props);
 
     this.state = {
-      edit_mode: false,
       textarea_value: props.data.text,
-      post_text: props.data.text
+      post_text: props.data.text,
+      edit_mode: false,
+      post_edited: props.data.edited
     }
 
   }
@@ -75,6 +76,7 @@ class Post extends Component {
     if(post_text !== "") {
       this.setState({
         edit_mode: false,
+        post_edited: true,
         post_text
       })
       
@@ -129,7 +131,9 @@ class Post extends Component {
       <div className='post box'>
         <div className='post-author-date'>
           <h1>{ this.props.data.author }</h1>
-          <p className='float-right'>{ getDateAndTime(new Date(this.props.data.date)) }</p>
+          <p className='float-right'>{
+            this.state.post_edited ? [ <strong>edited</strong>, " - ",  getDateAndTime(new Date(this.props.data.date)) ]: getDateAndTime(new Date(this.props.data.date))
+          }</p>
         </div>
 
         { content }

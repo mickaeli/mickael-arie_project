@@ -22,6 +22,11 @@ var Post = sequelize.define('posts', {
       key: 'username', // 'username' refers to column name in users table
     }
   },
+  edited: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    allowNull: false
+  }
   // createdAt: {
   //   field: 'createdAt',
   //   type: Sequelize.DATE,

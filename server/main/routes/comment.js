@@ -104,9 +104,7 @@ router.get('/', (req, res) => {
 router.delete('/', (req, res) => {
 
   //convert string of comments id's to array
-  const comments_id = JSON.parse("[" + req.params.ids + "]")
-
-  console.log(comments_id.length)
+  const comments_id = req.params.ids ? JSON.parse("[" + req.params.ids + "]") : ''
 
   Post.destroy({ where: { id: comments_id } })
   .then(row_deleted => {

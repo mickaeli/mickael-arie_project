@@ -3,31 +3,16 @@
   margin-bottom: 1rem;
 }
 
-/* .post-author-date {
-  border-bottom: solid 1px #d4d4d5; 
-}
-
-.post-author-date h1 {
-  display: inline-block;
-  font-size: 1.3rem;
-}
-
-.post-author-date p {
-  font-size: 15px;
-  display: inline-block;
-  margin: 16px 0;
-} */
-
-/* .post-text p {
-  margin: 0;
-} */
-
 .post-text p:first-child {
   margin-top: 16px;
 }
 
 .post-text p:last-child {
   margin-bottom: 16px;
+}
+
+.buttons-edition {
+  margin-top: 3rem;
 }
 
 .post .comment-header {

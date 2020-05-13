@@ -76,48 +76,6 @@ class Wall extends Component {
     this.setState({post_text:''})
   }
 
-  deletePost = (post_id) => {
-    
-    
-    //delete post
-    axios.delete(`/post/${post_id}`)
-    .then(res => {
-      if (res.data.success === true) {
-
-        const post_to_delete = this.state.posts.filter(post => {
-          return (post.id === post_id)
-        })
-
-        //delete comments of that post
-        axios.delete(`/comment/${post_to_delete[0].comments_id}`)
-        .then(res => {
-          if (res.data.success === true) {
-
-            let posts = this.state.posts
-
-            const index = posts.indexOf(post_to_delete[0])
-            posts.splice(index,1);
-            this.setState({posts})
-          }
-        })
-        .catch(err => {
-          console.log("Delete comments error: ", err);
-        });
-      }
-    })
-    .catch(err => {
-      console.log("Delete post error: ", err);
-    });
-  }
-
-  // onKeyPress = (event) => {
-
-  //   //press on enter key
-  //   if(event.charCode === 13) {
-  //     event.preventDefault();
-  //     this.addPost()
-  //   }
-  // }
 
   editPost = (post_id, post_text) => {
 
@@ -143,6 +101,39 @@ class Wall extends Component {
       console.log("Edit post error: ", err);
     })
   }
+
+
+  deletePost = (post_id) => {
+    
+    //delete post
+    axios.delete(`/post/${post_id}`)
+    .then(res => {
+      if (res.data.success === true) {
+
+        const post_to_delete = this.state.posts.filter(post => {
+          return (post.id === post_id)
+        })
+
+        //delete comments of that post
+        axios.delete(`/comment/${post_to_delete[0].comments_id}`)
+        .then(res => {
+
+            let posts = this.state.posts
+
+            const index = posts.indexOf(post_to_delete[0])
+            posts.splice(index,1);
+            this.setState({posts})
+        })
+        .catch(err => {
+          console.log("Delete comments error: ", err);
+        });
+      }
+    })
+    .catch(err => {
+      console.log("Delete post error: ", err);
+    });
+  }
+  
 
   addComment = (post_id, comment_id) => {
 
@@ -178,7 +169,6 @@ class Wall extends Component {
         placeholder="Post something"
         value={this.state.post_text} 
         onChange={this.onChange} 
-        // onKeyPress={this.onKeyPress}
         name="post-text" 
         rows="10"
         />

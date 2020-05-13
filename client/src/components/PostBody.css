@@ -1,0 +1,11 @@
+.post-body p {
+  margin: 0;
+}
+
+.post-body p:first-child {
+  margin-top: 16px;
+}
+
+.post-body p:last-child {
+  margin-bottom: 16px;
+}

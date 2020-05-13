@@ -26,6 +26,14 @@ var Post = sequelize.define('posts', {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
     allowNull: false
+  },
+  comments_id: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    defaultValue: null
+  },
+  is_post: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false
   }
   // createdAt: {
   //   field: 'createdAt',

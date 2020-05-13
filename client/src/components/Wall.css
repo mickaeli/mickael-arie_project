@@ -9,7 +9,7 @@
   width: 100%;
 }
 
-.wall textarea:first-child {
+.wall textarea {
   margin-bottom: 0;
 }
 

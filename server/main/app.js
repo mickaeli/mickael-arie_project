@@ -17,6 +17,7 @@ var profileFullnameRouter = require('./routes/profile_fullname')
 var profileDetailsRouter = require('./routes/profile_details')
 
 var postRouter = require('./routes/post')
+var commentRouter = require('./routes/comment')
 
 
 var app = express();
@@ -47,5 +48,6 @@ app.use('/profile_fullname/:username', profileFullnameRouter)
 app.use('/profile_details/:username', profileDetailsRouter)
 
 app.use('/post/:id?', postRouter)
+app.use('/comment/:ids?', commentRouter)
 
 module.exports = app;

@@ -1,12 +1,15 @@
 import React from 'react';
 
+import PostHeader from './PostHeader'
+import PostBody from './PostBody'
+
 import './Comment.css'
 
-const Comment = () => {
+const Comment = (props) => {
   return (
     <div className='comment box'>
-      <h1 className='comment-author'>author</h1>
-      <p>comment</p>
+      <PostHeader data={ { author: props.data.author, date: props.data.date } } />
+      <PostBody post_text={props.data.text} />
     </div>
   );
 };

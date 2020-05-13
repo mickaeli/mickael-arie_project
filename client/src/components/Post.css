@@ -3,7 +3,7 @@
   margin-bottom: 1rem;
 }
 
-.post-author-date {
+/* .post-author-date {
   border-bottom: solid 1px #d4d4d5; 
 }
 
@@ -16,11 +16,11 @@
   font-size: 15px;
   display: inline-block;
   margin: 16px 0;
-}
+} */
 
-.post-text p {
+/* .post-text p {
   margin: 0;
-}
+} */
 
 .post-text p:first-child {
   margin-top: 16px;

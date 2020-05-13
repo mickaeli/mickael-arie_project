@@ -14,7 +14,7 @@ class Wall extends Component {
 
     this.state = {
       username: props.match.params.username,
-      fullname: props.fullname,
+      // fullname: props.fullname,
       post_text: '',
       posts: []
     }
@@ -48,7 +48,7 @@ class Wall extends Component {
 
     if(post_text !== "") {
 
-      const params = { post_author: this.state.username, post_text: post_text }
+      const params = { post_text: post_text, post_author: this.state.username }
       
       axios.post('/post/', params)
       .then(res => {
@@ -60,8 +60,9 @@ class Wall extends Component {
             id: res.data.post_id,
             text: post_text,
             author: this.state.username,
-            date: res.data.post_date,
-            edited: false
+            edited: false,
+            comments_id: [],
+            date: res.data.post_date
           }
           posts.push(new_post);
           this.setState({posts});
@@ -77,18 +78,31 @@ class Wall extends Component {
 
   deletePost = (post_id) => {
     
+    
+    //delete post
     axios.delete(`/post/${post_id}`)
     .then(res => {
       if (res.data.success === true) {
-        
-        let posts = this.state.posts
-        const post_to_delete = posts.filter(post => {
+
+        const post_to_delete = this.state.posts.filter(post => {
           return (post.id === post_id)
         })
 
-        const index = posts.indexOf(post_to_delete[0])
-        posts.splice(index,1);
-        this.setState({posts})
+        //delete comments of that post
+        axios.delete(`/comment/${post_to_delete[0].comments_id}`)
+        .then(res => {
+          if (res.data.success === true) {
+
+            let posts = this.state.posts
+
+            const index = posts.indexOf(post_to_delete[0])
+            posts.splice(index,1);
+            this.setState({posts})
+          }
+        })
+        .catch(err => {
+          console.log("Delete comments error: ", err);
+        });
       }
     })
     .catch(err => {
@@ -117,8 +131,8 @@ class Wall extends Component {
           if(post.id === post_id) {
             post.id = res.data.post_id
             post.text = post_text
-            post.date = res.data.post_date
             post.edited = true
+            post.date = res.data.post_date
           }
         })
         
@@ -130,16 +144,30 @@ class Wall extends Component {
     })
   }
 
+  addComment = (post_id, comment_id) => {
+
+    let posts = this.state.posts
+
+    posts.forEach(post => {
+      if(post.id === post_id) {
+        post.comments_id.push(comment_id)
+      }
+    })
+    
+    this.setState({posts});
+  }
+
 
   render() {
 
-    var posts = this.state.posts.slice().reverse().map(post => {
+    const posts = this.state.posts.slice().reverse().map(post => {
       return <Post 
         key={post.id} 
         username={this.state.username} 
         data={post} 
         deletePost={this.deletePost} 
         editPost = {this.editPost} 
+        addComment = {this.addComment} 
       />
     })
 

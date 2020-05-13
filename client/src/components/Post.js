@@ -184,29 +184,24 @@ addComment = () => {
           : null
         }
 
-        {
-          this.props.data.author !== this.props.username ? 
-
-            <div>
-              <textarea 
-              className='box' 
-              placeholder="Reply"
-              value={this.state.comment_text} 
-              onChange={this.onChange}
-              name="comment_text" 
-              rows="5"
-              />
-              <div className='wrapper-button'>
-                <Button
-                  className='button'
-                  variant="primary"
-                  onClick={this.addComment}
-                  >Send
-                </Button>
-              </div> 
-            </div>
-            : null
-        }
+        <div>
+          <textarea 
+          className='box' 
+          placeholder="Reply"
+          value={this.state.comment_text} 
+          onChange={this.onChange}
+          name="comment_text" 
+          rows="5"
+          />
+          <div className='wrapper-button'>
+            <Button
+              className='button'
+              variant="primary"
+              onClick={this.addComment}
+              >Send
+            </Button>
+          </div> 
+        </div>
         
         <h2 className='comment-header'><span>Comments</span></h2>
         {comments}

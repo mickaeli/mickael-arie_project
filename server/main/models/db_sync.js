@@ -7,6 +7,12 @@ module.exports = (function() {
     create_tables: function() {
       // create db tables
 
+      User.hasOne(UserDetails, {foreignKey: 'username'});
+      User.hasMany(Post, {foreignKey: 'author'});
+
+      UserDetails.belongsTo(User, {foreignKey: 'username'});
+      Post.belongsTo(User, {foreignKey: 'author'});
+
       //create users table
       User.sync()
       .then(() => {

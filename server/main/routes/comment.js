@@ -3,6 +3,8 @@ var router = express.Router({ mergeParams: true })
 var Sequelize = require('sequelize');
 
 const Post = require('../models/post');
+const User = require('../models/user');
+const UserDetails = require('../models/userDetails');
 
 
 router.post('/', (req, res) => {
@@ -55,6 +57,11 @@ router.get('/', (req, res) => {
   const comments_id = req.params.ids ? JSON.parse("[" + req.params.ids + "]") : ''
 
   Post.findAll({
+    include: [{
+      model: User,
+      required: true,
+      include: [{model: UserDetails, required: true }]
+     }],
     where: {id: comments_id},
     order: [
       ['id', 'ASC']
@@ -80,7 +87,7 @@ router.get('/', (req, res) => {
         comments_array.push({
           id: comment.id,
           text: comment.text,
-          author: comment.author,
+          author: comment['user.users_detail.fullname'],
           date: comment.updatedAt
         })
       })

@@ -14,7 +14,6 @@ class Wall extends Component {
 
     this.state = {
       username: props.match.params.username,
-      // fullname: props.fullname,
       post_text: '',
       posts: []
     }
@@ -59,7 +58,7 @@ class Wall extends Component {
           const new_post = {
             id: res.data.post_id,
             text: post_text,
-            author: this.state.username,
+            author: this.props.fullname,
             edited: false,
             comments_id: [],
             date: res.data.post_date
@@ -154,7 +153,8 @@ class Wall extends Component {
     const posts = this.state.posts.slice().reverse().map(post => {
       return <Post 
         key={post.id} 
-        username={this.state.username} 
+        username={this.state.username}
+        fullname={this.props.fullname}
         data={post} 
         deletePost={this.deletePost} 
         editPost = {this.editPost} 

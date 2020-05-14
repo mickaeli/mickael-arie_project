@@ -107,7 +107,7 @@ addComment = () => {
           const new_comment = {
             id: res.data.comment_id,
             text: comment_text,
-            author: this.props.username,
+            author: this.props.fullname,
             date: res.data.comment_date
           }
           comments.push(new_comment);
@@ -165,7 +165,7 @@ addComment = () => {
         { content }
 
         {/* check whether author of the post is the user logged in now */}
-        { this.props.data.author === this.props.username ? 
+        { this.props.data.author === this.props.fullname ? 
 
           <div className='buttons-edition'>
             <Button

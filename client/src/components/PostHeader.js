@@ -4,6 +4,7 @@ import { getDateAndTime } from '../utils';
 
 import './PostHeader.css'
 
+//this component represents the header for both the post and the comment
 const PostHeader = (props) => {
   return (
     <div className='post-header'>

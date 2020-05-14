@@ -46,6 +46,7 @@ router.post('/', (req, res) => {
 		.catch(function(error) {
 			console.log("create user failed")
 			payload.success = false;
+			payload.errors = {message: error.errors[0].message}
 			res.json(payload)
 		});
   }

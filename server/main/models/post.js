@@ -2,6 +2,8 @@ var Sequelize = require('sequelize');
 const path = require('path');
 require('dotenv').config({path: path.join(__dirname, '../.env')})
 
+const User = require('./user')
+
 // create a sequelize instance with our local postgres database information.
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
   host: process.env.DB_HOST,
@@ -14,14 +16,14 @@ var Post = sequelize.define('posts', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  author: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    references: {
-      model: 'users', // 'users' refers to table name
-      key: 'username', // 'username' refers to column name in users table
-    }
-  },
+  // author: {
+  //   type: Sequelize.STRING,
+  //   allowNull: false,
+  //   references: {
+  //     model: 'users', // 'users' refers to table name
+  //     key: 'username', // 'username' refers to column name in users table
+  //   }
+  // },
   edited: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
@@ -43,6 +45,8 @@ var Post = sequelize.define('posts', {
   //     }
   // }
 });
+
+// Post.belongsTo(User, {foreignKey: 'username'});
 
 // create all the defined tables in the specified database.
 // sequelize.sync()

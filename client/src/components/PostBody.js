@@ -2,6 +2,7 @@ import React from 'react';
 
 import './PostBody.css'
 
+//this component represents the body for both the post and the comment
 const PostBody = (props) => {
 
   const content = props.post_text.split('\n').map((line, i) => {

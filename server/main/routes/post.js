@@ -3,7 +3,8 @@ var router = express.Router({ mergeParams: true })
 var Sequelize = require('sequelize');
 
 const Post = require('../models/post');
-
+const User = require('../models/user');
+const UserDetails = require('../models/userDetails');
 
 router.post('/', (req, res) => {
 
@@ -36,10 +37,11 @@ router.post('/', (req, res) => {
 router.get('/', (req, res) => {
 
   Post.findAll({
-    // include: [{
-    //   model: User,
-    //   required: true
-    //  }],
+    include: [{
+      model: User,
+      required: true,
+      include: [{model: UserDetails, required: true }]
+     }],
     where: {is_post: true},   
     order: [
       ['id', 'ASC']
@@ -47,6 +49,8 @@ router.get('/', (req, res) => {
     raw: true
   })
   .then(function (posts) {
+
+    console.log(posts)
     //case 1: there is no post in the db
     if (!posts) {
       console.log("no post found")
@@ -65,7 +69,7 @@ router.get('/', (req, res) => {
         posts_array.push({
           id: post.id,
           text: post.text,
-          author: post.author,
+          author: post['user.users_detail.fullname'],
           edited: post.edited,
           comments_id: post.comments_id ? post.comments_id : [],
           date: post.updatedAt

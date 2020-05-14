@@ -38,16 +38,7 @@ var Post = sequelize.define('posts', {
     type: Sequelize.BOOLEAN,
     allowNull: false
   }
-  // createdAt: {
-  //   field: 'createdAt',
-  //   type: Sequelize.DATE,
-  //   get() {
-  //       return moment(this.getDataValue('createdAt')).format('DD/MM/YYYY h:mm:ss');
-  //     }
-  // }
 });
-
-// Post.belongsTo(User, {foreignKey: 'username'});
 
 // create all the defined tables in the specified database.
 // sequelize.sync()

@@ -14,10 +14,11 @@ router.post('/', (req, res) => {
   Post.create({
     text: comment_text,
     author: comment_author,
-    is_post: false
+    is_post: false //delete and instead insert value in father_id column
   })
   .then(function(comment) {
 
+    //delete
     Post.update(
       { comments_id: Sequelize.fn('array_append', Sequelize.col('comments_id'), comment.dataValues.id) },
       { where: { id: post_id },

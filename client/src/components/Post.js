@@ -81,9 +81,9 @@ class Post extends Component {
 
       //the post is edited
       if(post_text !== this.state.post_text) {
-      this.props.editPost(this.props.data.id, post_text)
+        this.props.editPost(this.props.data.id, post_text)
+      }
     }
-  }
 }
 
 addComment = () => {

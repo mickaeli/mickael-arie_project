@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
   Post.create({
     text: post_text,
     author: post_author,
-    is_post: true
+    is_post: true //delete
   })
   .then(function(post) {
     res.json({
@@ -50,7 +50,6 @@ router.get('/', (req, res) => {
   })
   .then(function (posts) {
 
-    console.log(posts)
     //case 1: there is no post in the db
     if (!posts) {
       console.log("no post found")
@@ -71,7 +70,7 @@ router.get('/', (req, res) => {
           text: post.text,
           author: post['user.users_detail.fullname'],
           edited: post.edited,
-          comments_id: post.comments_id ? post.comments_id : [],
+          comments_id: post.comments_id ? post.comments_id : [], //delete
           date: post.updatedAt
         })
       })

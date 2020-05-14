@@ -59,8 +59,8 @@ class Wall extends Component {
             id: res.data.post_id,
             text: post_text,
             author: this.props.fullname,
-            edited: false,
-            comments_id: [],
+            edited: false, 
+            comments_id: [], //delete
             date: res.data.post_date
           }
           posts.push(new_post);
@@ -134,7 +134,7 @@ class Wall extends Component {
   }
   
 
-  addComment = (post_id, comment_id) => {
+  addComment = (post_id, comment_id) => {  //delete
 
     let posts = this.state.posts
 

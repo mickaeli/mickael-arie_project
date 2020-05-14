@@ -31,7 +31,8 @@ var Post = sequelize.define('posts', {
   },
   comments_id: {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
-    defaultValue: null
+    allowNull: false,
+    defaultValue: []
   },
   is_post: {
     type: Sequelize.BOOLEAN,

@@ -12,8 +12,7 @@ router.post('/', (req, res) => {
 
   Post.create({
     text: post_text,
-    author: post_author,
-    is_post: true //delete
+    author: post_author
   })
   .then(function(post) {
     res.json({
@@ -42,7 +41,7 @@ router.get('/', (req, res) => {
       required: true,
       include: [{model: UserDetails, required: true }]
      }],
-    where: {is_post: true},   
+    where: {father_id: -1},   
     order: [
       ['id', 'ASC']
     ],
@@ -70,7 +69,6 @@ router.get('/', (req, res) => {
           text: post.text,
           author: post['user.users_detail.fullname'],
           edited: post.edited,
-          comments_id: post.comments_id ? post.comments_id : [], //delete
           date: post.updatedAt
         })
       })
@@ -95,100 +93,95 @@ router.get('/', (req, res) => {
 router.put('/', (req, res) => {
 
   const post_id = req.params.id
-  const { post_text } = req.body;
+  const { post_text, post_author } = req.body;
 
-  Post.findOne({ 
-    where: { id: post_id },
-    raw : true
-   })
-    .then(function (post) {
-
-      //case 1: post not founded
-      if (!post) {
-        console.log("post not found")
-        res.json({
-          success: false
-        })
-        //case 2: post founded
-      } else {
-        console.log("post found")
-
-        var post_author = post.author
-        var comments_id = post.comments_id
-
-        //delete post from db for create a new post later
-        Post.destroy({ where: { id: post_id } })
-        .then(row_deleted => {
-
-          //post deleted successfully from db
-          if(row_deleted === 1) {
-              console.log('post deleted successfully')
-          //post deletion from db failed
-          } else {
-              console.log('post deleted failed')
-              res.json({
-                  success: false
-              })
-          }
-
-        })
-        .catch(function(error) {
-          res.json({
-            success: false
-          })
-        });
-
-        //create new post in db for upadte its id to the bigger (in order to move up that post at head of the wall)
-        Post.create({
-          text: post_text,
-          author: post_author,
-          comments_id: comments_id,
-          is_post: true,
-          edited : true
-        })
-        .then(function(new_post) {
-          
-          console.log(`post added`)
-          res.json({
-            success: true,
-            post_id: new_post.dataValues.id,
-            post_date: new_post.dataValues.updatedAt
-          })
-        })
-        .catch(function(error) {
-          console.log("create post failed")
-          res.json({
-            success: false
-          })
-        });
-
-      }
-    })
-    .catch(function(error) {
-      console.log("post search failed")
-      res.json({
-        success: false
-      })
-		});
-})
-
-
-router.delete('/', (req, res) => {
-
-  const post_id = req.params.id
-
+  //delete post from db for create a new post later
   Post.destroy({ where: { id: post_id } })
   .then(row_deleted => {
 
     //post deleted successfully from db
     if(row_deleted === 1) {
-      console.log('post deleted successfully')
+        console.log('post deleted successfully')
+    //post deletion from db failed
+    } else {
+        console.log('post deleted failed')
+        res.json({
+            success: false
+        })
+    }
+
+  })
+  .catch(function(error) {
+    res.json({
+      success: false
+    })
+  });
+
+  //create new post in db for update its id to the bigger (in order to move up that post at head of the wall)
+  Post.create({
+    text: post_text,
+    author: post_author,
+    edited : true
+  })
+  .then(function(new_post) {
+    
+    console.log(`post added`)
+
+    //update comments attached to this post with new id (for father_id column)
+    Post.update(
+    { father_id: new_post.dataValues.id },
+    { where: { father_id: post_id },
+      returning: true,
+      plain: true
+    })
+    .then(function(query_result) {
+      console.log('comments updated')
+      res.json({
+        success: true,
+        post_id: new_post.dataValues.id,
+        post_date: new_post.dataValues.updatedAt
+      })
+    })
+    .catch(function(err) {
+      console.log('comments update failed')
+      res.json({
+        success: true,
+        post_id: new_post.dataValues.id,
+        post_date: new_post.dataValues.updatedAt
+      })
+    })
+
+  })
+  .catch(function(error) {
+    console.log("create post failed")
+    res.json({
+      success: false
+    })
+  });
+  
+})
+
+
+//delete post and its comments
+router.delete('/', (req, res) => {
+
+  const post_id = req.params.id
+
+  Post.destroy({ where: {
+      [Sequelize.Op.or]: [{id: post_id}, {father_id: post_id} ]
+    } 
+    })
+  .then(row_deleted => {
+
+    //post deleted successfully from db
+    if(row_deleted >= 1) {
+      console.log('post with comments deleted successfully')
       res.json({
           success: true
       })
     //post deletion from db failed
     } else {
-      console.log('post deleted failed')
+      console.log('post deletion failed')
       res.json({
           success: false
       })

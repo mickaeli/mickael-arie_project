@@ -5,8 +5,8 @@ const Post = require('./post');
 module.exports = (function() {
   var that = {
     create_tables: function() {
-      // create db tables
-
+      
+      //define associations between models
       User.hasOne(UserDetails, {
         foreignKey: {
           name: 'username',
@@ -32,6 +32,8 @@ module.exports = (function() {
           allowNull: false
         }
       });
+
+      //create db tables
 
       //create users table
       User.sync()

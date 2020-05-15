@@ -2,27 +2,15 @@ var Sequelize = require('sequelize');
 const path = require('path');
 require('dotenv').config({path: path.join(__dirname, '../.env')})
 
-const User = require('./user')
-
 // create a sequelize instance with our local postgres database information.
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
   host: process.env.DB_HOST,
   dialect: 'postgres'
 });
-//var sequelize = new Sequelize('postgres://mickael@localhost:5432/api');
 
 
 // setup UserDetails model and its fields.
 var UserDetails = sequelize.define('users_details', {
-  // username: {
-  //   type: Sequelize.STRING,
-  //   unique: true,
-  //   allowNull: false,
-    // references: {
-    //   model: 'users', // 'users' refers to table name
-    //   key: 'username', // 'username' refers to column name in users table
-    // }
-  // },
   fullname: {
     type: Sequelize.STRING,
     allowNull: false
@@ -43,13 +31,6 @@ var UserDetails = sequelize.define('users_details', {
     allowNull: false
   }
 });
-
-// UserDetails.belongsTo(User, {foreignKey: 'username'});
-
-// create all the defined tables in the specified database.
-// sequelize.sync()
-// .then(() => console.log('users_details table has been successfully created, if one doesn\'t exist'))
-// .catch(error => console.log('This error occured', error));
 
 // export UserDetails model for use in other files.
 module.exports =  UserDetails;

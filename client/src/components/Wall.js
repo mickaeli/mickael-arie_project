@@ -59,8 +59,7 @@ class Wall extends Component {
             id: res.data.post_id,
             text: post_text,
             author: this.props.fullname,
-            edited: false, 
-            comments_id: [], //delete
+            edited: false,
             date: res.data.post_date
           }
           posts.push(new_post);
@@ -78,7 +77,9 @@ class Wall extends Component {
 
   editPost = (post_id, post_text) => {
 
-    axios.put(`/post/${post_id}`, { post_text: post_text })
+    const params = { post_text: post_text, post_author: this.state.username }
+
+    axios.put(`/post/${post_id}`, params)
     .then(res => {
       if (res.data.success === true) {
         
@@ -104,7 +105,7 @@ class Wall extends Component {
 
   deletePost = (post_id) => {
     
-    //delete post
+    //delete post and its comments
     axios.delete(`/post/${post_id}`)
     .then(res => {
       if (res.data.success === true) {
@@ -113,38 +114,16 @@ class Wall extends Component {
           return (post.id === post_id)
         })
 
-        //delete comments of that post
-        axios.delete(`/comment/${post_to_delete[0].comments_id}`)
-        .then(res => {
+        let posts = this.state.posts
 
-            let posts = this.state.posts
-
-            const index = posts.indexOf(post_to_delete[0])
-            posts.splice(index,1);
-            this.setState({posts})
-        })
-        .catch(err => {
-          console.log("Delete comments error: ", err);
-        });
+        const index = posts.indexOf(post_to_delete[0])
+        posts.splice(index,1);
+        this.setState({posts})
       }
     })
     .catch(err => {
       console.log("Delete post error: ", err);
     });
-  }
-  
-
-  addComment = (post_id, comment_id) => {  //delete
-
-    let posts = this.state.posts
-
-    posts.forEach(post => {
-      if(post.id === post_id) {
-        post.comments_id.push(comment_id)
-      }
-    })
-    
-    this.setState({posts});
   }
 
 
@@ -158,7 +137,6 @@ class Wall extends Component {
         data={post} 
         deletePost={this.deletePost} 
         editPost = {this.editPost} 
-        addComment = {this.addComment} 
       />
     })
 

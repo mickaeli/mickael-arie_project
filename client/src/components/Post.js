@@ -26,7 +26,7 @@ class Post extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/comment/${this.props.data.comments_id}`)
+    axios.get(`/comment/${this.props.data.id}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -63,10 +63,10 @@ class Post extends Component {
 
   deletePost = () => {
 
-    this.setState({ comments: [] })
-
     //delete post and its comment
     this.props.deletePost(this.props.data.id)
+
+    this.setState({ comments: [] })
   }
 
   editPost = () => {
@@ -98,9 +98,6 @@ addComment = () => {
       axios.post('/comment/', params)
       .then(res => {
         if (res.data.success === true) {
-
-          //set state of Wall component and add the new comment id to the post attached it
-          this.props.addComment(this.props.data.id, res.data.comment_id)
           
           //add the new comment at end of this.state.comments array
           let comments = this.state.comments

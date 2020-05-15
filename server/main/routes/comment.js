@@ -14,35 +14,17 @@ router.post('/', (req, res) => {
   Post.create({
     text: comment_text,
     author: comment_author,
-    is_post: false //delete and instead insert value in father_id column
+    father_id: post_id
   })
   .then(function(comment) {
-
-    //delete
-    Post.update(
-      { comments_id: Sequelize.fn('array_append', Sequelize.col('comments_id'), comment.dataValues.id) },
-      { where: { id: post_id },
-      returning: true,
-      plain: true
-    })
-    .then(function(query_result) {
-      console.log('father post updated')
-      res.json({
-        success: true,
-        comment_id: comment.dataValues.id,
-        comment_date: comment.dataValues.updatedAt
-      })
-    })
-    .catch(function(err) {
-      console.log('father post update failed')
-      res.json({
-        success: false
-      })
+    res.json({
+      success: true,
+      comment_id: comment.dataValues.id,
+      comment_date: comment.dataValues.updatedAt
     })
 
   })
   .catch(function(error) {
-    console.log(error)
     console.log("create comment failed")
     res.json({
       success: false
@@ -54,8 +36,7 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
 
-  //convert string of comments id's to array
-  const comments_id = req.params.ids ? JSON.parse("[" + req.params.ids + "]") : ''
+  const father_id = req.params.father_id
 
   Post.findAll({
     include: [{
@@ -63,7 +44,7 @@ router.get('/', (req, res) => {
       required: true,
       include: [{model: UserDetails, required: true }]
      }],
-    where: {id: comments_id},
+    where: {father_id: father_id},
     order: [
       ['id', 'ASC']
     ],
@@ -107,38 +88,6 @@ router.get('/', (req, res) => {
     })
   });
 
-})
-
-router.delete('/', (req, res) => {
-
-  //convert string of comments id's to array
-  const comments_id = req.params.ids ? JSON.parse("[" + req.params.ids + "]") : ''
-
-  Post.destroy({ where: { id: comments_id } })
-  .then(row_deleted => {
-
-    //comments deleted successfully from db
-    if(row_deleted === comments_id.length) {
-      console.log('comments deleted successfully')
-      res.json({
-          success: true
-      })
-    //comments deletion from db failed
-    } else {
-        console.log('comments deletion failed')
-        res.json({
-            success: false
-        })
-    }
-
-  })
-  .catch(function(error) {
-    console.log('comments deletion failed')
-    res.json({
-      success: false
-    })
-  });
-  
 })
 
 module.exports = router

@@ -45,7 +45,7 @@ app.use('/profile_background/:username', profileBgRouter)
 
 app.use('/profile_description/:username', profileDescriptionRouter)
 app.use('/profile_fullname/:username', profileFullnameRouter)
-app.use('/profile_details/:username', profileDetailsRouter)
+app.use('/profile_details/:username?', profileDetailsRouter)
 
 app.use('/post/:id?', postRouter)
 app.use('/comment/:father_id?', commentRouter)

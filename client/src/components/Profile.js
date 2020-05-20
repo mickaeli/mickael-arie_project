@@ -43,7 +43,7 @@ class Profile extends Component {
 	
 	render() {
 		return (
-			<Container fluid className='profile'>
+			<Container fluid className='profile account'>
         <Row>
           <Col lg={{ offset: 3, span : 6}}>
             <ProfileBackground />

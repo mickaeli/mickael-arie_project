@@ -200,7 +200,7 @@ addComment = () => {
           </div> 
         </div>
         
-        <h2 className='comment-header'><span>Comments</span></h2>
+        <h2 className='comment-header' style= { { fontSize: '0.9rem' } }><span>Comments</span></h2>
         {comments}
       </div>
     );

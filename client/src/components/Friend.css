@@ -1,0 +1,13 @@
+.friend {
+  display: flex;
+  padding: 1rem;
+  border-bottom: solid 1px  #d9cece;
+}
+
+.friend p {
+  margin-bottom: 0;
+}
+
+.buttons-manage-friends {
+  margin: auto initial auto auto;
+}

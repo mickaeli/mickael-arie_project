@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Modal, Button, Spinner } from 'react-bootstrap';
 import {withRouter} from 'react-router-dom';
 
+import Avatar from './Avatar'
+
 import './ProfilePicture.css';
 import axios from 'axios';
 
@@ -24,7 +26,7 @@ class ProfilePicture extends Component {
     .then(res => {
       if(res.data.success === true) {
         this.setState({
-          profile_picture: res.data.url
+          profile_picture: this.checkUrl(res.data.url)
         })
       }
     })
@@ -73,57 +75,70 @@ class ProfilePicture extends Component {
     this.setState({
       isButtonDisabled : true
     })
-}
+  }
 
-deletePictureHandler = () => {
+  deletePictureHandler = () => {
 
-  this.setState({
-    loading: true
-  })
-
-  axios.delete(`/profile_picture/${this.state.username}`)
-  .then(res => {
-      if (res.data.success === true) {
-        this.setState({
-          profile_picture: 'https://res.cloudinary.com/gooder/image/upload/v1588001434/default_profile_picture.png',
-          selected_picture: null,
-          show: false,
-          loading: false
-        })
-      }
+    this.setState({
+      loading: true
     })
-  .catch(err => {
-    console.log("Delete picture error: ", err);
-  });
 
-}
+    axios.delete(`/profile_picture/${this.state.username}`)
+    .then(res => {
+        if (res.data.success === true) {
+          this.setState({
+            profile_picture: 'https://res.cloudinary.com/gooder/image/upload/v1589817490/default_profile_picture2.png',
+            selected_picture: null,
+            show: false,
+            loading: false
+          })
+        }
+      })
+    .catch(err => {
+      console.log("Delete picture error: ", err);
+    });
+
+  }
+
+  checkUrl = (url) => {
+    const default_profile_picture1 = 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png'
+    const default_profile_picture2 = 'https://res.cloudinary.com/gooder/image/upload/v1589817490/default_profile_picture2.png'
+
+    return (url === default_profile_picture1) ? default_profile_picture2 : url
+
+  }
 
   render() {
 
     const profile_picture = this.state.profile_picture
-    const url_profile_picture = 'https://res.cloudinary.com/gooder/image/upload/v1588001434/default_profile_picture.png'
+    const default_profile_picture = 'https://res.cloudinary.com/gooder/image/upload/v1589817490/default_profile_picture2.png'
+    
     const del_modal_button = (<Button onClick={this.deletePictureHandler} className='mr-auto' style={{backgroundColor: '#5bbdef', border: 'none'}}>Delete picture</Button>)
-    let button
 
-    if(profile_picture && profile_picture !== url_profile_picture) {
-      button = (<button className='btn-picture' onClick={this.handleShow} style={{backgroundImage: `url(${profile_picture})`}}> </button>)
-
-    } else {
-      button = (<button className='btn-picture' onClick={this.handleShow}>
-                  <img className='icon-picture' src={profile_picture} alt="default_profile_picture"/>
-                </button>)
-    }
+    const center_image = (profile_picture !== default_profile_picture) ? false : true
 
     return (
 
       <div className='profile-picture'>
-        {button}
+        {
+          profile_picture &&
+          <div className='btn-picture' onClick={this.handleShow}>
+            <Avatar 
+            profile_picture={profile_picture} 
+            center_image={center_image}
+            size='lg'
+            is_button={true}
+            />
+          </div>
+        }
+        
+        
         <Modal show={this.state.show} onHide={this.handleClose} size='lg'>
           <Modal.Header closeButton>
-            <Modal.Title>{profile_picture && profile_picture !== url_profile_picture ? 'Edit picture' : 'Add picture'}</Modal.Title>
+            <Modal.Title>{profile_picture && profile_picture !== default_profile_picture ? 'Edit picture' : 'Add picture'}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {profile_picture && profile_picture !== url_profile_picture ? 'You can edit your picture' : 'Add picture of you'}
+            {profile_picture && profile_picture !== default_profile_picture ? 'You can edit your picture' : 'Add picture of you'}
             {
               this.state.loading &&
               <Spinner animation="border" role="status" className='spinner'>
@@ -132,10 +147,10 @@ deletePictureHandler = () => {
             }
           </Modal.Body>
           <Modal.Footer>
-            {profile_picture && profile_picture !== url_profile_picture ? del_modal_button : null}
+            {profile_picture && profile_picture !== default_profile_picture ? del_modal_button : null}
             <input type="file" name="profile_picture" accept="image/*" onChange={this.selectedPictureHandler}/>
             <Button disabled = {this.state.isButtonDisabled} onClick={this.addPictureHandler} style={{backgroundColor: '#5bbdef', border: 'none'}}>
-              {profile_picture && profile_picture !== url_profile_picture ? 'Modify ' : 'Add '} picture</Button>
+              {profile_picture && profile_picture !== default_profile_picture ? 'Modify ' : 'Add '} picture</Button>
           </Modal.Footer>
         </Modal>
       </div>

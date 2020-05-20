@@ -8,25 +8,6 @@
   right: -20px;
 }
 
-.profile-picture .btn-picture {
-    height: 10rem;
-    width: 10rem;
-    border-radius: 50%;
-    border: none;
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .profile-picture .btn-picture:focus{
-      outline: none;
-  }
-  
-  .profile-picture .icon-picture {
-      filter: invert(73%) sepia(8%) saturate(3762%) hue-rotate(170deg) brightness(95%) contrast(97%);
-      -webkit-filter: invert(73%) sepia(8%) saturate(3762%) hue-rotate(170deg) brightness(95%) contrast(97%);
-      /* color: #5bbdef; */
-  }
-
   .spinner {
     position: absolute;
     display: block;

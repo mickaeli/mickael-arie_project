@@ -25,7 +25,7 @@ router.put('/', (req, res) => {
 
     //picture uploaded successfully
     if(!err) {
-      console.log("background uploaded successfully")
+      console.log("picture uploaded successfully")
 
       UserDetails.update(
         { url_picture: result['url'] },
@@ -45,7 +45,7 @@ router.put('/', (req, res) => {
 
     //picture upload failed
     } else {
-      console.log("background upload failed")
+      console.log("picture upload failed")
       
       res.json({
         success: false
@@ -93,7 +93,7 @@ router.delete('/', (req, res) => {
     if(!err) {
 
       UserDetails.update(
-        { url_picture: 'https://res.cloudinary.com/gooder/image/upload/v1588001434/default_profile_picture.png' },
+        { url_picture: 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png' },
         { where: { username: username } }
       )
       .then(function(query_result) {

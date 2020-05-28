@@ -77,7 +77,9 @@ router.get('/', (req, res) => {
     }
   })
   .catch(function(error) {
-    success = false;
+    res.json({
+      success: false
+    })
   });
 
 })

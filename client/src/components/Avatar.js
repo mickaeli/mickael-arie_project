@@ -22,7 +22,7 @@ const Avatar = (props) => {
       props.is_button ? 
         (<button 
           className='avatar' style= { { 
-          backgroundImage: `url(${props.profile_picture})`,
+          backgroundImage: props.profile_picture ? `url(${props.profile_picture})` : '',
           backgroundSize: props.center_image ? '' : 'cover',
           width: `${size}`,
           height:  `${size}`
@@ -30,8 +30,8 @@ const Avatar = (props) => {
         </button>) : 
         (<div
           className='avatar' style= { { 
-          backgroundImage: `url(${props.profile_picture})`,
-          backgroundSize: props.center_image ? {} : 'cover',
+          backgroundImage: props.profile_picture ? `url(${props.profile_picture})` : '',
+          backgroundSize: props.center_image ? '' : 'cover',
           width: `${size}`,
           height:  `${size}` 
           } } />)

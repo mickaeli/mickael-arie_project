@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
-import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import axios from 'axios'
 
-import './Friends.css'
+import Invitations from './Invitations'
+import Connections from './Connections'
+import OtherUsers from './OtherUsers'
 
-import Friend from './Friend'
+import './Friends.css'
 
 class Friends extends Component {
 
@@ -13,20 +15,24 @@ class Friends extends Component {
     super(props);
 
     this.state = {
-      users: []
+      username: props.match.params.username,
+      requestsSent: [],
+      requests: [],
+      friendsList: [],
+      otherUsers: []
     }
   }
 
   componentDidMount() {
     document.title = 'Dashboard - friends'
-  }
 
-  getUsers = () => {
-    axios.get('/profile_details')
+    axios.get(`/friends/connections/${this.state.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
-          users: res.data.users
+          requestsSent: res.data.requestsSent,
+          requests: res.data.requests,
+          friendsList: res.data.friendsList
         })
       }
     })
@@ -34,36 +40,98 @@ class Friends extends Component {
       console.log("Get users error: ", err);
     });
   }
-  
-  render() {
 
 
-    const users = this.state.users.map(user => {
-      return <Friend 
-        key={user.id} 
-        data={user}  
-      />
+  sendRequest = (senderName, receiverName) => {
+
+    axios.put(`/friends/send_request/${senderName}/${receiverName}`)
+    .then(res => {
+      if (res.data.success === true) {
+
+        this.setState({
+          otherUsers: this.state.otherUsers.filter(user => {
+            return user !== receiverName
+          }),
+          requestsSent: [...this.state.requestsSent, receiverName]
+        })
+      }
+
+    })
+    .catch(err => {
+      console.log('send_request failed');
     })
 
+  }
 
+
+  acceptRequest = (senderName, receiverName) => {
+
+    axios.put(`/friends/accept_request/${senderName}/${receiverName}`)
+    .then(res => {
+      if (res.data.success === true) {
+
+        this.setState({
+          requests: this.state.requests.filter(user => {
+            return user !== senderName
+          }),
+          friendsList: [...this.state.friendsList, senderName]
+        })
+      }
+
+    })
+    .catch(err => {
+      console.log('accept_request failed');
+    })
+
+  }
+
+
+  rejectRequest = (senderName, receiverName) => {
+
+    axios.put(`/friends/reject_request/${senderName}/${receiverName}`)
+    .then(res => {
+      if (res.data.success === true) {
+
+        this.setState({
+          requests: this.state.requests.filter(user => {
+            return user !== senderName
+          }),
+          otherUsers: [...this.state.otherUsers, senderName]
+        })
+      }
+
+    })
+    .catch(err => {
+      console.log('reject_request failed');
+    })
+
+  }
+
+
+  getOtherUsers = () => {
+    axios.get(`/friends/other_users/${this.state.username}`)
+    .then(res => {
+      if(res.data.success === true) {
+        this.setState({
+          otherUsers: res.data.users
+        })
+      }
+    })
+    .catch(err => {
+      console.log("Get users error: ", err);
+    });
+  }
+
+  
+  render() {
 
     return (
       <Container fluid className='friends account'>
         <Row>
           <Col lg={{ offset: 2, span : 8}}>
-            <h1>Invitations</h1>
-            <h1>Connections</h1>
-            <div className='wrapper-button'>
-              <Button
-                className='button'
-                variant="primary"
-                onClick={this.getUsers}
-                >Click here to add a new friend
-              </Button>
-            </div>
-            <div className='users'>
-              {users}
-            </div>
+            <Invitations me={this.state.username} requests={this.state.requests} acceptRequest={this.acceptRequest} rejectRequest={this.rejectRequest} />
+            <Connections me={this.state.username} requestsSent={this.state.requestsSent} friendsList={this.state.friendsList} />
+            <OtherUsers me={this.state.username} otherUsers={this.state.otherUsers} getOtherUsers={this.getOtherUsers} sendRequest={this.sendRequest} />
           </Col>
         </Row>
       </Container>

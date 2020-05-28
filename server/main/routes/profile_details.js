@@ -39,15 +39,19 @@ router.put('/', (req, res) => {
 
 })
 
+
 router.get('/', (req, res) => {
 
-  UserDetails.findAll({ 
-    raw: true
-  })
-  .then(function (users) {
+  var username = req.params.username
+
+  UserDetails.findOne(
+    {where: {username: username}},
+    {raw: true}
+  )
+  .then(function (user) {
 
     //case 1: there is no user in the db
-    if (!users) {
+    if (!user) {
       console.log("no user found")
       res.json({
         success: false
@@ -56,33 +60,72 @@ router.get('/', (req, res) => {
       //case 2: record founded
     } else {
 
-      console.log("users found")
-
-      var users_array = []
-
-      users.forEach( user => {
-        users_array.push({
-          id: user.id,
-          fullname: user.fullname,
-          profile_picture: user.url_picture,
-          description: user.description
-        })
-      })
+      console.log("user found")
       
       res.json({
         success: true,
-        users: users_array
+        userDetails: {
+          fullname: user.fullname,
+          profilePicture: user.url_picture,
+          description: user.description
+        }
       })
       
     }
   })
   .catch(function(error) {
-    console.log('users search failed')
+    console.log('user search failed')
     res.json({
       success: false
     })
   });
 
 })
+
+// router.get('/', (req, res) => {
+
+//   UserDetails.findAll({ 
+//     raw: true
+//   })
+//   .then(function (users) {
+
+//     //case 1: there is no user in the db
+//     if (!users) {
+//       console.log("no user found")
+//       res.json({
+//         success: false
+//       })
+
+//       //case 2: record founded
+//     } else {
+
+//       console.log("users found")
+
+//       var users_array = []
+
+//       users.forEach( user => {
+//         users_array.push({
+//           id: user.id,
+//           fullname: user.fullname,
+//           profile_picture: user.url_picture,
+//           description: user.description
+//         })
+//       })
+      
+//       res.json({
+//         success: true,
+//         users: users_array
+//       })
+      
+//     }
+//   })
+//   .catch(function(error) {
+//     console.log('users search failed')
+//     res.json({
+//       success: false
+//     })
+//   });
+
+// })
 
 module.exports = router

@@ -37,6 +37,21 @@ var User = sequelize.define('users', {
   password: {
     type: Sequelize.STRING,
     allowNull: false
+  },
+  requests_sent: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    defaultValue: [],
+    allowNull: false
+  },
+  requests: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    defaultValue: [],
+    allowNull: false
+  },
+  friends_list: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    defaultValue: [],
+    allowNull: false
   }
 }, {
     hooks: {

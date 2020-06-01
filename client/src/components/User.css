@@ -15,8 +15,3 @@
 .user .profile_details {
   flex: 0 0 50%;
 }
-
-.buttons-manage-users {
-  margin: auto initial auto auto;
-  display: flex;
-}

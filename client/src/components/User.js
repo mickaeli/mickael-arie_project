@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import { Button } from 'react-bootstrap'
+// import { Button } from 'react-bootstrap'
 import axios from 'axios'
 
 import Avatar from './Avatar'
 
 import './User.css'
+
+import FriendsButton from './FriendsButton'
 
 class User extends Component {
 
@@ -44,49 +46,14 @@ class User extends Component {
 
     switch (this.props.userType) {
       case 'senderRequest':
-      content = ( <div className='buttons-manage-users'>
-                    <div >
-                      <form onSubmit={ e => {e.preventDefault(); this.props.acceptRequest(this.props.otherUser, this.props.me)} }>
-                        <Button
-                          className='button'
-                          variant="outline-info"
-                          type='submit'
-                          >Accept
-                        </Button>
-                      </form>
-                    </div>
-                    <div>
-                      <form onSubmit={ e => {e.preventDefault(); this.props.rejectRequest(this.props.otherUser, this.props.me)} }>
-                        <Button
-                          className='button'
-                          variant="outline-secondary"
-                          type='submit'
-                          >Ignore
-                        </Button>
-                      </form>
-                    </div>
-                  </div>)
+        content = (<FriendsButton userType={this.props.userType} acceptRequest={this.props.acceptRequest} rejectRequest={this.props.rejectRequest} me={this.props.me} otherUser={this.props.otherUser} />)
         break;
       case 'receiverRequest':
-        content = (<Button
-                    className='button buttons-manage-users'
-                    variant="light"
-                    disabled
-                    >Pending
-                  </Button>)
-        break;
       case 'friend':
-        content = null
+        content = (<FriendsButton userType={this.props.userType} />)
         break;
       case 'otherUser':
-        content = (<form className='buttons-manage-users' onSubmit={ e => {e.preventDefault(); this.props.sendRequest(this.props.me, this.props.otherUser)} }>
-                      <Button
-                      className='button'
-                      variant="info"
-                      type='submit'
-                      >Connect
-                    </Button>
-                  </form>)
+        content = (<FriendsButton userType={this.props.userType} sendRequest={this.props.sendRequest} me={this.props.me} otherUser={this.props.otherUser} />)
         break;
       default:
         break;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import axios from 'axios'
 
@@ -71,7 +71,10 @@ class ProfileDetailsFormContainer extends Component {
   }
 
   submitProfileDetails = (profile_details) => {
-    let params = { fullname: profile_details.fullname, description: profile_details.description };
+
+    const limit_description = 255
+
+    let params = { fullname: profile_details.fullname, description: profile_details.description, limit_description: limit_description };
     axios.put(`/profile_details/${this.state.username}`, params)
     .then(res => {
       if (res.data.success === true) {
@@ -100,14 +103,15 @@ class ProfileDetailsFormContainer extends Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <ProfileDetailsForm
           onSubmit={this.validateForm}
           onChange={this.handleChange}
           errors={this.state.errors}
           profile_details={this.state.profile_details}
+          limit_description={255}
         />
-      </div>
+      </Fragment>
     );
   }
 }

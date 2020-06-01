@@ -1,4 +1,4 @@
-import React, {Fragment, Component} from 'react';
+import React, {Component} from 'react';
 import { Button } from 'react-bootstrap'
 import axios from 'axios'
 
@@ -94,13 +94,15 @@ class User extends Component {
 
     return (
       <div className='user'>
-        <Avatar 
+        <div className='profile-image'>
+          <Avatar 
           profile_picture={ this.state.userDetails.profilePicture } 
           center_image={ this.state.userDetails.profilePicture === default_profile_picture ? true : false } 
           size='sm'
           is_button={false}
         />
-        <div>
+        </div>
+        <div className='profile-details'>
           <h2 style = {{ marginBottom: '.5rem' }}> { this.state.userDetails.fullname } </h2>
           <p> { this.state.userDetails.description } </p>
         </div>

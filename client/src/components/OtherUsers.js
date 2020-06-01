@@ -13,9 +13,13 @@ const OtherUsers = ({me, otherUsers, getOtherUsers, sendRequest}) => {
           onClick={getOtherUsers}
           >Click here to add a new friend
         </Button>
-        <div className='users'>
-          {otherUsers.map(otherUser => <div key={otherUser} ><User userType='otherUser' me={me} otherUser={otherUser} sendRequest={sendRequest} /> </div>)}
-        </div>
+      </div>  
+      {
+        otherUsers.length > 0 &&
+        <h1>Others</h1>
+      }
+      <div className='users'>
+        {otherUsers.map(otherUser => <div key={otherUser} ><User userType='otherUser' me={me} otherUser={otherUser} sendRequest={sendRequest} /> </div>)}
       </div>
     </div>
   );

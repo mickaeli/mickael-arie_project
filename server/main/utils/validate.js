@@ -14,34 +14,22 @@ const validateSignupForm = payload => {
   let message = "";
   const errors = {};
 
-  if (
-    typeof payload.username !== "string" ||
-    payload.username.trim().length === 0
-  ) {
+  if (typeof payload.username !== "string" || payload.username.trim().length === 0) {
     isFormValid = false;
     errors.username = "Please provide a user name.";
   }
 
-  if (
-    typeof payload.fullname !== "string" ||
-    payload.fullname.trim().length === 0
-  ) {
+  if (typeof payload.fullname !== "string" || payload.fullname.trim().length === 0) {
     isFormValid = false;
     errors.fullname = "Please provide a full name.";
   }
 
-  if (
-    typeof payload.email !== "string" ||
-    !validator.isEmail(payload.email)
-  ) {
+  if (typeof payload.email !== "string" || !validator.isEmail(payload.email)) {
     isFormValid = false;
     errors.email = "Please provide a correct email address.";
   }
 
-  if (
-    typeof payload.password !== "string" ||
-    !schema.validate(payload.password.trim())
-  ) {
+  if (typeof payload.password !== "string" || !schema.validate(payload.password.trim())) {
     isFormValid = false;
     console.log('I am here')
     errors.password = "Password must have at least 8 characters and one uppercase";
@@ -69,18 +57,12 @@ const validateSigninForm = payload => {
   let message = "";
   let isFormValid = true;
 
-  if (
-    typeof payload.username !== "string" ||
-    payload.username.trim().length === 0
-  ) {
+  if (typeof payload.username !== "string" || payload.username.trim().length === 0) {
     isFormValid = false;
     errors.username = "Please provide your user name.";
   }
 
-  if (
-    typeof payload.password !== "string" ||
-    payload.password.trim().length === 0
-  ) {
+  if (typeof payload.password !== "string" || payload.password.trim().length === 0) {
     isFormValid = false;
     errors.password = "Please provide your password.";
   }
@@ -97,17 +79,19 @@ const validateSigninForm = payload => {
 };
 
 //make validation for data in profile_details route (fullname + description)
-const validateProfileDetailsForm = payload => {
+const validateProfileDetailsForm = (payload) => {
   let isFormValid = true;
   let message = "";
   const errors = {};
 
-  if (
-    typeof payload.fullname !== "string" ||
-    payload.fullname.trim().length === 0
-  ) {
+  if (typeof payload.fullname !== "string" || payload.fullname.trim().length === 0) {
     isFormValid = false;
     errors.fullname = "Please provide a full name.";
+  }
+
+  if (typeof payload.description !== "string" || payload.description.trim().length > payload.limit_description) {
+    isFormValid = false;
+    errors.description = `description must contain ${payload.limit_description} characters maximum.`;
   }
 
   if (!isFormValid) {

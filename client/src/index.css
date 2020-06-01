@@ -104,3 +104,29 @@ textarea {
 .wrapper-button {
   text-align: center;
 }
+
+.input-info {
+  text-align: right;
+}
+
+.col-without-pad {
+  padding: 0;
+}
+
+@media screen and (max-width: 576px) {
+
+  .main-container {
+    padding: 0 .5rem 0 .5rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  
+  .profile-details {
+    margin-left: .3rem;
+  }
+}
+
+.bg-blue {
+  background: #bbe9ff;
+}

@@ -6,7 +6,7 @@ const validation = require('../utils/validate')
 
 router.put('/', (req, res) => {
 
-  //make validation for request data (username + password)
+  //make validation for request data (fullname + description)
   var payload = validation.validateProfileDetailsForm(req.body)
 
   //successful validation
@@ -28,12 +28,14 @@ router.put('/', (req, res) => {
       res.json(payload)
     })
     .catch(function(err) {
+      console.log('updating profile_details failed', err);
       payload.success = false;
       res.json(payload)
 		});
 
   //failed validation
   } else{
+    console.log('failed validation in put/profile_details');
     res.json(payload)
   }
 

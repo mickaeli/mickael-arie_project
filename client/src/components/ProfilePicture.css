@@ -3,6 +3,7 @@
 }
 
 .profile-picture .btn-picture{
+  display: inline-block;
   position: relative;
   top: -110px;
   right: -20px;

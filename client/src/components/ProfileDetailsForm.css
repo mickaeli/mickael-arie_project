@@ -4,3 +4,9 @@
 .profile-details-form .button {
   margin-top: 25px;
 }
+
+.profile-details-form {
+  margin-right: auto;
+  margin-left: auto;
+  width: 85%;
+}

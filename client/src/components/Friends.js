@@ -95,8 +95,7 @@ class Friends extends Component {
         this.setState({
           requests: this.state.requests.filter(user => {
             return user !== senderName
-          }),
-          otherUsers: [...this.state.otherUsers, senderName]
+          })
         })
       }
 
@@ -128,9 +127,22 @@ class Friends extends Component {
     return (
       <Container fluid className='friends account'>
         <Row>
-          <Col lg={{ offset: 2, span : 8}}>
-            <Invitations me={this.state.username} requests={this.state.requests} acceptRequest={this.acceptRequest} rejectRequest={this.rejectRequest} />
-            <Connections me={this.state.username} requestsSent={this.state.requestsSent} friendsList={this.state.friendsList} />
+          <Col lg={{ offset: 2, span : 8}} className='main-container'>
+            {
+              (this.state.requestsSent.length === 0 && this.state.requests.length === 0 && this.state.friendsList.length === 0 && this.state.otherUsers.length === 0) &&
+              <p style={ {textAlign: 'center', fontSize: '1.1rem' } }>You have not friend yet. Do you want to connect to a new friend ?</p>
+            }
+            
+            {
+              this.state.requests.length > 0 &&
+              <Invitations me={this.state.username} requests={this.state.requests} acceptRequest={this.acceptRequest} rejectRequest={this.rejectRequest} />
+            }
+
+            {
+              (this.state.friendsList.length > 0 || this.state.requestsSent.length > 0) &&
+              <Connections me={this.state.username} requestsSent={this.state.requestsSent} friendsList={this.state.friendsList} />
+            }
+
             <OtherUsers me={this.state.username} otherUsers={this.state.otherUsers} getOtherUsers={this.getOtherUsers} sendRequest={this.sendRequest} />
           </Col>
         </Row>

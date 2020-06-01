@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './About.css'
 import HeroImage from './HeroImage';
 import ImgNextToText from './ImgNextToText';
 import List from './List';
@@ -89,10 +88,10 @@ class About extends Component {
         <HeroImage header={(<h1>{header3}</h1>)} paragraph={(<p>John Holmes</p>)} url_img={sun} heroType='bg_blue2' heroSize='small' hasSigninButton />
         <Container fluid className='list-next-to-image'>
           <Row>
-            <Col className='col' xs={12} lg={{ span: 6, offset: 1 }}>
+            <Col className='col-without-pad' xs={12} lg={{ span: 6, offset: 1 }}>
               <List listItems = {listItems} />
             </Col>
-            <Col className='col' xs={12} lg={5}>
+            <Col className='col-without-pad' xs={12} lg={5}>
               <HeroImage paragraph={(<p>We believe in the potential of what people can achieve</p>)} url_img={desktop} heroType='desktop' heroSize='large' hasSignupButton />
             </Col>
           </Row>

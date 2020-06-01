@@ -45,11 +45,13 @@ class Profile extends Component {
 		return (
 			<Container fluid className='profile account'>
         <Row>
-          <Col lg={{ offset: 3, span : 6}}>
+          <Col lg={{ offset: 3, span : 6}} className='main-container'>
             <ProfileBackground />
             <ProfilePicture />
-            <h1>{this.state.fullname}</h1>
-            <p>{this.state.profile_description}</p>
+            <div className="profile-details">
+              <h1>{this.state.fullname}</h1>
+              <p>{this.state.profile_description}</p>
+            </div>
             <ProfileDetailsFormContainer
               username={this.state.username}
             />

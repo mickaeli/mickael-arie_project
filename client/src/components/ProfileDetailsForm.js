@@ -1,18 +1,17 @@
 import React from "react";
 import { TextField } from "@material-ui/core";
-import { Row, Col, Button} from 'react-bootstrap'
+import { Button} from 'react-bootstrap'
 import './ProfileDetailsForm.css';
 
 const ProfileDetailsForm = ({
   onSubmit,
   onChange,
   errors,
-  profile_details
+  profile_details,
+  limit_description
 }) => {
   return (
     <div className='profile-details-form'>
-      <Row>
-        <Col sm={{ offset: 2, span : 8}} className='col'>
           {errors.message && <p style={{ color: "red", textAlign: 'center' }}>{errors.message}</p>}
           <form onSubmit={onSubmit} style={{marginBottom: '20px'}}>
             <TextField
@@ -32,10 +31,13 @@ const ProfileDetailsForm = ({
               rows={4}
               value={profile_details.description}
               onChange={onChange}
-              helperText='Please enter a description of you'
+              helperText={`${profile_details.description.length}/${limit_description}`}
               fullWidth
               margin='dense'
               variant="outlined"
+              inputProps={{
+                maxLength: limit_description
+              }}
             />
             <Button 
               className='button' 
@@ -46,8 +48,6 @@ const ProfileDetailsForm = ({
               > Submit
             </Button>
           </form>
-        </Col>
-      </Row>
     </div>
   );
 };

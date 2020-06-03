@@ -8,8 +8,6 @@ const Connections = ({me, requestsSent, friendsList}) => {
       <h1>Connections</h1>
       <div className='users'>
         {requestsSent.map(otherUser => <div key={otherUser} ><User userType='receiverRequest' me={me} otherUser={otherUser} /> </div>)}
-      </div>
-      <div className='users'>
         {friendsList.map(otherUser => <div key={otherUser} ><User userType='friend' me={me} otherUser={otherUser} /> </div>)}
       </div>
     </div>

@@ -8,12 +8,7 @@ import About from './About';
 import NotFound from './NotFound';
 import Signup from './Signup';
 import Signin from './Signin';
-import Dashboard from './Dashboard';
-import DashboardHeader from './DashboardHeader';
-import Profile from './Profile';
-import Friends from './Friends';
-import Groups from './Groups';
-import Photos from './Photos';
+import DashboardContainer from './DashboardContainer';
 import PrivateRoute from './PrivateRoute'
 
 class App extends Component { 
@@ -86,7 +81,7 @@ class App extends Component {
     return (
       <Fragment>
         <HomeHeader />
-        <DashboardHeader />
+        {/* <DashboardHeader /> */}
         <Switch>
 
           <Route exact path='/' render={props => !isLoggedIn ? (<Home {...props} />) : (<Redirect to={`/dashboard/${username}`} />)} />
@@ -94,11 +89,11 @@ class App extends Component {
           <Route exact path='/signup' render={props => !isLoggedIn ? (<Signup {...props} />) : (<Redirect to={`/dashboard/${username}`} />)} />
           <Route exact path='/signin' render={props => !isLoggedIn ? (<Signin {...props} />) : (<Redirect to={`/dashboard/${username}`} />)} />
 
-          <PrivateRoute exact path={`/dashboard/:username`} component={Dashboard} isLoggedIn={isLoggedIn} />
-          <PrivateRoute exact path='/dashboard/:username/profile' component={Profile} isLoggedIn={isLoggedIn} />
+          <PrivateRoute path={`/dashboard/:username`} component={DashboardContainer} isLoggedIn={isLoggedIn} />
+          {/* <PrivateRoute exact path='/dashboard/:username/profile' component={Profile} isLoggedIn={isLoggedIn} />
           <PrivateRoute exact path='/dashboard/:username/friends' component={Friends} isLoggedIn={isLoggedIn} />
           <PrivateRoute exact path='/dashboard/:username/groups' component={Groups} isLoggedIn={isLoggedIn} />
-          <PrivateRoute exact path='/dashboard/:username/photos' component={Photos} isLoggedIn={isLoggedIn} />
+          <PrivateRoute exact path='/dashboard/:username/photos' component={Photos} isLoggedIn={isLoggedIn} /> */}
 
           <Route component={NotFound} />
 

@@ -46,7 +46,6 @@ class Dashboard extends Component {
   render() {
     return (
       <Fragment>
-        {/* <DashboardHeader urlPrefix={this.props.match.url} /> */}
         <Container fluid className='dashboard account'>
           <Row>
             <Col lg={{ offset: 3, span : 6}} className='main-container'>

@@ -16,12 +16,6 @@ const DashboardHeader = ({urlPrefix}) => {
     window.dispatchEvent(event);
   }
 
-  // const details_connexion = JSON.parse(localStorage.getItem('isLoggedIn'))
-
-  // if(!details_connexion || !details_connexion.value) return null;
-
-  // const username = details_connexion.username ? details_connexion.username : ''
-
   return(
     <header className='dashboard-header'>
       <Navbar className='dash-navbar' expand='lg'>

@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-// import { Button } from 'react-bootstrap'
+
 import axios from 'axios'
 
 import Avatar from './Avatar'
+import FriendsButton from './FriendsButton'
 
 import './User.css'
 
-import FriendsButton from './FriendsButton'
+
 
 class User extends Component {
 
@@ -61,16 +62,16 @@ class User extends Component {
 
     return (
       <div className='user'>
-        <div className='profile-image'>
+        <div className='user-profile-image'>
           <Avatar 
           profile_picture={ this.state.userDetails.profilePicture } 
           center_image={ this.state.userDetails.profilePicture === default_profile_picture ? true : false } 
           size='sm'
           is_button={false}
-        />
+          />
         </div>
-        <div className='profile-details'>
-          <h2 style = {{ marginBottom: '.5rem' }}> { this.state.userDetails.fullname } </h2>
+        <div className='user-profile-details'>
+          <h2> { this.state.userDetails.fullname } </h2>
           <p> { this.state.userDetails.description } </p>
         </div>
         {content}

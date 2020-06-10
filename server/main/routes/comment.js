@@ -51,8 +51,9 @@ router.get('/', (req, res) => {
     raw: true
   })
   .then(function(comments) {
+
     //case 1: there is no comments for this post
-    if (!comments) {
+    if (comments.length === 0) {
       console.log("no comment found")
       res.json({
         success: false

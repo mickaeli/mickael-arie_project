@@ -8,10 +8,14 @@
   margin-bottom: 0;
 }
 
-.user .profile_image {
+.user-profile_image {
   flex: 0 0 50%;
 }
 
-.user .profile_details {
+.user-profile_details {
   flex: 0 0 50%;
+}
+
+.user-fullname {
+  margin-bottom: .5rem;
 }

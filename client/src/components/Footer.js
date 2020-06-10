@@ -10,6 +10,8 @@ const Footer = props => {
 
   const details_connection = JSON.parse(localStorage.getItem('isLoggedIn'))
 
+  if( details_connection && details_connection.value) return null;
+
   return (
     <footer style={{ backgroundColor : (details_connection && details_connection.value) ? 'rgb(91, 189, 239)' : 'rgb(35, 34, 34)' }}>
       <Container fluid>

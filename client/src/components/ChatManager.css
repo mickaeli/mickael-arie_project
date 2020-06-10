@@ -1,0 +1,23 @@
+.chat-manager-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  height: 4rem;
+  width: 4rem;
+  background-color: rgb(7, 181, 112);
+  /* z-index: 1; */
+  border-radius: 50%;
+	border: none;
+}
+
+.chat-manager-button:focus {
+  outline: 0;
+}
+
+.chat-logo {
+  height: 2rem;
+  width: 2rem;
+}

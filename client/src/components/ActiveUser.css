@@ -1,0 +1,14 @@
+.active-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .5rem 1rem;
+  border-bottom: solid 1px #d9cece;
+  
+}
+
+.user-fullname {
+  font-size: 1.1rem;
+  margin: 0 2rem 0 0;
+  opacity: 0.8;
+}

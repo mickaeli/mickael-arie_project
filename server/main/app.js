@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+// const cors = require('cors');
 
 var fileupload = require('express-fileupload')
 
@@ -38,6 +39,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileupload({
   useTempFiles: true
 }))
+
+// app.use(cors())
 
 app.use('/signup', signupRouter)
 app.use('/signin', signinRouter)

@@ -81,20 +81,13 @@ class App extends Component {
     return (
       <Fragment>
         <HomeHeader />
-        {/* <DashboardHeader /> */}
         <Switch>
 
           <Route exact path='/' render={props => !isLoggedIn ? (<Home {...props} />) : (<Redirect to={`/dashboard/${username}`} />)} />
           <Route exact path='/about' render={props => !isLoggedIn ? (<About {...props} />) : (<Redirect to={`/dashboard/${username}`} />)} />
           <Route exact path='/signup' render={props => !isLoggedIn ? (<Signup {...props} />) : (<Redirect to={`/dashboard/${username}`} />)} />
           <Route exact path='/signin' render={props => !isLoggedIn ? (<Signin {...props} />) : (<Redirect to={`/dashboard/${username}`} />)} />
-
           <PrivateRoute path={`/dashboard/:username`} component={DashboardContainer} isLoggedIn={isLoggedIn} />
-          {/* <PrivateRoute exact path='/dashboard/:username/profile' component={Profile} isLoggedIn={isLoggedIn} />
-          <PrivateRoute exact path='/dashboard/:username/friends' component={Friends} isLoggedIn={isLoggedIn} />
-          <PrivateRoute exact path='/dashboard/:username/groups' component={Groups} isLoggedIn={isLoggedIn} />
-          <PrivateRoute exact path='/dashboard/:username/photos' component={Photos} isLoggedIn={isLoggedIn} /> */}
-
           <Route component={NotFound} />
 
         </Switch>

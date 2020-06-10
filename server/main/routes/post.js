@@ -50,7 +50,7 @@ router.get('/', (req, res) => {
   .then(function (posts) {
 
     //case 1: there is no post in the db
-    if (!posts) {
+    if (posts.length === 0) {
       console.log("no post found")
       res.json({
         success: false

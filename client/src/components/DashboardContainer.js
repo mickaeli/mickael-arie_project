@@ -8,6 +8,7 @@ import Friends from './Friends';
 import Groups from './Groups';
 import Photos from './Photos';
 import NotFound from './NotFound'
+import ChatManager from './ChatManager'
 
 class DashboardContainer extends Component {
   render() {
@@ -24,6 +25,8 @@ class DashboardContainer extends Component {
           <Route exact path={`${this.props.match.path}/photos`} component={Photos} />
           <Route component={NotFound} />
         </Switch>
+        
+        <ChatManager />
         
       </Fragment> 
     );

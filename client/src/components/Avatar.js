@@ -13,6 +13,9 @@ const Avatar = (props) => {
     case 'sm':
       size = '5rem'
       break;
+    case 'xs':
+      size = '3.2rem'
+      break;
     default:
       break;
   }

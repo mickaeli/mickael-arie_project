@@ -8,7 +8,12 @@ var app = require('../main/app');
 var debug = require('debug')('server:server');
 var http = require('http');
 const path = require('path');
-require('dotenv').config({path: path.join(__dirname, '../.env')})
+require('dotenv').config({path: path.join(__dirname, '../main/.env')})
+// require('dotenv').config({path: path.join(__dirname, '../.env')})
+const socketio = require('socket.io');
+
+const { socketConnect, socketDisconnect } = require('../main/socket_events')
+
 
 /**
  * Get port from environment and store in Express.
@@ -22,6 +27,23 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+/**
+ * Socket io
+ */
+
+const io = socketio(server);
+
+io.on('connect', (socket) => {
+  console.log('new client connected');
+  socketConnect(io, socket)
+
+  socket.on('disconnect', () => {
+    console.log('client disconnected');
+    socketDisconnect(io, socket)
+  })
+
+})
 
 /**
  * Listen on provided port, on all network interfaces.

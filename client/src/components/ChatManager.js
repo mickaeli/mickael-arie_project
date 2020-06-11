@@ -1,15 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom'
-import io from 'socket.io-client'
 import axios from 'axios'
 
 import ActiveFriends from './ActiveFriends'
 
+import SocketContext from '../contexts/SocketContext'
+
 import './ChatManager.css'
 
 import chatLogo from '../img/chat_logo.png'
-
-const ENDPOINT = 'http://localhost:5000';
 
 class ChatManager extends Component {
 
@@ -17,7 +16,6 @@ class ChatManager extends Component {
     super(props);
 
     this.state = {
-      socket: io(ENDPOINT),
       username: this.props.match.params.username,
       friends: [],
       activeFriends: [],
@@ -37,14 +35,6 @@ class ChatManager extends Component {
     .catch(err => {
       console.log('get friends error: ', err);
     })
-
-    window.addEventListener('friendsConnection', this.handleFriendConnection)
-  }
-  
-
-  componentWillUnmount() {
-    this.state.socket.close()
-    window.removeEventListener('friendsConnection', this.handleFriendConnection)
   }
   
 
@@ -52,9 +42,9 @@ class ChatManager extends Component {
   hideActiveFriends = () => { this.setState({showActiveFriends: false}) }
 
   setSocketEvent = () => {
-    this.state.socket.emit('join', this.state.username);
+    this.context.socket.emit('join', this.state.username);
 
-    this.state.socket.on("activeUsers", users => {
+    this.context.socket.on("activeUsers", users => {
       const activeFriends = users.filter(user => this.state.friends.indexOf(user) >= 0)
       this.setState({
         activeFriends
@@ -62,7 +52,7 @@ class ChatManager extends Component {
     });
 
 
-    this.state.socket.on('userConnected', user => {
+    this.context.socket.on('userConnected', user => {
       if(this.state.friends.indexOf(user) >= 0) {
         this.setState({
           activeFriends: [...this.state.activeFriends, user]
@@ -70,21 +60,33 @@ class ChatManager extends Component {
       }
     })
 
-    this.state.socket.on('userDisconnected', user => {
+    this.context.socket.on('newFriendConnected', ({sender, receiver}) => {
+      if(sender === this.state.username) {
+        this.setState({
+          friends: [...this.state.friends, receiver],
+          activeFriends: [...this.state.activeFriends, receiver]
+          }, () => {
+            this.context.socket.emit('resToNewFriend', { sender, receiver } )
+        })
+      }
+    })
+
+    this.context.socket.on('resToNewFriend', ({sender, receiver}) => {
+      if(receiver === this.state.username) {
+        this.setState({
+          friends: [...this.state.friends, sender],
+          activeFriends: [...this.state.activeFriends, sender]
+          })
+      }
+    })
+
+    this.context.socket.on('userDisconnected', user => {
       this.setState({
         activeFriends: this.state.activeFriends.filter(friend => {
           return friend !== user
         })
       })
     })
-  }
-
-  handleFriendConnection = (event) => {
-    if(event.detail.sender === this.state.username) {
-      this.setState({
-        friends: [...this.state.friends, event.detail.receiver]
-      })
-    }
   }
 
 
@@ -107,5 +109,7 @@ class ChatManager extends Component {
     );
   }
 }
+
+ChatManager.contextType = SocketContext;
 
 export default withRouter(ChatManager);

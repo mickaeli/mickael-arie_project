@@ -18,6 +18,14 @@ const socketConnect = (io, socket) => {
     // io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
   });
 
+  socket.on('connectToNewFriend', ({sender, receiver}) => {
+    socket.broadcast.emit('newFriendConnected', {sender, receiver})
+  })
+
+  socket.on('resToNewFriend', ({sender, receiver}) => {
+    socket.broadcast.emit('resToNewFriend', {sender, receiver})
+  })
+
 
 }
 

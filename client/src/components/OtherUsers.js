@@ -21,7 +21,7 @@ const OtherUsers = ({me, otherUsers, getOtherUsers, sendRequest}) =>  {
                   }
                   </div>)
       } else {
-        content = (<p className='text-center'>No other users exists</p>)
+        content = (<p className='text-center'>No other users exist</p>)
       }
     }
 

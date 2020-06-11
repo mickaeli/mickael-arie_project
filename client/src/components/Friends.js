@@ -130,7 +130,7 @@ class Friends extends Component {
           <Col lg={{ offset: 2, span : 8}} className='main-container'>
             {
               (this.state.requestsSent.length === 0 && this.state.requests.length === 0 && this.state.friendsList.length === 0 && this.state.otherUsers.length === 0) &&
-              <p style={ {textAlign: 'center', fontSize: '1.1rem' } }>You have not friends yet. Do you want to connect to a new friend ?</p>
+              <p style={ {textAlign: 'center', fontSize: '1.1rem' } }>You have no friends yet. Do you want to connect to a new friend ?</p>
             }
             
             {

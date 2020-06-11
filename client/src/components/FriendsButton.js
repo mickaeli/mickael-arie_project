@@ -1,4 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
+
+import SocketContext from '../contexts/SocketContext'
 
 import { Button } from 'react-bootstrap'
 
@@ -6,13 +8,7 @@ import './FriendsButton.css'
 
 const FriendsButton = (props) => {
 
-  const fireFriendsConnectionEvent = (myFriend, me) => {
-    let event = new CustomEvent('friendsConnection', { 'detail': {
-      sender: myFriend,
-      receiver: me 
-    }})
-    window.dispatchEvent(event);
-  }
+  const contextValue = useContext(SocketContext)
 
   let content
 
@@ -20,7 +16,7 @@ const FriendsButton = (props) => {
     case 'senderRequest':
     content = ( <div className='buttons-manage-users'>
                   <div >
-                    <form onSubmit={ e => {e.preventDefault(); props.acceptRequest(props.otherUser, props.me); fireFriendsConnectionEvent(props.otherUser, props.me)} }>
+                    <form onSubmit={ e => {e.preventDefault(); props.acceptRequest(props.otherUser, props.me); contextValue.socket.emit('connectToNewFriend', { sender: props.otherUser, receiver: props.me } ); } }>
                       <Button
                         className='button'
                         variant="outline-info"

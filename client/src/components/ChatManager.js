@@ -26,12 +26,25 @@ class ChatManager extends Component {
   }
 
   componentDidMount() {
-    this.setActiveFriends()
+    axios.get(`/friends/connections/${this.state.username}`)
+    .then(res => {
+      if(res.data.success) {
+        this.setState({
+          friends: res.data.friendsList
+        }, this.setSocketEvent)
+      }
+    })
+    .catch(err => {
+      console.log('get friends error: ', err);
+    })
+
+    window.addEventListener('friendsConnection', this.handleFriendConnection)
   }
   
 
   componentWillUnmount() {
     this.state.socket.close()
+    window.removeEventListener('friendsConnection', this.handleFriendConnection)
   }
   
 
@@ -66,23 +79,16 @@ class ChatManager extends Component {
     })
   }
 
-  setActiveFriends = () => {
-    axios.get(`/friends/connections/${this.state.username}`)
-    .then(res => {
-      if(res.data.success) {
-        this.setState({
-          friends: res.data.friendsList
-        }, this.setSocketEvent)
-      }
-    })
-    .catch(err => {
-      console.log('get friends error: ', err);
-    })
+  handleFriendConnection = (event) => {
+    if(event.detail.sender === this.state.username) {
+      this.setState({
+        friends: [...this.state.friends, event.detail.receiver]
+      })
+    }
   }
 
 
   render() {
-    console.log(this.state.activeFriends);
     return (
       <Fragment>
         {

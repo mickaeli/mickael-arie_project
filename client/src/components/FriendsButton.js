@@ -6,13 +6,21 @@ import './FriendsButton.css'
 
 const FriendsButton = (props) => {
 
+  const fireFriendsConnectionEvent = (myFriend, me) => {
+    let event = new CustomEvent('friendsConnection', { 'detail': {
+      sender: myFriend,
+      receiver: me 
+    }})
+    window.dispatchEvent(event);
+  }
+
   let content
 
   switch (props.userType) {
     case 'senderRequest':
     content = ( <div className='buttons-manage-users'>
                   <div >
-                    <form onSubmit={ e => {e.preventDefault(); props.acceptRequest(props.otherUser, props.me)} }>
+                    <form onSubmit={ e => {e.preventDefault(); props.acceptRequest(props.otherUser, props.me); fireFriendsConnectionEvent(props.otherUser, props.me)} }>
                       <Button
                         className='button'
                         variant="outline-info"

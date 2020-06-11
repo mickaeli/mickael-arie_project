@@ -11,3 +11,9 @@
   margin-bottom: 1.25rem;
   margin-top: 2.5rem;
 }
+
+@media screen and (max-width: 992px) {
+  .gallery-item h1,p {
+    margin-left: 1rem;
+  }
+}

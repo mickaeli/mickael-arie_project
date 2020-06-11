@@ -130,3 +130,7 @@ textarea {
 .bg-blue {
   background: #bbe9ff;
 }
+
+.text-center {
+  text-align: center;
+}

@@ -26,7 +26,7 @@ class ActiveFriends extends Component {
             </div>)
           )
           :
-          <p className='no-friends-connected'>no friends connected</p>
+          <p className='no-friends-connected'>No friends connected</p>
         }
       </div>
     );

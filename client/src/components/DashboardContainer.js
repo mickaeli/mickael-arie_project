@@ -11,7 +11,7 @@ import Photos from './Photos';
 import NotFound from './NotFound'
 import ChatManager from './ChatManager'
 
-import SocketContext from '../contexts/SocketContext'
+import { SocketContext } from '../Context'
 
 const ENDPOINT = 'http://localhost:5000';
 

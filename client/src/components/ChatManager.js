@@ -2,13 +2,14 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 
-import ActiveFriends from './ActiveFriends'
-
-import SocketContext from '../contexts/SocketContext'
-
 import './ChatManager.css'
 
+import ActiveFriends from './ActiveFriends'
+
+import { SocketContext } from '../Context'
+
 import chatLogo from '../img/chat_logo.png'
+
 
 class ChatManager extends Component {
 

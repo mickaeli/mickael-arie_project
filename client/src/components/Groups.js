@@ -8,7 +8,7 @@ class Groups extends Component {
   
   render() {
     return (
-      <div>
+      <div className='account'>
         <h1>groups</h1>   
       </div>
     );

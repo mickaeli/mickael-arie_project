@@ -1,0 +1,18 @@
+.info-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #2979FF;
+  color: white;
+  padding: 0 1rem;
+  border-radius: 3px 3px 0 0;
+}
+
+.info-bar h1 {
+  margin: 0 1rem 0 0;
+  padding: 10px 0;
+  font-weight: 400;
+  font-size: 1.1rem;
+  border-bottom: solid 1px rgb(131, 131, 131);
+  text-align: center;
+}

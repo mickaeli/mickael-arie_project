@@ -5,6 +5,7 @@ import axios from 'axios'
 import './ChatManager.css'
 
 import ActiveFriends from './ActiveFriends'
+import ChatContainer from './Chat'
 
 import { SocketContext } from '../Context'
 
@@ -104,7 +105,10 @@ class ChatManager extends Component {
         }
         {
           this.state.showActiveFriends &&
-          <ActiveFriends activeFriends={this.state.activeFriends} hideActiveFriends={this.hideActiveFriends} />
+          <div className='chat-area'>
+            <ActiveFriends activeFriends={this.state.activeFriends} hideActiveFriends={this.hideActiveFriends} />
+            <ChatContainer />
+          </div>
         }
       </Fragment>
     );

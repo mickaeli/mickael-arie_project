@@ -1,30 +1,18 @@
 .active-friends {
-  position: fixed;
+  /* position: fixed;
   bottom: 2rem;
-  right: 2rem;
+  right: 2rem; */
   display: inline-block;
-  /* width: 20rem; */
+  margin-left: 1rem;
 
   -webkit-box-shadow: 0px 0px 3px 0px rgba(128,128,128,0.75);
   -moz-box-shadow: 0px 0px 3px 0px rgba(128,128,128,0.75);
   box-shadow: 0px 0px 3px 0px rgba(128,128,128,0.75);
 }
 
-.info-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background: #2979FF;
-  color: white;
-}
-
-.info-bar h1 {
-  margin: 0;
-  padding: 10px 0;
-  font-weight: 400;
-  font-size: 1.1rem;
-  border-bottom: solid 1px rgb(131, 131, 131);
-  text-align: center;
+.active-friends-container {
+  max-height: 15rem;
+  overflow: auto;
 }
 
 .close-icon {

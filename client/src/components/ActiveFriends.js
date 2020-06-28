@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 
 import ActiveUser from './ActiveUser'
@@ -6,27 +6,24 @@ import InfoBar from './InfoBar'
 
 import './ActiveFriends.css'
 
-class ActiveFriends extends Component {
+const ActiveFriends = ({activeFriends, hideActiveFriends, username, rooms, openChat, closeChat}) => {
 
-  render() {
-    return (
-      <div className="active-friends">
-        <InfoBar header={'Friends Connected'} closeFunction={this.props.hideActiveFriends} />
-        {
-          this.props.activeFriends.length > 0 
-          ?
-          <div className='active-friends-container'>
-            {this.props.activeFriends.map((name) => (
-            <div key={name}>
-              < ActiveUser user={name} />
-            </div>))}
-          </div>
-          :
-          <p className='no-friends-connected'>No friends connected</p>
-        }
-      </div>
-    );
-  }
+  return (
+    <div className="active-friends">
+      <InfoBar header={'Friends Connected'} closeFunction={hideActiveFriends} />
+      {
+        activeFriends.length > 0 
+        ?
+        <div className='active-friends-container'>
+          {
+            activeFriends.map((friend) => (<div key={friend}> < ActiveUser username={username} friend={friend} rooms={rooms} openChat={openChat} closeChat={closeChat} /> </div>))
+          }
+        </div>
+        :
+        <p className='no-friends-connected'>No friends connected</p>
+      }
+    </div>
+  );
 }
 
 export default ActiveFriends;

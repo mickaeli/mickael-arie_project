@@ -2,13 +2,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
   height: 4rem;
   width: 4rem;
   background-color: rgb(7, 181, 112);
-  /* z-index: 1; */
   border-radius: 50%;
 	border: none;
 }
@@ -22,11 +18,14 @@
   width: 2rem;
 }
 
-.chat-area {
+.position-fixed {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
+}
+
+.chat-windows {
   display: flex;
-  flex-direction: row-reverse;
-  align-items: flex-end;
+  flex-wrap: wrap;
+  width: 90%;
 }

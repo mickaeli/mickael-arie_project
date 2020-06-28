@@ -19,7 +19,6 @@ const removeUser = (id) => {
 
 const getUser = (id) => {
   const user = users.find((user) => user.id === id)
-  console.log('hhhhhhhhhhhheeeeeeeeeeeeeeeeee', user);
 };
 
 const getUsers = () => users.map(user => user.name)

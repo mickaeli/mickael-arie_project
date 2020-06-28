@@ -5,10 +5,11 @@ import axios from 'axios'
 import './ChatManager.css'
 
 import ActiveFriends from './ActiveFriends'
-import ChatContainer from './Chat'
+import Chat from './Chat'
 
 import { SocketContext } from '../Context'
-
+import { createRoomName } from '../utils'
+ 
 import chatLogo from '../img/chat_logo.png'
 
 
@@ -21,7 +22,8 @@ class ChatManager extends Component {
       username: this.props.match.params.username,
       friends: [],
       activeFriends: [],
-      showActiveFriends: false
+      showActiveFriends: false,
+      rooms: []
     }
   }
 
@@ -38,15 +40,13 @@ class ChatManager extends Component {
       console.log('get friends error: ', err);
     })
   }
-  
-
-  showActiveFriends = () => { this.setState({showActiveFriends: true}) }
-  hideActiveFriends = () => { this.setState({showActiveFriends: false}) }
 
   setSocketEvent = () => {
     this.context.socket.emit('join', this.state.username);
 
     this.context.socket.on("activeUsers", users => {
+
+      //looking for active users who are my friends
       const activeFriends = users.filter(user => this.state.friends.indexOf(user) >= 0)
       this.setState({
         activeFriends
@@ -55,6 +55,8 @@ class ChatManager extends Component {
 
 
     this.context.socket.on('userConnected', user => {
+
+      //if user is my friend add it to active friends variable
       if(this.state.friends.indexOf(user) >= 0) {
         this.setState({
           activeFriends: [...this.state.activeFriends, user]
@@ -89,7 +91,62 @@ class ChatManager extends Component {
         })
       })
     })
+
+    this.context.socket.on('joinToRoom', ({friendName, roomName}) => {
+
+      if(friendName === this.state.username) {
+        this.context.socket.emit('joinToRoom', {
+          roomName,
+          sendEventToFriend: false
+        });
+
+        this.setState({
+          rooms: [...this.state.rooms, roomName]
+        })
+      }
+      
+    })
+
+    this.context.socket.on('leaveRoom', roomName => {
+
+      this.context.socket.emit('leaveRoom', {roomName, sendEventToFriend: false})
+
+      this.setState({
+        rooms: this.state.rooms.filter(room => {
+          return room !== roomName
+        })
+      })
+    })
   }
+
+  openChat = friendName => {
+
+    const roomName = createRoomName(this.state.username, friendName)
+
+    this.context.socket.emit('joinToRoom', {
+      friendName, 
+      roomName,
+      sendEventToFriend: true
+    });
+
+    this.setState({
+      rooms: [...this.state.rooms, roomName]
+    })
+  }
+
+  closeChat = roomName => {
+
+    this.context.socket.emit('leaveRoom', {roomName, sendEventToFriend: true})
+
+    this.setState({
+      rooms: this.state.rooms.filter(room => {
+        return room !== roomName
+      })
+    })
+  }
+
+  showActiveFriends = () => { this.setState({showActiveFriends: true}) }
+  hideActiveFriends = () => { this.setState({showActiveFriends: false}) }
 
 
   render() {
@@ -97,7 +154,7 @@ class ChatManager extends Component {
       <Fragment>
         {
           !(this.state.showActiveFriends) &&
-          (<button className='chat-manager-button' onClick={this.showActiveFriends}>
+          (<button className='chat-manager-button position-fixed' onClick={this.showActiveFriends}>
             <div>
               <img className='chat-logo' src={chatLogo} alt="chat logo"/>
             </div>
@@ -105,11 +162,16 @@ class ChatManager extends Component {
         }
         {
           this.state.showActiveFriends &&
-          <div className='chat-area'>
-            <ActiveFriends activeFriends={this.state.activeFriends} hideActiveFriends={this.hideActiveFriends} />
-            <ChatContainer />
-          </div>
+            <div className='position-fixed'>
+              <ActiveFriends activeFriends={this.state.activeFriends} hideActiveFriends={this.hideActiveFriends} username={this.state.username} rooms={this.state.rooms} openChat={this.openChat} closeChat={this.closeChat} />
+            </div>
         }
+        <div className='chat-windows'>
+          {
+            this.state.rooms.map(room => (<div key={room} ><Chat username={this.state.username} header={'Chat - ' + room.replace(this.state.username, '') } room={room} closeChat={this.closeChat} /> </div>))
+          }
+        </div>
+        
       </Fragment>
     );
   }

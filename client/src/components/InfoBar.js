@@ -4,11 +4,11 @@ import './InfoBar.css'
 
 import closeIcon from '../img/closeIcon.png';
 
-const ChatInfoBar = ({header, closeFunction}) => {
+const ChatInfoBar = ({header, room, closeFunction}) => {
   return (
     <div className='info-bar'>
       <h1>{header}</h1>
-      <button className='close-icon' onClick={closeFunction}>
+      <button className='close-icon' onClick={ () => { closeFunction(room) }}>
         <img src={closeIcon} alt="close icon"/>
       </button>
     </div>

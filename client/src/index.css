@@ -86,7 +86,7 @@ textarea {
 }
 
 .account {
-  margin-bottom: 20rem;
+  margin-bottom: 5rem;
 }
 
 .account h1, h2 {
@@ -133,4 +133,8 @@ textarea {
 
 .text-center {
   text-align: center;
+}
+
+input:focus, button:focus {
+  outline: none;
 }

@@ -1,5 +1,5 @@
 
-export const getDateAndTime = (date_object) => {
+const getDateAndTime = (date_object) => {
 
   const minutes = date_object.getMinutes()
 
@@ -21,3 +21,11 @@ export const getDateAndTime = (date_object) => {
 
   return date_and_time
 }
+
+const createRoomName = (myName, friendName) => {
+
+  return myName < friendName ? (myName + friendName) : (friendName + myName)
+}
+
+export { getDateAndTime, createRoomName }
+

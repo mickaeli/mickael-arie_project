@@ -1,48 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import './Chat.css'
+
+import { SocketContext } from '../Context'
 
 import InfoBar from './InfoBar'
 import Messages from './Messages'
 import ChatInput from './ChatInput'
 
-const Chat = () => {
+class Chat extends Component {
 
-  const messages = [
-    {
-      text: 'allo allo allo',
-      user: 'mickael'
-    },
-    {
-      text: 'yes',
-      user: 'arie'
-    },
-    {
-      text: 'allo',
-      user: 'mickael'
-    },
-    {
-      text: 'yes',
-      user: 'arie'
-    },
-    {
-      text: 'allo',
-      user: 'mickael'
-    },
-    {
-      text: ':-)',
-      user: 'arie'
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      message: '',
+      messages: []
     }
-  ]
+  }
 
+  componentDidMount() {
+    
+    this.context.socket.on("message", message => {
+      this.setState({
+        messages: [...this.state.messages, message]
+      })
+    });
+  }
+  
 
-  return (
-    <div className='chat'>
-      <InfoBar header={'Chat'} />
-      <Messages messages={messages} name={'mickael'} />
-      <ChatInput />
-    </div>
-  );
+  render() {
+    return (
+      <div className='chat'>
+        <InfoBar header={this.props.header} room={this.props.room} closeFunction={this.props.closeChat} />
+        <Messages messages={this.state.messages} name={this.props.username} />
+        <ChatInput message={this.state.message} />
+      </div>
+    );
+  }
+
 };
+
+Chat.contextType = SocketContext;
 
 export default Chat;

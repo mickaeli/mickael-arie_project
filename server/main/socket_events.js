@@ -26,6 +26,22 @@ const socketConnect = (io, socket) => {
     socket.broadcast.emit('resToNewFriend', {sender, receiver})
   })
 
+  socket.on('joinToRoom', ({friendName, roomName, sendEventToFriend}) => {
+
+    socket.join(roomName)
+    if(sendEventToFriend) {
+      socket.broadcast.emit('joinToRoom', {friendName, roomName})
+    }
+  })
+
+  socket.on('leaveRoom', ({roomName, sendEventToFriend}) => {
+    
+    socket.leave(roomName)
+    if(sendEventToFriend) {
+      socket.broadcast.to(roomName).emit('leaveRoom', roomName)
+    }
+  })
+
 
 }
 

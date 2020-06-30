@@ -15,7 +15,7 @@ const FriendsButton = (props) => {
     e.preventDefault()
 
     props.acceptRequest(props.otherUser, props.me)
-    socketContext.socket.emit('connectToNewFriend', { sender: props.otherUser, receiver: props.me } )
+    socketContext.socket.emit('connectToNewFriend', { sender: props.me, receiver: props.otherUser } )
   }
 
   let content

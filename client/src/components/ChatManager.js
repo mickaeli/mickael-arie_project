@@ -65,17 +65,6 @@ class ChatManager extends Component {
     })
 
     this.context.socket.on('newFriendConnected', ({sender, receiver}) => {
-      if(sender === this.state.username) {
-        this.setState({
-          friends: [...this.state.friends, receiver],
-          activeFriends: [...this.state.activeFriends, receiver]
-          }, () => {
-            this.context.socket.emit('resToNewFriend', { sender, receiver } )
-        })
-      }
-    })
-
-    this.context.socket.on('resToNewFriend', ({sender, receiver}) => {
       if(receiver === this.state.username) {
         this.setState({
           friends: [...this.state.friends, sender],
@@ -83,6 +72,15 @@ class ChatManager extends Component {
           })
       }
     })
+
+    // this.context.socket.on('resToNewFriend', ({sender, receiver}) => {
+    //   if(receiver === this.state.username) {
+    //     this.setState({
+    //       friends: [...this.state.friends, sender],
+    //       activeFriends: [...this.state.activeFriends, sender]
+    //       })
+    //   }
+    // })
 
     this.context.socket.on('userDisconnected', user => {
       this.setState({

@@ -1,8 +1,6 @@
 const users = [];
 
-const addUser = ({ id, name }) => {
-
-  const user = { id, name };
+const addUser = (user) => {
 
   users.push(user);
 
@@ -17,10 +15,10 @@ const removeUser = (id) => {
   if(index !== -1) return users.splice(index, 1)[0];
 }
 
-const getUser = (id) => {
-  const user = users.find((user) => user.id === id)
-};
+const getUserByName = name => users.find(user => user.name === name)
+
+const getUserById = id => users.find((user) => user.id === id)
 
 const getUsers = () => users.map(user => user.name)
 
-module.exports = { addUser, removeUser, getUser, getUsers };
+module.exports = { addUser, removeUser, getUserByName, getUserById, getUsers };

@@ -1,4 +1,4 @@
-const { addUser, removeUser, getUser, getUsers } = require('./active_users');
+const { addUser, removeUser, getUserByName, getUserById, getUsers } = require('./active_users');
 
 const socketConnect = (io, socket) => {
 
@@ -20,11 +20,15 @@ const socketConnect = (io, socket) => {
 
   socket.on('connectToNewFriend', ({sender, receiver}) => {
     socket.broadcast.emit('newFriendConnected', {sender, receiver})
+
+    if(getUserByName(receiver)) {
+      socket.emit('newFriendConnected', {sender: receiver, receiver: sender})
+    }
   })
 
-  socket.on('resToNewFriend', ({sender, receiver}) => {
-    socket.broadcast.emit('resToNewFriend', {sender, receiver})
-  })
+  // socket.on('resToNewFriend', ({sender, receiver}) => {
+  //   socket.broadcast.emit('resToNewFriend', {sender, receiver})
+  // })
 
   socket.on('joinToRoom', ({friendName, roomName, sendEventToFriend}) => {
 
@@ -40,6 +44,15 @@ const socketConnect = (io, socket) => {
     if(sendEventToFriend) {
       socket.broadcast.to(roomName).emit('leaveRoom', roomName)
     }
+  })
+
+  socket.on('sendMessage', ({message, room}, callback) => {
+
+    const user = getUserById(socket.id)
+
+    io.to(room).emit('message', {message: {user: user.name, text: message}, room})
+
+    callback()
   })
 
 

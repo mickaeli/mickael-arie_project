@@ -25,6 +25,8 @@ class ChatManager extends Component {
       showActiveFriends: false,
       rooms: []
     }
+
+    this.chatWindowsRef = React.createRef()
   }
 
   componentDidMount() {
@@ -40,6 +42,13 @@ class ChatManager extends Component {
       console.log('get friends error: ', err);
     })
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState.rooms !== this.state.rooms) {
+      this.scrollToBottom()
+    }
+  }
+  
 
   setSocketEvent = () => {
     this.context.socket.emit('join', this.state.username);
@@ -73,48 +82,43 @@ class ChatManager extends Component {
       }
     })
 
-    // this.context.socket.on('resToNewFriend', ({sender, receiver}) => {
-    //   if(receiver === this.state.username) {
-    //     this.setState({
-    //       friends: [...this.state.friends, sender],
-    //       activeFriends: [...this.state.activeFriends, sender]
-    //       })
-    //   }
-    // })
-
     this.context.socket.on('userDisconnected', user => {
       this.setState({
         activeFriends: this.state.activeFriends.filter(friend => {
           return friend !== user
+        }),
+        rooms: this.state.rooms.filter(room => {
+          return room.indexOf(user) === -1
         })
       })
     })
 
     this.context.socket.on('joinToRoom', ({friendName, roomName}) => {
 
-      if(friendName === this.state.username) {
-        this.context.socket.emit('joinToRoom', {
-          roomName,
-          sendEventToFriend: false
-        });
+      if(friendName === this.state.username && this.state.rooms.indexOf(roomName) === -1) {
+          this.context.socket.emit('joinToRoom', {
+            roomName,
+            sendEventToFriend: false
+          });
 
-        this.setState({
-          rooms: [...this.state.rooms, roomName]
-        })
+          this.setState({
+            rooms: [...this.state.rooms, roomName]
+          })
+        
       }
       
     })
 
-    this.context.socket.on('leaveRoom', roomName => {
+    //this.context.socket.on('leaveRoom', roomName => {
 
-      this.context.socket.emit('leaveRoom', {roomName, sendEventToFriend: false})
+      //this.context.socket.emit('leaveRoom', {roomName, sendEventToFriend: false})
 
-      this.setState({
-        rooms: this.state.rooms.filter(room => {
-          return room !== roomName
-        })
-      })
-    })
+      //this.setState({
+      //  rooms: this.state.rooms.filter(room => {
+      //    return room !== roomName
+      //  })
+      //})
+    //})
   }
 
   openChat = friendName => {
@@ -146,6 +150,11 @@ class ChatManager extends Component {
   showActiveFriends = () => { this.setState({showActiveFriends: true}) }
   hideActiveFriends = () => { this.setState({showActiveFriends: false}) }
 
+  scrollToBottom = () => {
+    window.scrollTo(0, this.chatWindowsRef.current.offsetTop)
+    //this.chatWindowsRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+
 
   render() {
     return (
@@ -164,12 +173,11 @@ class ChatManager extends Component {
               <ActiveFriends activeFriends={this.state.activeFriends} hideActiveFriends={this.hideActiveFriends} username={this.state.username} rooms={this.state.rooms} openChat={this.openChat} closeChat={this.closeChat} />
             </div>
         }
-        <div className='chat-windows'>
+        <div className='chat-windows' ref={this.chatWindowsRef}>
           {
             this.state.rooms.map(room => (<div key={room} ><Chat username={this.state.username} header={'Chat - ' + room.replace(this.state.username, '') } room={room} closeChat={this.closeChat} /> </div>))
           }
         </div>
-        
       </Fragment>
     );
   }

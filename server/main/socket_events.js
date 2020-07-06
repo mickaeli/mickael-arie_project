@@ -9,13 +9,6 @@ const socketConnect = (io, socket) => {
     socket.emit('activeUsers', getUsers());
 
     socket.broadcast.emit('userConnected', name)
-
-    // socket.join(user.room);
-
-    // socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
-    // socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
-
-    // io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
   });
 
   socket.on('connectToNewFriend', ({sender, receiver}) => {
@@ -26,15 +19,15 @@ const socketConnect = (io, socket) => {
     }
   })
 
-  // socket.on('resToNewFriend', ({sender, receiver}) => {
-  //   socket.broadcast.emit('resToNewFriend', {sender, receiver})
-  // })
-
   socket.on('joinToRoom', ({friendName, roomName, sendEventToFriend}) => {
 
     socket.join(roomName)
     if(sendEventToFriend) {
+
+      const user = getUserById(socket.id)
+
       socket.broadcast.emit('joinToRoom', {friendName, roomName})
+      socket.broadcast.to(roomName).emit('message', {message: {user: 'admin', text: `${user.name} has join`}, room: roomName})
     }
   })
 
@@ -42,7 +35,11 @@ const socketConnect = (io, socket) => {
     
     socket.leave(roomName)
     if(sendEventToFriend) {
-      socket.broadcast.to(roomName).emit('leaveRoom', roomName)
+
+      const user = getUserById(socket.id)
+
+      socket.broadcast.to(roomName).emit('message', {message: {user: 'admin', text: `${user.name} has left. To continue the discussion, please open a new window`}, room: roomName})
+      //socket.broadcast.to(roomName).emit('leaveRoom', roomName)
     }
   })
 
@@ -54,7 +51,6 @@ const socketConnect = (io, socket) => {
 
     callback()
   })
-
 
 }
 

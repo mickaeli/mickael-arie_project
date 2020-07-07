@@ -26,6 +26,6 @@
 
 .chat-windows {
   display: flex;
+  flex-direction: row-reverse;
   flex-wrap: wrap;
-  width: 90%;
 }

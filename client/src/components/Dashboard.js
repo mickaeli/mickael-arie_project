@@ -46,7 +46,7 @@ class Dashboard extends Component {
   render() {
     return (
       <Fragment>
-        <Container fluid className='dashboard account'>
+        <Container fluid className='account'>
           <Row>
             <Col lg={{ offset: 3, span : 6}} className='main-container'>
               <ProfileBackground />

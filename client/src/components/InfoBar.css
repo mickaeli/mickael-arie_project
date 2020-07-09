@@ -6,6 +6,8 @@
   color: white;
   padding: 0 1rem;
   border-radius: 3px 3px 0 0;
+  width: 16rem;
+  margin: 1rem 1rem 0 1rem;
 }
 
 .info-bar h1 {
@@ -15,4 +17,13 @@
   font-size: 1.1rem;
   border-bottom: solid 1px rgb(131, 131, 131);
   text-align: center;
+}
+
+.icon-menu {
+  background: none;
+	border: solid 1px white;
+}
+
+.icon-menu:focus {
+  outline: 0;
 }

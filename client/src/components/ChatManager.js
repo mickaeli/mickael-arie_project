@@ -26,8 +26,6 @@ class ChatManager extends Component {
       showActiveFriends: false,
       rooms: []
     }
-
-    this.chatWindowsRef = React.createRef()
   }
 
   componentDidMount() {
@@ -43,13 +41,6 @@ class ChatManager extends Component {
       console.log('get friends error: ', err);
     })
   }
-
-  componentDidUpdate(prevProps, prevState) {
-    if(prevState.rooms !== this.state.rooms) {
-      this.scrollToBottom()
-    }
-  }
-  
 
   setSocketEvent = () => {
     this.context.socket.emit('join', this.state.username);
@@ -109,17 +100,6 @@ class ChatManager extends Component {
       }
       
     })
-
-    //this.context.socket.on('leaveRoom', roomName => {
-
-      //this.context.socket.emit('leaveRoom', {roomName, sendEventToFriend: false})
-
-      //this.setState({
-      //  rooms: this.state.rooms.filter(room => {
-      //    return room !== roomName
-      //  })
-      //})
-    //})
   }
 
   openChat = friendName => {
@@ -151,19 +131,13 @@ class ChatManager extends Component {
   showActiveFriends = () => { this.setState({showActiveFriends: true}) }
   hideActiveFriends = () => { this.setState({showActiveFriends: false}) }
 
-  scrollToBottom = () => {
-    window.scrollTo(0, this.chatWindowsRef.current.offsetTop)
-    //this.chatWindowsRef.current.scrollIntoView({ behavior: "smooth" });
-  }
-
-
   render() {
     return (
       <Fragment>
       <Container fluid>
         <Row>
-        <Col xl={9} lg={8} md={7} xs={6}>
-            <div className='chat-windows' ref={this.chatWindowsRef}>
+          <Col xl={9} lg={8} md={7} xs={6}>
+            <div className='chat-windows chat-windows-fixed'>
               {
                 this.state.rooms.map(room => (<div key={room} ><Chat username={this.state.username} header={'Chat - ' + room.replace(this.state.username, '') } room={room} closeChat={this.closeChat} /> </div>))
               }
@@ -172,7 +146,7 @@ class ChatManager extends Component {
           <Col xl={3} lg={4} md={5} xs={6}>
             {
               !(this.state.showActiveFriends) &&
-              (<button className='chat-manager-button position-fixed' onClick={this.showActiveFriends}>
+              (<button className='chat-manager-button active-friends-fixed' onClick={this.showActiveFriends}>
                 <div>
                   <img className='chat-logo' src={chatLogo} alt="chat logo"/>
                 </div>
@@ -180,7 +154,7 @@ class ChatManager extends Component {
             }
             {
               this.state.showActiveFriends &&
-                <div className='position-fixed'>
+                <div className='active-friends-fixed'>
                   <ActiveFriends activeFriends={this.state.activeFriends} hideActiveFriends={this.hideActiveFriends} username={this.state.username} rooms={this.state.rooms} openChat={this.openChat} closeChat={this.closeChat} />
                 </div>
             }

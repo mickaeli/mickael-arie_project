@@ -18,7 +18,7 @@
   width: 2rem;
 }
 
-.position-fixed {
+.active-friends-fixed {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
@@ -26,6 +26,12 @@
 
 .chat-windows {
   display: flex;
+  align-items: flex-end;
   flex-direction: row-reverse;
   flex-wrap: wrap;
+}
+.chat-windows-fixed {
+  position: fixed;
+  bottom: 2rem;
+  right: 20rem
 }

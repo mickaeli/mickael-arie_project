@@ -15,7 +15,8 @@ class Chat extends Component {
 
     this.state = {
       message: '',
-      messages: []
+      messages: [],
+      show: true
     }
   }
 
@@ -43,14 +44,20 @@ class Chat extends Component {
       this.context.socket.emit('sendMessage', { message: this.state.message, room: this.props.room }, () => this.setMessage(''));
     }
   }
+
+  showHide = () => {
+    this.setState({show: !this.state.show})
+  }
   
 
   render() {
     return (
-      <div className='chat'>
-        <InfoBar header={this.props.header} room={this.props.room} closeFunction={this.props.closeChat} />
-        <Messages messages={this.state.messages} name={this.props.username} />
-        <ChatInput message={this.state.message} setMessage={this.setMessage} sendMessage={this.sendMessage} />
+      <div>
+        <InfoBar header={this.props.header} room={this.props.room} closeFunction={this.props.closeChat} isplusIcon={true}  minimizeMaximize={this.showHide} />
+        <div className='chat' style={{display: this.state.show ? '' : 'none'}}>
+          <Messages messages={this.state.messages} name={this.props.username} />
+          <ChatInput message={this.state.message} setMessage={this.setMessage} sendMessage={this.sendMessage} />
+        </div>
       </div>
     );
   }

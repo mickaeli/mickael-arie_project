@@ -8,6 +8,14 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, pr
   dialect: 'postgres'
 });
 
+// checks if env is Heroku, if so, sets sequelize to utilize the database hosted on heroku
+if (process.env.DATABASE_URL) {
+  // the application is executed on Heroku ... use the postgres database
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect:  'postgres',
+    protocol: 'postgres'
+  })
+}
 
 // setup UserDetails model and its fields.
 var UserDetails = sequelize.define('users_details', {

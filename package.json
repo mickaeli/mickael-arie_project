@@ -1,0 +1,9 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  }
+}

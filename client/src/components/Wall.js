@@ -39,7 +39,7 @@ const Wall = ({posts, showFriendsPosts, friends, deletePost, editPost}) => {
     
     <div className='wall'>
       <h1 className='text-center'>{ showFriendsPosts ? 'Friends' : 'Others' }</h1>
-      {wallPosts.length === 0 ? 'No posts yet' : wallPosts }
+      {wallPosts.length === 0 ? <p className='text-center'>No posts yet</p> : wallPosts }
     </div>
   );
 };

@@ -8,7 +8,7 @@ import './ChatManager.css'
 import ActiveFriends from './ActiveFriends'
 import Chat from './Chat'
 
-import { SocketContext } from '../Context'
+import { AccountContext } from '../Context'
 import { createRoomName } from '../utils'
  
 import chatLogo from '../img/chat_logo.png'
@@ -166,6 +166,6 @@ class ChatManager extends Component {
   }
 }
 
-ChatManager.contextType = SocketContext;
+ChatManager.contextType = AccountContext;
 
 export default withRouter(ChatManager);

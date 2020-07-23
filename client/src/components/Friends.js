@@ -9,13 +9,14 @@ import OtherUsers from './OtherUsers'
 
 import './Friends.css'
 
+import { AccountContext } from '../Context'
+
 class Friends extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      username: props.match.params.username,
       requestsSent: [],
       requests: [],
       friendsList: [],
@@ -26,7 +27,7 @@ class Friends extends Component {
   componentDidMount() {
     document.title = 'Dashboard - friends'
 
-    axios.get(`/friends/connections/${this.state.username}`)
+    axios.get(`/friends/connections/${this.context.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -108,7 +109,7 @@ class Friends extends Component {
 
 
   getOtherUsers = () => {
-    axios.get(`/friends/other_users/${this.state.username}`)
+    axios.get(`/friends/other_users/${this.context.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -135,20 +136,22 @@ class Friends extends Component {
             
             {
               this.state.requests.length > 0 &&
-              <Invitations me={this.state.username} requests={this.state.requests} acceptRequest={this.acceptRequest} rejectRequest={this.rejectRequest} />
+              <Invitations requests={this.state.requests} acceptRequest={this.acceptRequest} rejectRequest={this.rejectRequest} />
             }
 
             {
               (this.state.friendsList.length > 0 || this.state.requestsSent.length > 0) &&
-              <Connections me={this.state.username} requestsSent={this.state.requestsSent} friendsList={this.state.friendsList} />
+              <Connections requestsSent={this.state.requestsSent} friendsList={this.state.friendsList} />
             }
 
-            <OtherUsers me={this.state.username} otherUsers={this.state.otherUsers} getOtherUsers={this.getOtherUsers} sendRequest={this.sendRequest} />
+            <OtherUsers otherUsers={this.state.otherUsers} getOtherUsers={this.getOtherUsers} sendRequest={this.sendRequest} />
           </Col>
         </Row>
       </Container>
     );
   }
 }
+
+Friends.contextType = AccountContext;
 
 export default Friends;

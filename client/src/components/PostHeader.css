@@ -1,14 +1,15 @@
 .post-header {
   border-bottom: solid 1px #d4d4d5; 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .post-header h1 {
-  display: inline-block;
   font-size: 1.3rem;
 }
 
 .post-header p {
   font-size: 15px;
-  display: inline-block;
   margin: 16px 0;
 }

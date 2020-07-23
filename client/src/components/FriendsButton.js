@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from 'react';
 
-import { SocketContext } from '../Context'
+import { AccountContext } from '../Context'
 
 import { Button } from 'react-bootstrap'
 
@@ -8,14 +8,14 @@ import './FriendsButton.css'
 
 const FriendsButton = (props) => {
 
-  const socketContext = useContext(SocketContext)
+  const accountContext = useContext(AccountContext)
 
   const handleSubmit = e => {
     
     e.preventDefault()
 
-    props.acceptRequest(props.otherUser, props.me)
-    socketContext.socket.emit('connectToNewFriend', { sender: props.me, receiver: props.otherUser } )
+    props.acceptRequest(props.otherUser, accountContext.username)
+    accountContext.socket.emit('connectToNewFriend', { sender: accountContext.username, receiver: props.otherUser } )
   }
 
   let content
@@ -34,7 +34,7 @@ const FriendsButton = (props) => {
                     </form>
                   </div>
                   <div>
-                    <form onSubmit={ e => {e.preventDefault(); props.rejectRequest(props.otherUser, props.me)} }>
+                    <form onSubmit={ e => {e.preventDefault(); props.rejectRequest(props.otherUser, accountContext.username)} }>
                       <Button
                         className='button'
                         variant="outline-secondary"
@@ -57,7 +57,7 @@ const FriendsButton = (props) => {
       content = null
       break;
     case 'otherUser':
-      content = (<form className='buttons-manage-users' onSubmit={ e => {e.preventDefault(); props.sendRequest(props.me, props.otherUser)} }>
+      content = (<form className='buttons-manage-users' onSubmit={ e => {e.preventDefault(); props.sendRequest(accountContext.username, props.otherUser)} }>
                     <Button
                     className='button'
                     variant="info"

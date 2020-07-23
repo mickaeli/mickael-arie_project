@@ -1,0 +1,16 @@
+.wall-manager {
+  margin-top: 20px;
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.wall-manager textarea {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.walls-container {
+  display: flex;
+  justify-content: space-between;
+}

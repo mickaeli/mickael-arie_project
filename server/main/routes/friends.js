@@ -5,6 +5,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 const User = require('../models/user')
+const UserDetails = require('../models/userDetails');
 
 
 router.put('/send_request/:senderName/:receiverName', (req, res) => {
@@ -167,6 +168,7 @@ router.get('/other_users/:username', (req, res) => {
         } else {
 
           console.log("users found")
+          console.log(users);
           const users_names = users.map(user => user.username)
           console.log(users_names);
           
@@ -218,6 +220,75 @@ router.get('/connections/:username', (req, res) => {
         requests: user.dataValues.requests,
         friendsList: user.dataValues.friends_list
       })
+
+    }
+  })
+  .catch(err => {
+    console.log('user search failed');
+    res.json({
+      success: false
+    })
+  });
+
+})
+
+router.get('/myfriends/:username', (req, res) => {
+
+  const username = req.params.username
+
+  User.findOne({ where: { username: username } })
+  .then( user => {
+
+    //case 1: there is not record in the db for this user
+    if (!user) {
+      console.log('user not found');
+      res.json({
+        success: false
+      })
+
+      //case 2: record founded
+    } else {
+      console.log('user found');  
+
+      const friends = user.dataValues.friends_list
+
+      User.findAll({
+        include: [{model: UserDetails, required: true }],
+        where: {
+          username: {[Op.in]: friends}
+        },
+        attributes: ['users_detail.fullname'],
+        raw: true
+      })
+      .then( users => {
+
+        //case 1: there is no user in the db
+        if (!users) {
+          res.json({
+            success: false
+          })
+
+          //case 2: record founded
+        } else {
+
+          console.log("friends found")
+          const users_names = users.map(user => user.fullname)
+          console.log(users_names);
+          
+          res.json({
+            success: true,
+            friends: users_names
+          })
+          
+        }
+      })
+      .catch(err => {
+        console.log('friends search failed')
+        res.json({
+          success: false
+        })
+      });
+
 
     }
   })

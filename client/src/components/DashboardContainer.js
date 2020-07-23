@@ -11,7 +11,7 @@ import Photos from './Photos';
 import NotFound from './NotFound'
 import ChatManager from './ChatManager'
 
-import { SocketContext } from '../Context'
+import { AccountContext } from '../Context'
 
 const ENDPOINT = 'http://localhost:5000';
 
@@ -22,10 +22,11 @@ class DashboardContainer extends Component {
 
     this.state = {
       contextValue: {
-        socket: io(ENDPOINT)
+        socket: io(ENDPOINT),
+        username: this.props.match.params.username,
+        fullname: JSON.parse(localStorage.getItem('isLoggedIn')).fullname
       }
     }
-
   }
 
   componentWillUnmount() {
@@ -36,7 +37,7 @@ class DashboardContainer extends Component {
 
     return (
       <Fragment>
-        <SocketContext.Provider value={this.state.contextValue}>
+        <AccountContext.Provider value={this.state.contextValue}>
           <DashboardHeader urlPrefix={this.props.match.url} />
           
           <Switch>
@@ -49,7 +50,7 @@ class DashboardContainer extends Component {
           </Switch>
           
           <ChatManager />
-        </SocketContext.Provider>
+        </AccountContext.Provider>
         
       </Fragment> 
     );

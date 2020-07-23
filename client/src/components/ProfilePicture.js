@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { Modal, Button, Spinner } from 'react-bootstrap';
-import {withRouter} from 'react-router-dom';
 
 import Avatar from './Avatar'
 
 import './ProfilePicture.css';
 import axios from 'axios';
 
+import { AccountContext } from '../Context'
+
 class ProfilePicture extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: props.match.params.username,
       profile_picture: "",
       selected_picture: "",
       show: false,
@@ -22,7 +22,7 @@ class ProfilePicture extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/profile_picture/${this.state.username}`)
+    axios.get(`/profile_picture/${this.context.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -52,7 +52,7 @@ class ProfilePicture extends Component {
     const data = new FormData()
     data.append('profile_picture', this.state.selected_picture)
 
-    axios.put(`/profile_picture/${this.state.username}`, data)
+    axios.put(`/profile_picture/${this.context.username}`, data)
     .then(res => {
       if (res.data.success === true) {
         this.setState({
@@ -83,7 +83,7 @@ class ProfilePicture extends Component {
       loading: true
     })
 
-    axios.delete(`/profile_picture/${this.state.username}`)
+    axios.delete(`/profile_picture/${this.context.username}`)
     .then(res => {
         if (res.data.success === true) {
           this.setState({
@@ -158,4 +158,6 @@ class ProfilePicture extends Component {
   }
 }
 
-export default withRouter(ProfilePicture);
+ProfilePicture.contextType = AccountContext;
+
+export default ProfilePicture;

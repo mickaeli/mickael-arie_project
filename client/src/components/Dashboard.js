@@ -1,14 +1,15 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap'
 
 import axios from 'axios';
 
 import './Dashboard.css';
 
-// import DashboardHeader from './DashboardHeader';
 import ProfilePicture from './ProfilePicture';
 import ProfileBackground from './ProfileBackground';
-import Wall from './Wall'
+import WallManager from './WallManager'
+
+import { AccountContext } from '../Context'
 
 class Dashboard extends Component {
 
@@ -16,21 +17,14 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
-      username: props.match.params.username,
-      fullname: "",
       profile_description: ""
     };
   }
 
   componentDidMount() {
     document.title = 'Gooder - Dashboard'
-
-    const fullname = JSON.parse(localStorage.getItem('isLoggedIn')).fullname
-    this.setState({
-      fullname
-    })
     
-    axios.get(`/profile_description/${this.state.username}`)
+    axios.get(`/profile_description/${this.context.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -45,24 +39,24 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Fragment>
-        <Container fluid className='account'>
-          <Row>
-            <Col lg={{ offset: 3, span : 6}} className='main-container'>
-              <ProfileBackground />
-              <ProfilePicture />
-              <div className="profile-details">
-                <h1>{this.state.fullname}</h1>
-                <p>{this.state.profile_description}</p>
-              </div>
-              <Wall fullname={this.state.fullname} />
-            </Col>
-          </Row>
-        </Container>
-      </Fragment>
+      <Container fluid className='account'>
+        <Row>
+          <Col lg={{ offset: 2, span : 8}} className='main-container'>
+            <ProfileBackground />
+            <ProfilePicture />
+            <div className="profile-details">
+              <h1>{this.context.fullname}</h1>
+              <p>{this.state.profile_description}</p>
+            </div>
+            <WallManager />
+          </Col>
+        </Row>
+      </Container>
     );
   }
 
 }
+
+Dashboard.contextType = AccountContext;
 
 export default Dashboard;

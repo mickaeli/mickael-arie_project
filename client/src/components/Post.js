@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import { Button } from 'react-bootstrap'
 import Comment from './Comment'
 import PostHeader from './PostHeader'
 import PostBody from './PostBody'
 import axios from 'axios';
+
+import { AccountContext } from '../Context'
 
 import './Post.css'
 
@@ -93,7 +95,7 @@ addComment = () => {
     if(comment_text !== "") {
 
       //'post_id' indicates the id of the post for which we want add a comment.
-      const params = { post_id: this.props.data.id, comment_text: comment_text, comment_author: this.props.username }
+      const params = { post_id: this.props.data.id, comment_text: comment_text, comment_author: this.context.username }
       
       axios.post('/comment/', params)
       .then(res => {
@@ -104,7 +106,7 @@ addComment = () => {
           const new_comment = {
             id: res.data.comment_id,
             text: comment_text,
-            author: this.props.fullname,
+            author: this.context.fullname,
             date: res.data.comment_date
           }
           comments.push(new_comment);
@@ -124,7 +126,7 @@ addComment = () => {
     let content
     if(this.state.edit_mode) {
       content = (
-        <div className="wrapper-button">
+        <Fragment>
           <textarea 
             className='box'
             value={ this.state.post_text_value } 
@@ -135,13 +137,16 @@ addComment = () => {
             onFocus={this.moveCursortAtEnd}
             >
           </textarea>
-          <Button
-            className='button'
-            variant="primary"
-            onClick={this.editPost}
-            >Edit
-          </Button>
-        </div>
+          <div className='wrapper-button'>
+            <Button
+              className='button'
+              variant="primary"
+              onClick={this.editPost}
+              >Edit
+            </Button>
+          </div>
+        </Fragment>
+          
       )
     } else {
         content = ( <PostBody post_text={this.state.post_text} />)
@@ -162,7 +167,7 @@ addComment = () => {
         { content }
 
         {/* check whether author of the post is the user logged in now */}
-        { this.props.data.author === this.props.fullname ? 
+        { this.props.data.author === this.context.fullname ? 
 
           <div className='buttons-edition'>
             <Button
@@ -207,5 +212,7 @@ addComment = () => {
   };
 
 }
+
+Post.contextType = AccountContext;
 
 export default Post;

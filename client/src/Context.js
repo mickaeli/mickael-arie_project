@@ -1,7 +1,9 @@
 import React from 'react'
 
-const SocketContext = React.createContext({
-  socket: {}
+const AccountContext = React.createContext({
+  socket: {},
+  username: '',
+  fullname: ''
 })
 
-export { SocketContext } 
+export { AccountContext } 

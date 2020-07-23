@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './Chat.css'
 
-import { SocketContext } from '../Context'
+import { AccountContext } from '../Context'
 
 import InfoBar from './InfoBar'
 import Messages from './Messages'
@@ -64,6 +64,6 @@ class Chat extends Component {
 
 };
 
-Chat.contextType = SocketContext;
+Chat.contextType = AccountContext;
 
 export default Chat;

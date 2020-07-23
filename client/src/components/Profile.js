@@ -8,14 +8,14 @@ import ProfilePicture from './ProfilePicture';
 import ProfileBackground from './ProfileBackground';
 import ProfileDetailsFormContainer from './ProfileDetailsFormContainer';
 
+import { AccountContext } from '../Context'
+
 class Profile extends Component {
   
   constructor(props) {
     super(props);
 
     this.state = {
-      username: props.match.params.username,
-      fullname: "",
       profile_description: ""
     };
   }
@@ -23,12 +23,7 @@ class Profile extends Component {
   componentDidMount() {
     document.title = 'Dashboard - profile'
 
-    const fullname = JSON.parse(localStorage.getItem('isLoggedIn')).fullname
-    this.setState({
-      fullname
-    })
-
-    axios.get(`/profile_description/${this.state.username}`)
+    axios.get(`/profile_description/${this.context.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -49,17 +44,17 @@ class Profile extends Component {
             <ProfileBackground />
             <ProfilePicture />
             <div className="profile-details">
-              <h1>{this.state.fullname}</h1>
+              <h1>{this.context.fullname}</h1>
               <p>{this.state.profile_description}</p>
             </div>
-            <ProfileDetailsFormContainer
-              username={this.state.username}
-            />
+            <ProfileDetailsFormContainer />
           </Col>
         </Row>
       </Container>
 		);
 	}
 }
+
+Profile.contextType = AccountContext;
 
 export default Profile;

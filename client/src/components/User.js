@@ -47,14 +47,14 @@ class User extends Component {
 
     switch (this.props.userType) {
       case 'senderRequest':
-        content = (<FriendsButton userType={this.props.userType} acceptRequest={this.props.acceptRequest} rejectRequest={this.props.rejectRequest} me={this.props.me} otherUser={this.props.otherUser} />)
+        content = (<FriendsButton userType={this.props.userType} acceptRequest={this.props.acceptRequest} rejectRequest={this.props.rejectRequest} otherUser={this.props.otherUser} />)
         break;
       case 'receiverRequest':
       case 'friend':
         content = (<FriendsButton userType={this.props.userType} />)
         break;
       case 'otherUser':
-        content = (<FriendsButton userType={this.props.userType} sendRequest={this.props.sendRequest} me={this.props.me} otherUser={this.props.otherUser} />)
+        content = (<FriendsButton userType={this.props.userType} sendRequest={this.props.sendRequest} otherUser={this.props.otherUser} />)
         break;
       default:
         break;

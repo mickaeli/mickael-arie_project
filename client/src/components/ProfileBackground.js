@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { Modal, Button, Spinner } from 'react-bootstrap';
 
-import {withRouter} from 'react-router-dom';
-
 import './ProfileBackground.css';
 import axios from 'axios';
+
+import { AccountContext } from '../Context'
 
 class ProfileBackground extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: props.match.params.username,
       profile_background: "",
       selected_background: "",
       show: false,
@@ -22,7 +21,7 @@ class ProfileBackground extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/profile_background/${this.state.username}`)
+    axios.get(`/profile_background/${this.context.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -60,7 +59,7 @@ class ProfileBackground extends Component {
     const data = new FormData()
     data.append('profile_background', this.state.selected_background)
 
-    axios.put(`/profile_background/${this.state.username}`, data)
+    axios.put(`/profile_background/${this.context.username}`, data)
     .then(res => {
       if (res.data.success === true) {
         this.setState({
@@ -94,7 +93,7 @@ class ProfileBackground extends Component {
       const data = new FormData()
       data.append('profile_background', this.state.profile_background)
     
-      axios.delete(`/profile_background/${this.state.username}`, { data: { data: data } })
+      axios.delete(`/profile_background/${this.context.username}`, { data: { data: data } })
       .then(res => {
         if (res.data.success === true) {
           this.setState({
@@ -156,4 +155,6 @@ class ProfileBackground extends Component {
 
 }
 
-export default withRouter(ProfileBackground);
+ProfileBackground.contextType = AccountContext;
+
+export default ProfileBackground;

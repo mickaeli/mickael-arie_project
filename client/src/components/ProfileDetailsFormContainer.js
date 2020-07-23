@@ -5,12 +5,13 @@ import axios from 'axios'
 import ProfileDetailsForm from './ProfileDetailsForm'
 import { validateProfileDetailsForm } from '../validate'
 
+import { AccountContext } from '../Context'
+
 class ProfileDetailsFormContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: props.username,
       errors: {},
       profile_details: {
         fullname: "",
@@ -20,7 +21,7 @@ class ProfileDetailsFormContainer extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/profile_fullname/${this.state.username}`)
+    axios.get(`/profile_fullname/${this.context.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState(prevState => {
@@ -34,7 +35,7 @@ class ProfileDetailsFormContainer extends Component {
       console.log("Get data error: ", err);
     });
 
-    axios.get(`/profile_description/${this.state.username}`)
+    axios.get(`/profile_description/${this.context.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState(prevState => {
@@ -75,7 +76,7 @@ class ProfileDetailsFormContainer extends Component {
     const limit_description = 255
 
     let params = { fullname: profile_details.fullname, description: profile_details.description, limit_description: limit_description };
-    axios.put(`/profile_details/${this.state.username}`, params)
+    axios.put(`/profile_details/${this.context.username}`, params)
     .then(res => {
       if (res.data.success === true) {
         let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
@@ -115,5 +116,7 @@ class ProfileDetailsFormContainer extends Component {
     );
   }
 }
+
+ProfileDetailsFormContainer.contextType = AccountContext;
 
 export default ProfileDetailsFormContainer;

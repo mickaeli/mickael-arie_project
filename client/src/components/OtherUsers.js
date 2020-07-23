@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 
 import User from './User'
 
-const OtherUsers = ({me, otherUsers, getOtherUsers, sendRequest}) =>  {
+const OtherUsers = ({otherUsers, getOtherUsers, sendRequest}) =>  {
 
   const [clickOnButton, setClickOnButton] = useState(false);
 
@@ -17,7 +17,7 @@ const OtherUsers = ({me, otherUsers, getOtherUsers, sendRequest}) =>  {
       if(otherUsers.length > 0) {
         content = (<div className='users'>
                   {
-                    otherUsers.map(otherUser => <div key={otherUser} ><User userType='otherUser' me={me} otherUser={otherUser} sendRequest={sendRequest} /> </div>)
+                    otherUsers.map(otherUser => <div key={otherUser} ><User userType='otherUser' otherUser={otherUser} sendRequest={sendRequest} /> </div>)
                   }
                   </div>)
       } else {

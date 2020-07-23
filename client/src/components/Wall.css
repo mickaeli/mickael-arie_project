@@ -1,18 +1,8 @@
 .wall {
-  margin-top: 20px;
-  width: 85%;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-.wall textarea {
-  width: 100%;
-}
-
-.wall textarea {
-  margin-bottom: 0;
-}
-
-.posts {
   margin-top: 1rem;
+  width: 48%;
+}
+
+.wall > h1 {
+  color: #17a2b8;
 }

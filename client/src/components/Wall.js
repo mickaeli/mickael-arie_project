@@ -1,171 +1,47 @@
-import React, { Component } from 'react';
+import React, {useContext} from 'react';
 
 import Post from './Post';
-import {withRouter} from 'react-router-dom';
-import { Button } from 'react-bootstrap'
-import axios from 'axios';
 
-import './Wall.css';
+import './Wall.css'
 
-class Wall extends Component {
+import { AccountContext } from '../Context'
 
-  constructor(props) {
-    super(props);
+const Wall = ({posts, showFriendsPosts, friends, deletePost, editPost}) => {
 
-    this.state = {
-      username: props.match.params.username,
-      post_text: '',
-      posts: []
-    }
+  const accountContext = useContext(AccountContext)
 
-  }
-
-  componentDidMount() {
-    axios.get('/post/')
-    .then(res => {
-      if(res.data.success === true) {
-        this.setState({
-          posts: res.data.posts
-        })
-      }
-    })
-    .catch(err => {
-      console.log("Get posts error: ", err);
-    });
+  let wallPosts = []
+  if(showFriendsPosts) {
+    wallPosts = posts.slice().reverse().filter(post => friends.includes(post.author) || post.author === accountContext.fullname)
+                                     .map(post => {
+                                        return <div key={post.id}>
+                                        <Post 
+                                          data={post} 
+                                          deletePost={deletePost} 
+                                          editPost = {editPost} 
+                                          />
+                                      </div>
+                                     })
+  } else {
+    wallPosts = posts.slice().reverse().filter(post => !friends.includes(post.author) && post.author !== accountContext.fullname)
+                                     .map(post => {
+                                        return <div key={post.id}>
+                                        <Post 
+                                          data={post} 
+                                          deletePost={deletePost} 
+                                          editPost = {editPost} 
+                                          />
+                                      </div>
+                                     })
   }
   
-
-  onChange = (event) => {
-    this.setState({
-      post_text: event.target.value
-    });
-  }
-
-  addPost = () => {
-
-    let post_text = this.state.post_text.trim();
-
-    if(post_text !== "") {
-
-      const params = { post_text: post_text, post_author: this.state.username }
-      
-      axios.post('/post/', params)
-      .then(res => {
-        if (res.data.success === true) {
-          
-          //add the new post at end of this.state.posts array
-          let posts = this.state.posts
-          const new_post = {
-            id: res.data.post_id,
-            text: post_text,
-            author: this.props.fullname,
-            edited: false,
-            date: res.data.post_date
-          }
-          posts.push(new_post);
-          this.setState({posts});
-        }
-      })
-      .catch(err => {
-        console.log("Upload post error: ", err);
-      })
-    }
-
-    this.setState({post_text:''})
-  }
-
-
-  editPost = (post_id, post_text) => {
-
-    const params = { post_text: post_text, post_author: this.state.username }
-
-    axios.put(`/post/${post_id}`, params)
-    .then(res => {
-      if (res.data.success === true) {
-        
-        let posts = this.state.posts
-
-        posts.forEach(post => {
-          if(post.id === post_id) {
-            post.id = res.data.post_id
-            post.text = post_text
-            post.edited = true
-            post.date = res.data.post_date
-          }
-        })
-        
-        this.setState({posts});
-      }
-    })
-    .catch(err => {
-      console.log("Edit post error: ", err);
-    })
-  }
-
-
-  deletePost = (post_id) => {
+  return (
     
-    //delete post and its comments
-    axios.delete(`/post/${post_id}`)
-    .then(res => {
-      if (res.data.success === true) {
+    <div className='wall'>
+      <h1>{ showFriendsPosts ? 'Friends' : 'Others' }</h1>
+      {wallPosts}
+    </div>
+  );
+};
 
-        const post_to_delete = this.state.posts.filter(post => {
-          return (post.id === post_id)
-        })
-
-        let posts = this.state.posts
-
-        const index = posts.indexOf(post_to_delete[0])
-        posts.splice(index,1);
-        this.setState({posts})
-      }
-    })
-    .catch(err => {
-      console.log("Delete post error: ", err);
-    });
-  }
-
-
-  render() {
-
-    const posts = this.state.posts.slice().reverse().map(post => {
-      return <Post 
-        key={post.id} 
-        username={this.state.username}
-        fullname={this.props.fullname}
-        data={post} 
-        deletePost={this.deletePost} 
-        editPost = {this.editPost} 
-      />
-    })
-
-    return (
-      <div className='wall'>
-        <textarea 
-        className='box' 
-        placeholder="Post something"
-        value={this.state.post_text} 
-        onChange={this.onChange} 
-        name="post-text" 
-        rows="10"
-        />
-        <div className='wrapper-button'>
-          <Button
-            className='button'
-            variant="primary"
-            onClick={this.addPost}
-            >Publish 
-          </Button>
-        </div>
-        
-        <div className='posts'>
-          { posts }
-        </div>
-        
-      </div>
-    );
-  }
-}
-
-export default withRouter(Wall);
+export default Wall;

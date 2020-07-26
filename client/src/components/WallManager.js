@@ -71,6 +71,7 @@ class WallManager extends Component {
           const new_post = {
             id: res.data.post_id,
             text: post_text,
+            profilePicture: this.context.profilePicture,
             author: this.context.fullname,
             edited: false,
             date: res.data.post_date

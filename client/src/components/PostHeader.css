@@ -13,3 +13,8 @@
   font-size: 15px;
   margin: 16px 0;
 }
+
+.picture-author {
+  display: flex;
+  align-items: center;
+}

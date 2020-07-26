@@ -6,7 +6,6 @@ import DashboardHeader from './DashboardHeader';
 import Dashboard from './Dashboard';
 import Profile from './Profile';
 import Friends from './Friends';
-import Groups from './Groups';
 import Photos from './Photos';
 import NotFound from './NotFound'
 import ChatManager from './ChatManager'
@@ -24,7 +23,8 @@ class DashboardContainer extends Component {
       contextValue: {
         socket: io(ENDPOINT),
         username: this.props.match.params.username,
-        fullname: JSON.parse(localStorage.getItem('isLoggedIn')).fullname
+        fullname: JSON.parse(localStorage.getItem('isLoggedIn')).fullname,
+        profilePicture: JSON.parse(localStorage.getItem('isLoggedIn')).profilePicture
       }
     }
   }
@@ -44,7 +44,6 @@ class DashboardContainer extends Component {
             <Route exact path={`${this.props.match.path}`} component={Dashboard} />
             <Route exact path={`${this.props.match.path}/profile`} component={Profile} />
             <Route exact path={`${this.props.match.path}/friends`} component={Friends} />
-            <Route exact path={`${this.props.match.path}/groups`} component={Groups} />
             <Route exact path={`${this.props.match.path}/photos`} component={Photos} />
             <Route component={NotFound} />
           </Switch>

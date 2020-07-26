@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap'
 import axios from 'axios'
 
-import './ChatManager.css'
+
 
 import ActiveFriends from './ActiveFriends'
 import Chat from './Chat'
@@ -13,6 +13,7 @@ import { createRoomName } from '../utils'
  
 import chatLogo from '../img/chat_logo.png'
 
+import './ChatManager.css'
 
 class ChatManager extends Component {
 
@@ -20,7 +21,6 @@ class ChatManager extends Component {
     super(props);
 
     this.state = {
-      username: this.props.match.params.username,
       friends: [],
       activeFriends: [],
       showActiveFriends: false,
@@ -29,7 +29,7 @@ class ChatManager extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/friends/connections/${this.state.username}`)
+    axios.get(`/friends/connections/${this.context.username}`)
     .then(res => {
       if(res.data.success) {
         this.setState({
@@ -43,7 +43,7 @@ class ChatManager extends Component {
   }
 
   setSocketEvent = () => {
-    this.context.socket.emit('join', this.state.username);
+    this.context.socket.emit('join', this.context.username);
 
     this.context.socket.on("activeUsers", users => {
 
@@ -66,7 +66,7 @@ class ChatManager extends Component {
     })
 
     this.context.socket.on('newFriendConnected', ({sender, receiver}) => {
-      if(receiver === this.state.username) {
+      if(receiver === this.context.username) {
         this.setState({
           friends: [...this.state.friends, sender],
           activeFriends: [...this.state.activeFriends, sender]
@@ -87,7 +87,7 @@ class ChatManager extends Component {
 
     this.context.socket.on('joinToRoom', ({friendName, roomName}) => {
 
-      if(friendName === this.state.username && this.state.rooms.indexOf(roomName) === -1) {
+      if(friendName === this.context.username && this.state.rooms.indexOf(roomName) === -1) {
           this.context.socket.emit('joinToRoom', {
             roomName,
             sendEventToFriend: false
@@ -104,7 +104,7 @@ class ChatManager extends Component {
 
   openChat = friendName => {
 
-    const roomName = createRoomName(this.state.username, friendName)
+    const roomName = createRoomName(this.context.username, friendName)
 
     this.context.socket.emit('joinToRoom', {
       friendName, 
@@ -139,7 +139,7 @@ class ChatManager extends Component {
           <Col xl={9} lg={8} md={7} xs={6}>
             <div className='chat-windows chat-windows-fixed'>
               {
-                this.state.rooms.map(room => (<div key={room} ><Chat username={this.state.username} header={'Chat - ' + room.replace(this.state.username, '') } room={room} closeChat={this.closeChat} /> </div>))
+                this.state.rooms.map(room => (<div key={room} ><Chat room={room} closeChat={this.closeChat} /> </div>))
               }
             </div>
           </Col>
@@ -155,7 +155,7 @@ class ChatManager extends Component {
             {
               this.state.showActiveFriends &&
                 <div className='active-friends-fixed'>
-                  <ActiveFriends activeFriends={this.state.activeFriends} hideActiveFriends={this.hideActiveFriends} username={this.state.username} rooms={this.state.rooms} openChat={this.openChat} closeChat={this.closeChat} />
+                  <ActiveFriends activeFriends={this.state.activeFriends} hideActiveFriends={this.hideActiveFriends} rooms={this.state.rooms} openChat={this.openChat} closeChat={this.closeChat} />
                 </div>
             }
           </Col>

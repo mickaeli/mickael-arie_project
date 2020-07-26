@@ -4,18 +4,6 @@
   border-bottom: solid 1px  #d9cece;
 }
 
-.user div p {
+.description {
   margin-bottom: 0;
-}
-
-.user-profile_image {
-  flex: 0 0 50%;
-}
-
-.user-profile_details {
-  flex: 0 0 50%;
-}
-
-.user-fullname {
-  margin-bottom: .5rem;
 }

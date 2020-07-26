@@ -1,83 +1,36 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-import axios from 'axios'
-
-import Avatar from './Avatar'
 import FriendsButton from './FriendsButton'
+import UserDetails from './UserDetails'
 
 import './User.css'
 
+const User = ({otherUser, userType, acceptRequest, rejectRequest, sendRequest}) => {
 
+    let button
 
-class User extends Component {
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      userDetails: {
-        fullname: '',
-        profilePicture: '',
-        description: ''
-      }
-    }
-  }
-
-  componentDidMount() {
-    
-    axios.get(`/profile_details/${this.props.otherUser}`)
-    .then(res => {
-      if(res.data.success === true) {
-        this.setState({
-          userDetails: Object.assign({}, res.data.userDetails )
-        })
-      }
-    })
-    .catch(err => {
-      console.log('get profile_details error: ', err);
-    })
-  }
-
-
-  render() {
-
-    const default_profile_picture = 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png'
-
-    let content
-
-    switch (this.props.userType) {
+    switch (userType) {
       case 'senderRequest':
-        content = (<FriendsButton userType={this.props.userType} acceptRequest={this.props.acceptRequest} rejectRequest={this.props.rejectRequest} otherUser={this.props.otherUser} />)
+        button = (<FriendsButton userType={userType} acceptRequest={acceptRequest} rejectRequest={rejectRequest} otherUser={otherUser} />)
         break;
       case 'receiverRequest':
       case 'friend':
-        content = (<FriendsButton userType={this.props.userType} />)
+        button = (<FriendsButton userType={userType} />)
         break;
       case 'otherUser':
-        content = (<FriendsButton userType={this.props.userType} sendRequest={this.props.sendRequest} otherUser={this.props.otherUser} />)
+        button = (<FriendsButton userType={userType} sendRequest={sendRequest} otherUser={otherUser} />)
         break;
       default:
         break;
     }
 
     return (
+
       <div className='user'>
-        <div className='user-profile-image'>
-          <Avatar 
-          profile_picture={ this.state.userDetails.profilePicture } 
-          center_image={ this.state.userDetails.profilePicture === default_profile_picture ? true : false } 
-          size='sm'
-          is_button={false}
-          />
-        </div>
-        <div className='user-profile-details'>
-          <h2> { this.state.userDetails.fullname } </h2>
-          <p> { this.state.userDetails.description } </p>
-        </div>
-        {content}
+        <UserDetails username={otherUser} fullname='h2' picture={true} pictureSize='sm' description={true} />
+        {button}
       </div>
     )
-  }
 };
 
 export default User;

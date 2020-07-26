@@ -60,6 +60,11 @@ class ProfilePicture extends Component {
           show: false,
           loading: false
         })
+
+        let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+        isLoggedIn.profilePicture = res.data.url
+        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
+
       } else {
         this.setState({
           show: false,
@@ -92,6 +97,10 @@ class ProfilePicture extends Component {
             show: false,
             loading: false
           })
+
+          let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+          isLoggedIn.profilePicture = 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png'
+          localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
         }
       })
     .catch(err => {

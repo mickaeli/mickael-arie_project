@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import './Chat.css'
-
-import { AccountContext } from '../Context'
-
 import InfoBar from './InfoBar'
 import Messages from './Messages'
 import ChatInput from './ChatInput'
+
+import { AccountContext } from '../Context'
+
+import './Chat.css'
 
 class Chat extends Component {
 
@@ -53,9 +53,9 @@ class Chat extends Component {
   render() {
     return (
       <div>
-        <InfoBar header={this.props.header} room={this.props.room} closeFunction={this.props.closeChat} isplusIcon={true}  minimizeMaximize={this.showHide} />
+        <InfoBar header={'Chat - ' + this.props.room.replace(this.context.username, '') } room={this.props.room} closeFunction={this.props.closeChat} isplusIcon={true}  minimizeMaximize={this.showHide} />
         <div className='chat' style={{display: this.state.show ? '' : 'none'}}>
-          <Messages messages={this.state.messages} name={this.props.username} />
+          <Messages messages={this.state.messages} />
           <ChatInput message={this.state.message} setMessage={this.setMessage} sendMessage={this.sendMessage} />
         </div>
       </div>

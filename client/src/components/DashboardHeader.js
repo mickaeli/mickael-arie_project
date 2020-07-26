@@ -28,7 +28,6 @@ const DashboardHeader = ({urlPrefix}) => {
             <NavLink exact to={`${urlPrefix}`} activeClassName='link-active' className='link'>Home</NavLink>
             <NavLink exact to={`${urlPrefix}/profile`} activeClassName='link-active' className='link'>Profile</NavLink>
             <NavLink exact to={`${urlPrefix}/friends`} activeClassName='link-active' className='link'>Friends</NavLink>
-            <NavLink exact to={`${urlPrefix}/groups`} activeClassName='link-active' className='link'>Groups</NavLink>
             <NavLink exact to={`${urlPrefix}/photos`} activeClassName='link-active' className='link'>Photos</NavLink>
           </Nav>
           <Form inline className='mr-4 search-form'>

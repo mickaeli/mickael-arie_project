@@ -57,7 +57,7 @@ class Signup extends Component {
       if (res.data.success === true) {
 
         //do setting in cookie
-        let details_connexion = { value: true, username: user.usr, fullname: user.name, timestamp: new Date().getTime() }
+        let details_connexion = { value: true, username: user.usr, fullname: user.name, profilePicture: 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png', timestamp: new Date().getTime() }
         localStorage.setItem('isLoggedIn', JSON.stringify(details_connexion))
         let event = new Event('storage')
         event.key = 'isLoggedIn'

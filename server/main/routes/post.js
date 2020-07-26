@@ -67,6 +67,7 @@ router.get('/', (req, res) => {
         posts_array.push({
           id: post.id,
           text: post.text,
+          profilePicture: post['user.users_detail.url_picture'],
           author: post['user.users_detail.fullname'],
           edited: post.edited,
           date: post.updatedAt

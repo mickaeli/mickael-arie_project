@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ReactEmoji from 'react-emoji';
+
+import { AccountContext } from '../Context'
 
 import './Message.css';
 
-const Message = ({ message: { text, user }, name }) => {
+const Message = ({ message: { text, user } }) => {
+
+  const accountContext = useContext(AccountContext)
 
   let isSentByCurrentUser = false;
 
-  if(user === name) {
+  if(user === accountContext.username) {
     isSentByCurrentUser = true;
   }
 
@@ -15,7 +19,7 @@ const Message = ({ message: { text, user }, name }) => {
     isSentByCurrentUser
     ? (
       <div className="messageContainer justifyEnd">
-        <p className="sentText pr-10">{name}</p>
+        <p className="sentText pr-10">{user}</p>
         <div className="messageBox backgroundBlue">
           <p className="messageText colorWhite">{ReactEmoji.emojify(text)}</p>
         </div>

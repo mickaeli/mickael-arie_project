@@ -106,6 +106,7 @@ addComment = () => {
           const new_comment = {
             id: res.data.comment_id,
             text: comment_text,
+            profilePicture: this.context.profilePicture,
             author: this.context.fullname,
             date: res.data.comment_date
           }
@@ -162,7 +163,7 @@ addComment = () => {
     return (
 
       <div className='post box'>
-        <PostHeader data={ { author: this.props.data.author, post_edited: this.state.post_edited, date: this.props.data.date } } />
+        <PostHeader data={ { profilePicture: this.props.data.profilePicture, author: this.props.data.author, post_edited: this.state.post_edited, date: this.props.data.date } } />
 
         { content }
 

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import { Button } from 'react-bootstrap'
-import axios from 'axios'
+import UserDetails from './UserDetails';
 
-import Avatar from './Avatar'
-
+import { AccountContext } from '../Context'
 import { createRoomName } from '../utils'
 
 import './ActiveUser.css'
+
 
 class ActiveUser extends Component {
 
@@ -14,31 +14,15 @@ class ActiveUser extends Component {
     super(props)
 
     this.state = {
-      userDetails: {
-        fullname: '',
-        profilePicture: ''
-      },
       chatOpen: false
     }
   }
 
   componentDidMount() {
-    
-    axios.get(`/profile_details/${this.props.friend}`) //get props.user
-    .then(res => {
-      if(res.data.success === true) {
-        this.setState({
-          userDetails: Object.assign({}, res.data.userDetails )
-        })
-      }
-    })
-    .catch(err => {
-      console.log('get profile_details error: ', err);
-    })
 
     this.setState({
       chatOpen: this.props.rooms.some(room => {
-        return room.replace(this.props.username, '') === this.props.friend
+        return room.replace(this.context.username, '') === this.props.friend
       })
     })
   }
@@ -48,7 +32,7 @@ class ActiveUser extends Component {
     if(prevProps.rooms !== this.props.rooms) {
       this.setState({
         chatOpen: this.props.rooms.some(room => {
-          return room.replace(this.props.username, '') === this.props.friend
+          return room.replace(this.context.username, '') === this.props.friend
         })
       })
     }
@@ -61,14 +45,12 @@ class ActiveUser extends Component {
 
   closeChat = () => {
 
-    const roomName = createRoomName(this.props.username, this.props.friend)
+    const roomName = createRoomName(this.context.username, this.props.friend)
 
     this.props.closeChat(roomName);
   }
 
   render() {
-
-    const default_profile_picture = 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png'
 
     let button;
 
@@ -81,20 +63,14 @@ class ActiveUser extends Component {
 
     return (
       <div className='active-user'>
-        <div className='user-profile-image'>
-          <Avatar 
-          profile_picture={ this.state.userDetails.profilePicture } 
-          center_image={ this.state.userDetails.profilePicture === default_profile_picture ? true : false } 
-          size='xs'
-          is_button={false}
-          />
-        </div>
-        <p className='user-fullname'> { this.state.userDetails.fullname } </p>
+        <UserDetails username={this.props.friend} fullname='p' picture={true} pictureSize='xs' description={false} />
         {button}
       </div>
       
     );
   }
 }
+
+ActiveUser.contextType = AccountContext;
 
 export default ActiveUser;

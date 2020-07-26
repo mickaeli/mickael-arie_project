@@ -70,6 +70,7 @@ router.get('/', (req, res) => {
         comments_array.push({
           id: comment.id,
           text: comment.text,
+          profilePicture: comment['user.users_detail.url_picture'],
           author: comment['user.users_detail.fullname'],
           date: comment.updatedAt
         })

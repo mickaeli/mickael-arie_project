@@ -1,0 +1,15 @@
+.user-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fullname {
+  font-size: 1.1rem;
+  margin: 0 1rem 0 0;
+  opacity: 0.8;
+}
+
+.description {
+  margin-bottom: 0;
+}

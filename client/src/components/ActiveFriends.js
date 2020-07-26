@@ -6,7 +6,7 @@ import InfoBar from './InfoBar'
 
 import './ActiveFriends.css'
 
-const ActiveFriends = ({activeFriends, hideActiveFriends, username, rooms, openChat, closeChat}) => {
+const ActiveFriends = ({activeFriends, hideActiveFriends, rooms, openChat, closeChat}) => {
 
   return (
     <div>
@@ -17,7 +17,7 @@ const ActiveFriends = ({activeFriends, hideActiveFriends, username, rooms, openC
           ?
           <div className='active-friends-container'>
             {
-              activeFriends.map((friend) => (<div key={friend}> < ActiveUser username={username} friend={friend} rooms={rooms} openChat={openChat} closeChat={closeChat} /> </div>))
+              activeFriends.map((friend) => (<div key={friend}> < ActiveUser friend={friend} rooms={rooms} openChat={openChat} closeChat={closeChat} /> </div>))
             }
           </div>
           :

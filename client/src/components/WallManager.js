@@ -4,8 +4,6 @@ import axios from 'axios';
 import PostInput from './PostInput'
 import Wall from './Wall'
 
-import { AccountContext } from '../Context'
-
 import './WallManager.css';
 
 class WallManager extends Component {
@@ -16,7 +14,8 @@ class WallManager extends Component {
     this.state = {
       post_text: '',
       posts: [],
-      friends: []
+      friends: [],
+      userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
 
   }
@@ -34,7 +33,7 @@ class WallManager extends Component {
       console.log("Get posts error: ", err);
     });
 
-    axios.get(`/friends/myfriends/${this.context.username}`)
+    axios.get(`/friends/myfriends/${this.state.userDetails.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -60,7 +59,7 @@ class WallManager extends Component {
 
     if(post_text !== "") {
 
-      const params = { post_text: post_text, post_author: this.context.username }
+      const params = { post_text: post_text, post_author: this.state.userDetails.username }
       
       axios.post('/post/', params)
       .then(res => {
@@ -71,8 +70,8 @@ class WallManager extends Component {
           const new_post = {
             id: res.data.post_id,
             text: post_text,
-            profilePicture: this.context.profilePicture,
-            author: this.context.fullname,
+            profilePicture: this.state.userDetails.profilePicture,
+            author: this.state.userDetails.fullname,
             edited: false,
             date: res.data.post_date
           }
@@ -91,7 +90,7 @@ class WallManager extends Component {
 
   editPost = (post_id, post_text) => {
 
-    const params = { post_text: post_text, post_author: this.context.username }
+    const params = { post_text: post_text, post_author: this.state.userDetails.username }
 
     axios.put(`/post/${post_id}`, params)
     .then(res => {
@@ -166,7 +165,5 @@ class WallManager extends Component {
     );
   }
 }
-
-WallManager.contextType = AccountContext;
 
 export default WallManager;

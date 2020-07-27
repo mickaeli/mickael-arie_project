@@ -2,7 +2,7 @@ header .link {
   width: fit-content;
   text-decoration: none;
   color: white;
-  padding: 5px 10px; /* שנו את הרווח הזה */
+  padding: 5px 10px;
 }
     
 header .link:hover {

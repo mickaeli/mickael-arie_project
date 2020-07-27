@@ -7,14 +7,14 @@ import { createRoomName } from '../utils'
 
 import './ActiveUser.css'
 
-
 class ActiveUser extends Component {
 
   constructor(props) {
     super(props)
 
     this.state = {
-      chatOpen: false
+      chatOpen: false,
+      userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
   }
 
@@ -22,7 +22,7 @@ class ActiveUser extends Component {
 
     this.setState({
       chatOpen: this.props.rooms.some(room => {
-        return room.replace(this.context.username, '') === this.props.friend
+        return room.replace(this.state.userDetails.username, '') === this.props.friend
       })
     })
   }
@@ -32,7 +32,7 @@ class ActiveUser extends Component {
     if(prevProps.rooms !== this.props.rooms) {
       this.setState({
         chatOpen: this.props.rooms.some(room => {
-          return room.replace(this.context.username, '') === this.props.friend
+          return room.replace(this.state.userDetails.username, '') === this.props.friend
         })
       })
     }
@@ -45,7 +45,7 @@ class ActiveUser extends Component {
 
   closeChat = () => {
 
-    const roomName = createRoomName(this.context.username, this.props.friend)
+    const roomName = createRoomName(this.state.userDetails.username, this.props.friend)
 
     this.props.closeChat(roomName);
   }

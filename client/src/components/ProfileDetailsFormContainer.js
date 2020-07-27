@@ -5,8 +5,6 @@ import axios from 'axios'
 import ProfileDetailsForm from './ProfileDetailsForm'
 import { validateProfileDetailsForm } from '../validate'
 
-import { AccountContext } from '../Context'
-
 class ProfileDetailsFormContainer extends Component {
   constructor(props) {
     super(props);
@@ -14,33 +12,22 @@ class ProfileDetailsFormContainer extends Component {
     this.state = {
       errors: {},
       profile_details: {
-        fullname: "",
+        username: JSON.parse(localStorage.getItem('isLoggedIn')).username,
+        fullname: JSON.parse(localStorage.getItem('isLoggedIn')).fullname,
         description: ""
-      }
+      },
+
     };
   }
 
   componentDidMount() {
-    axios.get(`/profile_fullname/${this.context.username}`)
-    .then(res => {
-      if(res.data.success === true) {
-        this.setState(prevState => {
-          let profile_details = Object.assign({}, prevState.profile_details);
-          profile_details.fullname = res.data.fullname;             
-          return { profile_details };
-        })
-      }
-    })
-    .catch(err => {
-      console.log("Get data error: ", err);
-    });
 
-    axios.get(`/profile_description/${this.context.username}`)
+    axios.get(`/profile_details/${this.state.profile_details.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState(prevState => {
           let profile_details = Object.assign({}, prevState.profile_details);
-          profile_details.description = res.data.description;             
+          profile_details.description = res.data.userDetails.description;             
           return { profile_details };
         })
       }
@@ -76,7 +63,7 @@ class ProfileDetailsFormContainer extends Component {
     const limit_description = 255
 
     let params = { fullname: profile_details.fullname, description: profile_details.description, limit_description: limit_description };
-    axios.put(`/profile_details/${this.context.username}`, params)
+    axios.put(`/profile_details/${this.state.profile_details.username}`, params)
     .then(res => {
       if (res.data.success === true) {
         let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
@@ -116,7 +103,5 @@ class ProfileDetailsFormContainer extends Component {
     );
   }
 }
-
-ProfileDetailsFormContainer.contextType = AccountContext;
 
 export default ProfileDetailsFormContainer;

@@ -7,18 +7,16 @@ var logger = require('morgan');
 
 var fileupload = require('express-fileupload')
 
-var signupRouter = require('./routes/signup')
-var signinRouter = require('./routes/signin')
+const signupRouter = require('./routes/signup')
+const signinRouter = require('./routes/signin')
 
-var profileImgRouter = require('./routes/profile_picture')
-var profileBgRouter = require('./routes/profile_background')
+const profileImgRouter = require('./routes/profile_picture')
+const profileBgRouter = require('./routes/profile_background')
 
-var profileDescriptionRouter = require('./routes/profile_description')
-var profileFullnameRouter = require('./routes/profile_fullname')
-var profileDetailsRouter = require('./routes/profile_details')
+const profileDetailsRouter = require('./routes/profile_details')
 
-var postRouter = require('./routes/post')
-var commentRouter = require('./routes/comment')
+const postRouter = require('./routes/post')
+const commentRouter = require('./routes/comment')
 
 const friendsRouter = require('./routes/friends')
 
@@ -59,8 +57,6 @@ app.use('/signin', signinRouter)
 app.use('/profile_picture/:username', profileImgRouter)
 app.use('/profile_background/:username', profileBgRouter)
 
-app.use('/profile_description/:username', profileDescriptionRouter)
-app.use('/profile_fullname/:username', profileFullnameRouter)
 app.use('/profile_details/:username?', profileDetailsRouter)
 
 app.use('/post/:id?', postRouter)

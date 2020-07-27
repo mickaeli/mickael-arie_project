@@ -54,36 +54,6 @@ router.put('/', (req, res) => {
   })
 })
 
-router.get('/', (req, res) => {
-
-  var username = req.params.username
-
-  UserDetails.findOne({ where: { username: username } })
-  .then(function (user_details) {
-
-    //case 1: there is not record in the db for this user
-    if (!user_details) {
-      res.json({
-        success: false
-      })
-
-      //case 2: record founded
-    } else {
-      res.json({
-        success: true,
-        url: user_details.dataValues.url_background
-      })
-
-    }
-  })
-  .catch(function(error) {
-    res.json({
-      success: false
-    })
-  });
-
-})
-
 router.delete('/', (req, res) => {
 
   var username = req.params.username

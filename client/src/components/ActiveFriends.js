@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import ActiveUser from './ActiveUser'
 import InfoBar from './InfoBar'
 

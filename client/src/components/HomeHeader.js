@@ -2,13 +2,12 @@ import React from 'react';
 import {Navbar, Nav, Button} from 'react-bootstrap'
 import {Link, NavLink, withRouter} from 'react-router-dom';
 
-import './Header.css';
-import './HomeHeader.css';
 import logo from '../img/logo.png';
 
-const HomeHeader = (props) => {
+import './Header.css';
+import './HomeHeader.css';
 
-    //if(props.location.pathname.match(/^(\/dashboard)/)) return null;
+const HomeHeader = () => {
 
     const details_connection = JSON.parse(localStorage.getItem('isLoggedIn'))
 

@@ -24,12 +24,14 @@ class ChatManager extends Component {
       friends: [],
       activeFriends: [],
       showActiveFriends: false,
-      rooms: []
+      rooms: [],
+      userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
   }
 
   componentDidMount() {
-    axios.get(`/friends/connections/${this.context.username}`)
+
+    axios.get(`/friends/connections/${this.state.userDetails.username}`)
     .then(res => {
       if(res.data.success) {
         this.setState({
@@ -41,9 +43,10 @@ class ChatManager extends Component {
       console.log('get friends error: ', err);
     })
   }
+  
 
   setSocketEvent = () => {
-    this.context.socket.emit('join', this.context.username);
+    this.context.socket.emit('join', this.state.userDetails.username);
 
     this.context.socket.on("activeUsers", users => {
 
@@ -66,7 +69,7 @@ class ChatManager extends Component {
     })
 
     this.context.socket.on('newFriendConnected', ({sender, receiver}) => {
-      if(receiver === this.context.username) {
+      if(receiver === this.state.userDetails.username) {
         this.setState({
           friends: [...this.state.friends, sender],
           activeFriends: [...this.state.activeFriends, sender]
@@ -87,7 +90,7 @@ class ChatManager extends Component {
 
     this.context.socket.on('joinToRoom', ({friendName, roomName}) => {
 
-      if(friendName === this.context.username && this.state.rooms.indexOf(roomName) === -1) {
+      if(friendName === this.state.userDetails.username && this.state.rooms.indexOf(roomName) === -1) {
           this.context.socket.emit('joinToRoom', {
             roomName,
             sendEventToFriend: false
@@ -104,7 +107,7 @@ class ChatManager extends Component {
 
   openChat = friendName => {
 
-    const roomName = createRoomName(this.context.username, friendName)
+    const roomName = createRoomName(this.state.userDetails.username, friendName)
 
     this.context.socket.emit('joinToRoom', {
       friendName, 

@@ -1,60 +1,31 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap'
 
-import axios from 'axios';
-
-import './Profile.css';
 import ProfilePicture from './ProfilePicture';
 import ProfileBackground from './ProfileBackground';
+import UserDetails from './UserDetails'
 import ProfileDetailsFormContainer from './ProfileDetailsFormContainer';
 
-import { AccountContext } from '../Context'
+const Profile = () => {
 
-class Profile extends Component {
-  
-  constructor(props) {
-    super(props);
+  useEffect(() => {
+    document.title = 'Dashboard - Profile'
+  }, [])
 
-    this.state = {
-      profile_description: ""
-    };
-  }
+  const userDetails = JSON.parse(localStorage.getItem('isLoggedIn'))
 
-  componentDidMount() {
-    document.title = 'Dashboard - profile'
-
-    axios.get(`/profile_description/${this.context.username}`)
-    .then(res => {
-      if(res.data.success === true) {
-        this.setState({
-          profile_description: res.data.description
-        })
-      }
-    })
-    .catch(err => {
-      console.log("Get data error: ", err);
-    });
-  }
-	
-	render() {
-		return (
-			<Container fluid className='profile account'>
-        <Row>
-          <Col lg={{ offset: 3, span : 6}} className='main-container'>
-            <ProfileBackground />
-            <ProfilePicture />
-            <div className="profile-details">
-              <h1>{this.context.fullname}</h1>
-              <p>{this.state.profile_description}</p>
-            </div>
-            <ProfileDetailsFormContainer />
-          </Col>
-        </Row>
-      </Container>
-		);
-	}
+  return (
+    <Container fluid className='profile account'>
+      <Row>
+        <Col lg={{ offset: 3, span : 6}} className='main-container'>
+          <ProfileBackground />
+          <ProfilePicture />
+          <UserDetails username={userDetails.username} fullname='h1' picture={false} description={true} />
+          <ProfileDetailsFormContainer />
+        </Col>
+      </Row>
+    </Container>
+  );
 }
-
-Profile.contextType = AccountContext;
 
 export default Profile;

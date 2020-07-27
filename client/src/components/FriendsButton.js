@@ -9,13 +9,14 @@ import './FriendsButton.css'
 const FriendsButton = (props) => {
 
   const accountContext = useContext(AccountContext)
+  const userDetails = JSON.parse(localStorage.getItem('isLoggedIn'))
 
   const handleSubmit = e => {
     
     e.preventDefault()
 
-    props.acceptRequest(props.otherUser, accountContext.username)
-    accountContext.socket.emit('connectToNewFriend', { sender: accountContext.username, receiver: props.otherUser } )
+    props.acceptRequest(props.otherUser, userDetails.username)
+    accountContext.socket.emit('connectToNewFriend', { sender: userDetails.username, receiver: props.otherUser } )
   }
 
   let content
@@ -34,7 +35,7 @@ const FriendsButton = (props) => {
                     </form>
                   </div>
                   <div>
-                    <form onSubmit={ e => {e.preventDefault(); props.rejectRequest(props.otherUser, accountContext.username)} }>
+                    <form onSubmit={ e => {e.preventDefault(); props.rejectRequest(props.otherUser, userDetails.username)} }>
                       <Button
                         className='button'
                         variant="outline-secondary"
@@ -57,7 +58,7 @@ const FriendsButton = (props) => {
       content = null
       break;
     case 'otherUser':
-      content = (<form className='buttons-manage-users' onSubmit={ e => {e.preventDefault(); props.sendRequest(accountContext.username, props.otherUser)} }>
+      content = (<form className='buttons-manage-users' onSubmit={ e => {e.preventDefault(); props.sendRequest(userDetails.username, props.otherUser)} }>
                     <Button
                     className='button'
                     variant="info"

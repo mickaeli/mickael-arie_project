@@ -1,6 +1,8 @@
 import React from 'react';
-import './DescSection.css';
+
 import { Container, Row, Col } from 'react-bootstrap';
+
+import './DescSection.css';
 
 const DescSection = () => {
   return (

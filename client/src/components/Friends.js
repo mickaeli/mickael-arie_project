@@ -9,8 +9,6 @@ import OtherUsers from './OtherUsers'
 
 import './Friends.css'
 
-import { AccountContext } from '../Context'
-
 class Friends extends Component {
 
   constructor(props) {
@@ -20,14 +18,15 @@ class Friends extends Component {
       requestsSent: [],
       requests: [],
       friendsList: [],
-      otherUsers: []
+      otherUsers: [],
+      userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
   }
 
   componentDidMount() {
-    document.title = 'Dashboard - friends'
+    document.title = 'Dashboard - Friends'
 
-    axios.get(`/friends/connections/${this.context.username}`)
+    axios.get(`/friends/connections/${this.state.userDetails.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -109,7 +108,7 @@ class Friends extends Component {
 
 
   getOtherUsers = () => {
-    axios.get(`/friends/other_users/${this.context.username}`)
+    axios.get(`/friends/other_users/${this.state.userDetails.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -151,7 +150,5 @@ class Friends extends Component {
     );
   }
 }
-
-Friends.contextType = AccountContext;
 
 export default Friends;

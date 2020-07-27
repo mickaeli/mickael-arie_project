@@ -16,20 +16,27 @@ class Chat extends Component {
     this.state = {
       message: '',
       messages: [],
-      show: true
+      show: true,
+      userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
   }
 
   componentDidMount() {
+    this._isMounted = true
     
     this.context.socket.on("message", ({message, room}) => {
-      if(room === this.props.room) {
+      if(room === this.props.room && this._isMounted) {
         this.setState({
           messages: [...this.state.messages, message]
         })
       }
     });
   }
+
+  componentWillUnmount() {
+    this._isMounted = false
+  }
+  
 
   setMessage = newMsg => {
     this.setState({
@@ -53,7 +60,7 @@ class Chat extends Component {
   render() {
     return (
       <div>
-        <InfoBar header={'Chat - ' + this.props.room.replace(this.context.username, '') } room={this.props.room} closeFunction={this.props.closeChat} isplusIcon={true}  minimizeMaximize={this.showHide} />
+        <InfoBar header={'Chat - ' + this.props.room.replace(this.state.userDetails.username, '') } room={this.props.room} closeFunction={this.props.closeChat} isplusIcon={true}  minimizeMaximize={this.showHide} />
         <div className='chat' style={{display: this.state.show ? '' : 'none'}}>
           <Messages messages={this.state.messages} />
           <ChatInput message={this.state.message} setMessage={this.setMessage} sendMessage={this.sendMessage} />

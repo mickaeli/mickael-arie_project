@@ -21,10 +21,7 @@ class DashboardContainer extends Component {
 
     this.state = {
       contextValue: {
-        socket: io(ENDPOINT),
-        username: this.props.match.params.username,
-        fullname: JSON.parse(localStorage.getItem('isLoggedIn')).fullname,
-        profilePicture: JSON.parse(localStorage.getItem('isLoggedIn')).profilePicture
+        socket: io(ENDPOINT)
       }
     }
   }

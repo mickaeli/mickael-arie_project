@@ -1,7 +1,9 @@
 import React from 'react';
-import './ImgNextToText.css';
+
 import { Container, Row, Col, Image, Button } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+
+import './ImgNextToText.css';
 
 const ImgNextToText = ({url_img, header, paragraphs,imgSize, hasButton}) => {
   let button, height;

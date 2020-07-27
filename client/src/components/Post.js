@@ -6,8 +6,6 @@ import PostHeader from './PostHeader'
 import PostBody from './PostBody'
 import axios from 'axios';
 
-import { AccountContext } from '../Context'
-
 import './Post.css'
 
 class Post extends Component {
@@ -22,15 +20,18 @@ class Post extends Component {
 
       post_edited: props.data.edited,
       comment_text: '',
-      comments: []
+      comments: [],
+      userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
 
   }
 
   componentDidMount() {
+    this._isMounted = true
+
     axios.get(`/comment/${this.props.data.id}`)
     .then(res => {
-      if(res.data.success === true) {
+      if(res.data.success === true && this._isMounted) {
         this.setState({
           comments: res.data.comments
         })
@@ -40,6 +41,11 @@ class Post extends Component {
       console.log("Get comments error: ", err);
     });
   }
+
+  componentWillUnmount() {
+    this._isMounted = false
+  }
+  
 
   onChange = (event) => {
     this.setState({
@@ -95,7 +101,7 @@ addComment = () => {
     if(comment_text !== "") {
 
       //'post_id' indicates the id of the post for which we want add a comment.
-      const params = { post_id: this.props.data.id, comment_text: comment_text, comment_author: this.context.username }
+      const params = { post_id: this.props.data.id, comment_text: comment_text, comment_author: this.state.userDetails.username }
       
       axios.post('/comment/', params)
       .then(res => {
@@ -106,8 +112,8 @@ addComment = () => {
           const new_comment = {
             id: res.data.comment_id,
             text: comment_text,
-            profilePicture: this.context.profilePicture,
-            author: this.context.fullname,
+            profilePicture: this.state.userDetails.profilePicture,
+            author: this.state.userDetails.fullname,
             date: res.data.comment_date
           }
           comments.push(new_comment);
@@ -168,7 +174,7 @@ addComment = () => {
         { content }
 
         {/* check whether author of the post is the user logged in now */}
-        { this.props.data.author === this.context.fullname ? 
+        { this.props.data.author === this.state.userDetails.fullname ? 
 
           <div className='buttons-edition'>
             <Button
@@ -213,7 +219,5 @@ addComment = () => {
   };
 
 }
-
-Post.contextType = AccountContext;
 
 export default Post;

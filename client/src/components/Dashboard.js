@@ -1,4 +1,4 @@
-import React, { useEffect, useContext} from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap'
 
 import ProfilePicture from './ProfilePicture';
@@ -6,15 +6,13 @@ import ProfileBackground from './ProfileBackground';
 import WallManager from './WallManager'
 import UserDetails from './UserDetails';
 
-import { AccountContext } from '../Context'
-
 const Dashboard = () => {
 
   useEffect(() => {
     document.title = 'Gooder - Dashboard'
   }, [])
 
-  const accountContext = useContext(AccountContext)
+  const userDetails = JSON.parse(localStorage.getItem('isLoggedIn'))
 
   return (
     <Container fluid className='account'>
@@ -22,7 +20,7 @@ const Dashboard = () => {
         <Col lg={{ offset: 2, span : 8}} className='main-container'>
           <ProfileBackground />
           <ProfilePicture />
-            <UserDetails username={accountContext.username} fullname='h1' picture={false} description={true} />
+          <UserDetails username={userDetails.username} fullname='h1' picture={false} description={true} />
           <WallManager />
         </Col>
       </Row>

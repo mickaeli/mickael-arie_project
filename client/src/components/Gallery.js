@@ -1,10 +1,13 @@
 import React from 'react';
+
 import { Container, Row, Col } from 'react-bootstrap';
 import GalleryItem from './GalleryItem';
-import './Gallery.css';
+
 import child from '../img/child.jpg';
 import children from '../img/children.jpg';
 import children_holding_hands from '../img/children_holding_hands.jpg';
+
+import './Gallery.css';
 
 const Gallery = () => {
   return (

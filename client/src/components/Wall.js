@@ -1,18 +1,16 @@
-import React, {useContext} from 'react';
+import React from 'react';
 
 import Post from './Post';
 
 import './Wall.css'
 
-import { AccountContext } from '../Context'
-
 const Wall = ({posts, showFriendsPosts, friends, deletePost, editPost}) => {
 
-  const accountContext = useContext(AccountContext)
-
+  const userDetails = JSON.parse(localStorage.getItem('isLoggedIn'))
   let wallPosts = []
+
   if(showFriendsPosts) {
-    wallPosts = posts.slice().reverse().filter(post => friends.includes(post.author) || post.author === accountContext.fullname)
+    wallPosts = posts.slice().reverse().filter(post => friends.includes(post.author) || post.author === userDetails.fullname)
                                      .map(post => {
                                         return <div key={post.id}>
                                         <Post 
@@ -23,7 +21,7 @@ const Wall = ({posts, showFriendsPosts, friends, deletePost, editPost}) => {
                                       </div>
                                      })
   } else {
-    wallPosts = posts.slice().reverse().filter(post => !friends.includes(post.author) && post.author !== accountContext.fullname)
+    wallPosts = posts.slice().reverse().filter(post => !friends.includes(post.author) && post.author !== userDetails.fullname)
                                      .map(post => {
                                         return <div key={post.id}>
                                         <Post 

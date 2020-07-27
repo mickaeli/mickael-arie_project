@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
-import './InfoBar.css'
+
 
 import closeIcon from '../img/closeIcon.png';
 import plusIcon from '../img/plusIcon.png';
 import minusIcon from '../img/minusIcon.png';
+
+import './InfoBar.css'
 
 const InfoBar = ({header, room, closeFunction, isplusIcon, minimizeMaximize}) => {
 

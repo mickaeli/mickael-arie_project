@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Modal, Button, Spinner } from 'react-bootstrap';
 
-import './ProfileBackground.css';
+
 import axios from 'axios';
 
-import { AccountContext } from '../Context'
+import './ProfileBackground.css';
 
 class ProfileBackground extends Component {
   constructor(props) {
@@ -16,16 +16,17 @@ class ProfileBackground extends Component {
       show: false,
       isButtonDisabled: true,
       loading: false,
-      hovered: false
+      hovered: false,
+      userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     };
   }
 
   componentDidMount() {
-    axios.get(`/profile_background/${this.context.username}`)
+    axios.get(`/profile_details/${this.state.userDetails.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
-          profile_background: res.data.url
+          profile_background: res.data.userDetails.profileBackground
         })
       }
     })
@@ -59,7 +60,7 @@ class ProfileBackground extends Component {
     const data = new FormData()
     data.append('profile_background', this.state.selected_background)
 
-    axios.put(`/profile_background/${this.context.username}`, data)
+    axios.put(`/profile_background/${this.state.userDetails.username}`, data)
     .then(res => {
       if (res.data.success === true) {
         this.setState({
@@ -93,7 +94,7 @@ class ProfileBackground extends Component {
       const data = new FormData()
       data.append('profile_background', this.state.profile_background)
     
-      axios.delete(`/profile_background/${this.context.username}`, { data: { data: data } })
+      axios.delete(`/profile_background/${this.state.userDetails.username}`, { data: { data: data } })
       .then(res => {
         if (res.data.success === true) {
           this.setState({
@@ -154,7 +155,5 @@ class ProfileBackground extends Component {
   }
 
 }
-
-ProfileBackground.contextType = AccountContext;
 
 export default ProfileBackground;

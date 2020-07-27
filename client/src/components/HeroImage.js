@@ -1,8 +1,10 @@
 import React from 'react';
-import './HeroImage.css'
-import { Container, Row, Col, Button } from 'react-bootstrap'
 import {Link} from 'react-router-dom';
+
+import { Container, Row, Col, Button } from 'react-bootstrap'
 import {Link as ScrollLink} from 'react-scroll'
+
+import './HeroImage.css'
 
 const HeroImage = ({
   header, 

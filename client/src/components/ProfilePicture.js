@@ -6,8 +6,6 @@ import Avatar from './Avatar'
 import './ProfilePicture.css';
 import axios from 'axios';
 
-import { AccountContext } from '../Context'
-
 class ProfilePicture extends Component {
   constructor(props) {
     super(props);
@@ -17,16 +15,17 @@ class ProfilePicture extends Component {
       selected_picture: "",
       show: false,
       isButtonDisabled: true,
-      loading: false
+      loading: false,
+      userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     };
   }
 
   componentDidMount() {
-    axios.get(`/profile_picture/${this.context.username}`)
+    axios.get(`/profile_details/${this.state.userDetails.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
-          profile_picture: this.checkUrl(res.data.url)
+          profile_picture: this.checkUrl(res.data.userDetails.profilePicture)
         })
       }
     })
@@ -52,7 +51,7 @@ class ProfilePicture extends Component {
     const data = new FormData()
     data.append('profile_picture', this.state.selected_picture)
 
-    axios.put(`/profile_picture/${this.context.username}`, data)
+    axios.put(`/profile_picture/${this.state.userDetails.username}`, data)
     .then(res => {
       if (res.data.success === true) {
         this.setState({
@@ -88,7 +87,7 @@ class ProfilePicture extends Component {
       loading: true
     })
 
-    axios.delete(`/profile_picture/${this.context.username}`)
+    axios.delete(`/profile_picture/${this.state.userDetails.username}`)
     .then(res => {
         if (res.data.success === true) {
           this.setState({
@@ -166,7 +165,5 @@ class ProfilePicture extends Component {
     );
   }
 }
-
-ProfilePicture.contextType = AccountContext;
 
 export default ProfilePicture;

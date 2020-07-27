@@ -1,4 +1,5 @@
 import React from 'react';
+
 import './GalleryItem.css';
 
 const GalleryItem = ({header, paragraph, url_img}) => {

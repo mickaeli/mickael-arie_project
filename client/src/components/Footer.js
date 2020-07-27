@@ -1,12 +1,15 @@
 import React from 'react';
-import './Footer.css';
+import {withRouter} from 'react-router-dom';
+
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTwitterSquare, faFacebookSquare, faYoutube, faLinkedin } from '@fortawesome/free-brands-svg-icons'
-import skateboard_ramps from '../img/skateboard_ramps.jpg';
-import {withRouter} from 'react-router-dom';
 
-const Footer = props => {
+import skateboard_ramps from '../img/skateboard_ramps.jpg';
+
+import './Footer.css';
+
+const Footer = () => {
 
   const details_connection = JSON.parse(localStorage.getItem('isLoggedIn'))
 

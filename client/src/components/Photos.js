@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Photos extends Component {
 
   componentDidMount() {
-    document.title = 'Dashboard - photos'
+    document.title = 'Dashboard - Photos'
   }
   
   render() {

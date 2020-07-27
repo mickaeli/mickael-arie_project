@@ -1,17 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ReactEmoji from 'react-emoji';
-
-import { AccountContext } from '../Context'
 
 import './Message.css';
 
 const Message = ({ message: { text, user } }) => {
 
-  const accountContext = useContext(AccountContext)
-
+  const userDetails = JSON.parse(localStorage.getItem('isLoggedIn'))
   let isSentByCurrentUser = false;
 
-  if(user === accountContext.username) {
+  if(user === userDetails.username) {
     isSentByCurrentUser = true;
   }
 

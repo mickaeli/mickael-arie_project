@@ -8,7 +8,7 @@ import './Comment.css'
 const Comment = ({data}) => {
   return (
     <div className='comment box'>
-      <PostHeader data={ { profilePicture: data.profilePicture, author: data.author, date: data.date } } />
+      <PostHeader data={ { username: data.authorUsername, profilePicture: data.profilePicture, author: data.authorFullname, date: data.date } } />
       <PostBody post_text={data.text} />
     </div>
   );

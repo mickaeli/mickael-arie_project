@@ -3,7 +3,6 @@ import SignupForm from "./SignupForm";
 import axios from 'axios';
 import { validateSignupForm } from '../validate';
 
-
 class Signup extends Component {
   constructor(props) {
     super(props);
@@ -43,11 +42,13 @@ class Signup extends Component {
         pwconfirm: this.state.user.pwconfirm
       };
       this.submitSignup(user)
+
     } else {
       this.setState({
         errors : payload.errors
       });
     }
+
   }
 
   submitSignup(user) {
@@ -57,7 +58,7 @@ class Signup extends Component {
       if (res.data.success === true) {
 
         //do setting in cookie
-        let details_connexion = { value: true, username: user.usr, fullname: user.name, profilePicture: 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png', timestamp: new Date().getTime() }
+        let details_connexion = { value: true, newUser: true, username: user.usr, fullname: user.name, profilePicture: 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png', timestamp: new Date().getTime() }
         localStorage.setItem('isLoggedIn', JSON.stringify(details_connexion))
         let event = new Event('storage')
         event.key = 'isLoggedIn'

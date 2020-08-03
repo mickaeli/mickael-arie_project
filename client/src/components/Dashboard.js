@@ -20,7 +20,7 @@ const Dashboard = () => {
         <Col lg={{ offset: 2, span : 8}} className='main-container'>
           <ProfileBackground />
           <ProfilePicture />
-          <UserDetails username={userDetails.username} fullname='h1' picture={false} description={true} />
+          <UserDetails username={userDetails.username} fullnameTag='h1' fullnameSize='1.5rem' picture={false} description={true} callToServer={true} />
           <WallManager />
         </Col>
       </Row>

@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap'
-import axios from 'axios'
 
 
 
@@ -21,7 +20,6 @@ class ChatManager extends Component {
     super(props);
 
     this.state = {
-      friends: [],
       activeFriends: [],
       showActiveFriends: false,
       rooms: [],
@@ -30,28 +28,17 @@ class ChatManager extends Component {
   }
 
   componentDidMount() {
-
-    axios.get(`/friends/connections/${this.state.userDetails.username}`)
-    .then(res => {
-      if(res.data.success) {
-        this.setState({
-          friends: res.data.friendsList
-        }, this.setSocketEvent)
-      }
-    })
-    .catch(err => {
-      console.log('get friends error: ', err);
-    })
+    this.setSocketEvents()
   }
-  
 
-  setSocketEvent = () => {
+  setSocketEvents = () => {
+
     this.context.socket.emit('join', this.state.userDetails.username);
 
     this.context.socket.on("activeUsers", users => {
 
       //looking for active users who are my friends
-      const activeFriends = users.filter(user => this.state.friends.indexOf(user) >= 0)
+      const activeFriends = users.filter(user => this.context.friends.indexOf(user) >= 0)
       this.setState({
         activeFriends
       })
@@ -61,7 +48,7 @@ class ChatManager extends Component {
     this.context.socket.on('userConnected', user => {
 
       //if user is my friend add it to active friends variable
-      if(this.state.friends.indexOf(user) >= 0) {
+      if(this.context.friends.indexOf(user) >= 0) {
         this.setState({
           activeFriends: [...this.state.activeFriends, user]
         })
@@ -69,9 +56,10 @@ class ChatManager extends Component {
     })
 
     this.context.socket.on('newFriendConnected', ({sender, receiver}) => {
+
       if(receiver === this.state.userDetails.username) {
+
         this.setState({
-          friends: [...this.state.friends, sender],
           activeFriends: [...this.state.activeFriends, sender]
           })
       }
@@ -135,6 +123,7 @@ class ChatManager extends Component {
   hideActiveFriends = () => { this.setState({showActiveFriends: false}) }
 
   render() {
+
     return (
       <Fragment>
       <Container fluid>

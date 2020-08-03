@@ -27,7 +27,7 @@ const User = ({otherUser, userType, acceptRequest, rejectRequest, sendRequest}) 
     return (
 
       <div className='user'>
-        <UserDetails username={otherUser} fullname='h2' picture={true} pictureSize='sm' description={true} />
+        <UserDetails username={otherUser} fullnameTag='h2' picture={true} pictureSize='sm' description={true} callToServer={true} />
         {button}
       </div>
     )

@@ -21,10 +21,11 @@ router.put('/', (req, res) => {
       { fullname: fullname,
         description: new_description
       },
-      { where: { username: username } }
+      { where: { username: username }, returning: true, raw: true }
     )
     .then(function(result) {
-      payload.fullname = fullname
+      payload.fullname = result[1][0].fullname
+      payload.description = result[1][0].description
       res.json(payload)
     })
     .catch(function(err) {

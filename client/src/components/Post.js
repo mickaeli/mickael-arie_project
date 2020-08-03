@@ -113,7 +113,8 @@ addComment = () => {
             id: res.data.comment_id,
             text: comment_text,
             profilePicture: this.state.userDetails.profilePicture,
-            author: this.state.userDetails.fullname,
+            authorUsername: this.state.userDetails.username,
+            authorFullname: this.state.userDetails.fullname,
             date: res.data.comment_date
           }
           comments.push(new_comment);
@@ -169,12 +170,12 @@ addComment = () => {
     return (
 
       <div className='post box'>
-        <PostHeader data={ { profilePicture: this.props.data.profilePicture, author: this.props.data.author, post_edited: this.state.post_edited, date: this.props.data.date } } />
+        <PostHeader data={ { username: this.props.data.authorUsername, profilePicture: this.props.data.profilePicture, author: this.props.data.authorFullname, post_edited: this.state.post_edited, date: this.props.data.date } } />
 
         { content }
 
         {/* check whether author of the post is the user logged in now */}
-        { this.props.data.author === this.state.userDetails.fullname ? 
+        { this.props.data.authorUsername === this.state.userDetails.username ? 
 
           <div className='buttons-edition'>
             <Button

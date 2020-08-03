@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import {Route, Switch} from 'react-router-dom'
 import io from 'socket.io-client'
+import axios from 'axios'
 
 import DashboardHeader from './DashboardHeader';
 import Dashboard from './Dashboard';
@@ -20,14 +21,47 @@ class DashboardContainer extends Component {
     super(props);
 
     this.state = {
+      userDetails: JSON.parse(localStorage.getItem('isLoggedIn')),
       contextValue: {
-        socket: io(ENDPOINT)
+        socket: io(ENDPOINT),
+        friends: [],
+        setFriends: this.setFriends
       }
     }
   }
 
+  componentDidMount() {
+
+    if(this.state.userDetails.newUser){
+      this.state.contextValue.socket.emit('newUser', { user: this.state.userDetails.username } )
+    }
+    
+    axios.get(`/friends/connections/${this.state.userDetails.username}`)
+    .then(res => {
+      if(res.data.success) {
+        const contextValue = this.state.contextValue
+        contextValue.friends = res.data.friendsList
+        this.setState({
+          contextValue
+        })
+      }
+    })
+    .catch(err => {
+      console.log('get friends error: ', err);
+    })
+  }
+  
+
   componentWillUnmount() {
     this.state.contextValue.socket.close()
+  }
+
+  setFriends = value => {
+    const contextValue = this.state.contextValue
+    contextValue.friends = value
+    this.setState({
+      contextValue
+    })
   }
 
   render() { 

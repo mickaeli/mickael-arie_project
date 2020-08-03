@@ -5,16 +5,7 @@
   justify-content: space-between;
 }
 
-.post-header h1 {
-  font-size: 1.3rem;
-}
-
 .post-header p {
   font-size: 15px;
   margin: 16px 0;
-}
-
-.picture-author {
-  display: flex;
-  align-items: center;
 }

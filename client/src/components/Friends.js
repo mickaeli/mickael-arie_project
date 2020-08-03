@@ -7,6 +7,8 @@ import Invitations from './Invitations'
 import Connections from './Connections'
 import OtherUsers from './OtherUsers'
 
+import { AccountContext } from '../Context'
+
 import './Friends.css'
 
 class Friends extends Component {
@@ -17,7 +19,6 @@ class Friends extends Component {
     this.state = {
       requestsSent: [],
       requests: [],
-      friendsList: [],
       otherUsers: [],
       userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
@@ -26,19 +27,64 @@ class Friends extends Component {
   componentDidMount() {
     document.title = 'Dashboard - Friends'
 
+    this.setSocketEvents()
+
     axios.get(`/friends/connections/${this.state.userDetails.username}`)
     .then(res => {
       if(res.data.success === true) {
         this.setState({
           requestsSent: res.data.requestsSent,
-          requests: res.data.requests,
-          friendsList: res.data.friendsList
+          requests: res.data.requests
         })
       }
     })
     .catch(err => {
       console.log("Get users error: ", err);
     });
+  }
+
+  setSocketEvents = () => {
+
+    this.context.socket.on('newUser', ({user}) => {
+      this.setState({
+        otherUsers: [...this.state.otherUsers, user]
+      })
+    })
+
+
+    this.context.socket.on('newFriend', ({sender, receiver}) => {
+
+      if(receiver === this.state.userDetails.username){
+        this.context.setFriends([...this.context.friends, sender])
+
+        this.setState({
+          requestsSent: this.state.requestsSent.filter(user => {
+                          return user !== sender
+                        })
+        })
+      }
+    })
+
+    this.context.socket.on('ignoreRequest', ({sender, receiver}) => {
+
+      if(receiver === this.state.userDetails.username){
+        this.setState({
+          requestsSent: this.state.requestsSent.filter(user => {
+                          return user !== sender
+                        })
+        })
+      }
+    })
+
+    this.context.socket.on('newRequest', ({sender, receiver}) => {
+
+      if(receiver === this.state.userDetails.username){
+        this.setState({
+          requests: [...this.state.requests, sender]
+        })
+      }
+    })
+
   }
 
 
@@ -54,6 +100,8 @@ class Friends extends Component {
           }),
           requestsSent: [...this.state.requestsSent, receiverName]
         })
+
+        this.context.socket.emit('sendRequest', { sender: senderName, receiver: receiverName } )
       }
 
     })
@@ -73,9 +121,12 @@ class Friends extends Component {
         this.setState({
           requests: this.state.requests.filter(user => {
             return user !== senderName
-          }),
-          friendsList: [...this.state.friendsList, senderName]
+          })
         })
+
+        this.context.setFriends([...this.context.friends, senderName])
+
+        this.context.socket.emit('connectToNewFriend', { sender: receiverName, receiver: senderName } )
       }
 
     })
@@ -97,6 +148,8 @@ class Friends extends Component {
             return user !== senderName
           })
         })
+
+        this.context.socket.emit('ignoreRequest', { sender: receiverName, receiver: senderName } )
       }
 
     })
@@ -129,7 +182,7 @@ class Friends extends Component {
         <Row>
           <Col lg={{ offset: 2, span : 8}} className='main-container'>
             {
-              (this.state.requestsSent.length === 0 && this.state.requests.length === 0 && this.state.friendsList.length === 0 && this.state.otherUsers.length === 0) &&
+              (this.state.requestsSent.length === 0 && this.state.requests.length === 0 && this.context.friends.length === 0 && this.state.otherUsers.length === 0) &&
               <p style={ {textAlign: 'center', fontSize: '1.1rem' } }>You have no friends yet. Do you want to connect to a new friend ?</p>
             }
             
@@ -139,8 +192,8 @@ class Friends extends Component {
             }
 
             {
-              (this.state.friendsList.length > 0 || this.state.requestsSent.length > 0) &&
-              <Connections requestsSent={this.state.requestsSent} friendsList={this.state.friendsList} />
+              (this.context.friends.length > 0 || this.state.requestsSent.length > 0) &&
+              <Connections requestsSent={this.state.requestsSent} friends={this.context.friends} />
             }
 
             <OtherUsers otherUsers={this.state.otherUsers} getOtherUsers={this.getOtherUsers} sendRequest={this.sendRequest} />
@@ -150,5 +203,7 @@ class Friends extends Component {
     );
   }
 }
+
+Friends.contextType = AccountContext;
 
 export default Friends;

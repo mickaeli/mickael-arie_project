@@ -63,7 +63,7 @@ class ActiveUser extends Component {
 
     return (
       <div className='active-user'>
-        <UserDetails username={this.props.friend} fullname='p' picture={true} pictureSize='xs' description={false} />
+        <UserDetails username={this.props.friend} fullnameTag='p' picture={true} pictureSize='xs' description={false} callToServer={true} />
         {button}
       </div>
       

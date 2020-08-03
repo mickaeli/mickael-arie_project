@@ -5,6 +5,8 @@ import axios from 'axios'
 import ProfileDetailsForm from './ProfileDetailsForm'
 import { validateProfileDetailsForm } from '../validate'
 
+import { AccountContext } from '../Context'
+
 class ProfileDetailsFormContainer extends Component {
   constructor(props) {
     super(props);
@@ -69,6 +71,9 @@ class ProfileDetailsFormContainer extends Component {
         let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
         isLoggedIn.fullname = res.data.fullname
         localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
+
+        this.context.socket.emit('userDetailsModified', { user: this.state.profile_details.username, fullname: res.data.fullname, description: res.data.description } )
+
         window.location.reload();
       } else {
         this.setState({
@@ -103,5 +108,7 @@ class ProfileDetailsFormContainer extends Component {
     );
   }
 }
+
+ProfileDetailsFormContainer.contextType = AccountContext;
 
 export default ProfileDetailsFormContainer;

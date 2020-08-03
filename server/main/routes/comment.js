@@ -71,7 +71,8 @@ router.get('/', (req, res) => {
           id: comment.id,
           text: comment.text,
           profilePicture: comment['user.users_detail.url_picture'],
-          author: comment['user.users_detail.fullname'],
+          authorUsername: comment.author,
+          authorFullname: comment['user.users_detail.fullname'],
           date: comment.updatedAt
         })
       })

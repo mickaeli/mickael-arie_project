@@ -4,6 +4,8 @@ import axios from 'axios';
 import PostInput from './PostInput'
 import Wall from './Wall'
 
+import { AccountContext } from '../Context'
+
 import './WallManager.css';
 
 class WallManager extends Component {
@@ -14,13 +16,34 @@ class WallManager extends Component {
     this.state = {
       post_text: '',
       posts: [],
-      friends: [],
       userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
 
   }
 
   componentDidMount() {
+
+    this.context.socket.on("addPost", ({post}) => {
+        this.setState({
+          posts: [...this.state.posts, post]
+        })
+    });
+
+    this.context.socket.on("editPost", ({posts}) => {
+        this.setState({posts})
+    });
+
+    this.context.socket.on("deletePost", ({postId}) => {
+
+      console.log(postId)
+      this.setState({
+        posts: this.state.posts.filter(post => {
+                return post.id !== postId
+              })
+      })
+      
+    });
+
     axios.get('/post/')
     .then(res => {
       if(res.data.success === true) {
@@ -32,18 +55,6 @@ class WallManager extends Component {
     .catch(err => {
       console.log("Get posts error: ", err);
     });
-
-    axios.get(`/friends/myfriends/${this.state.userDetails.username}`)
-    .then(res => {
-      if(res.data.success === true) {
-        this.setState({
-          friends: res.data.friends
-        })
-      }
-    })
-    .catch(err => {
-      console.log("Get friends error: ", err);
-    })
   }
   
 
@@ -66,17 +77,20 @@ class WallManager extends Component {
         if (res.data.success === true) {
           
           //add the new post at end of this.state.posts array
-          let posts = this.state.posts
+          //let posts = this.state.posts
           const new_post = {
             id: res.data.post_id,
             text: post_text,
             profilePicture: this.state.userDetails.profilePicture,
-            author: this.state.userDetails.fullname,
+            authorUsername: this.state.userDetails.username,
+            authorFullname: this.state.userDetails.fullname,
             edited: false,
             date: res.data.post_date
           }
-          posts.push(new_post);
-          this.setState({posts});
+
+          this.context.socket.emit('addPost', { post: new_post });
+          //posts.push(new_post);
+          //this.setState({posts});
         }
       })
       .catch(err => {
@@ -106,8 +120,10 @@ class WallManager extends Component {
             post.date = res.data.post_date
           }
         })
+
+        this.context.socket.emit('editPost', { posts });
         
-        this.setState({posts});
+        //this.setState({posts});
       }
     })
     .catch(err => {
@@ -116,22 +132,14 @@ class WallManager extends Component {
   }
 
 
-  deletePost = (post_id) => {
+  deletePost = (postId) => {
     
     //delete post and its comments
-    axios.delete(`/post/${post_id}`)
+    axios.delete(`/post/${postId}`)
     .then(res => {
       if (res.data.success === true) {
 
-        const post_to_delete = this.state.posts.filter(post => {
-          return (post.id === post_id)
-        })
-
-        let posts = this.state.posts
-
-        const index = posts.indexOf(post_to_delete[0])
-        posts.splice(index,1);
-        this.setState({posts})
+        this.context.socket.emit('deletePost', { postId });
       }
     })
     .catch(err => {
@@ -149,14 +157,12 @@ class WallManager extends Component {
           <Wall
             posts={this.state.posts}
             showFriendsPosts={true}
-            friends={this.state.friends}
             deletePost={this.deletePost} 
             editPost = {this.editPost} 
           />
           <Wall
             posts={this.state.posts}
             showFriendsPosts={false}
-            friends={this.state.friends}
             deletePost={this.deletePost} 
             editPost = {this.editPost} 
           />
@@ -165,5 +171,7 @@ class WallManager extends Component {
     );
   }
 }
+
+WallManager.contextType = AccountContext;
 
 export default WallManager;

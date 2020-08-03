@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Modal, Button, Spinner } from 'react-bootstrap';
+import axios from 'axios';
 
 import Avatar from './Avatar'
 
+import { AccountContext } from '../Context'
+
 import './ProfilePicture.css';
-import axios from 'axios';
+
+
 
 class ProfilePicture extends Component {
   constructor(props) {
@@ -64,6 +68,8 @@ class ProfilePicture extends Component {
         isLoggedIn.profilePicture = res.data.url
         localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
 
+        this.context.socket.emit('profilePictureModified', { user: this.state.userDetails.username, profilePicture: res.data.url } )
+
       } else {
         this.setState({
           show: false,
@@ -100,6 +106,8 @@ class ProfilePicture extends Component {
           let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
           isLoggedIn.profilePicture = 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png'
           localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
+
+          this.context.socket.emit('profilePictureModified', { user: this.state.userDetails.username, profilePicture: 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png' } )
         }
       })
     .catch(err => {
@@ -165,5 +173,7 @@ class ProfilePicture extends Component {
     );
   }
 }
+
+ProfilePicture.contextType = AccountContext;
 
 export default ProfilePicture;

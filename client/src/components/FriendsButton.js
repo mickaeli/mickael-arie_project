@@ -1,6 +1,4 @@
-import React, { Fragment, useContext } from 'react';
-
-import { AccountContext } from '../Context'
+import React, { Fragment } from 'react';
 
 import { Button } from 'react-bootstrap'
 
@@ -8,16 +6,7 @@ import './FriendsButton.css'
 
 const FriendsButton = (props) => {
 
-  const accountContext = useContext(AccountContext)
   const userDetails = JSON.parse(localStorage.getItem('isLoggedIn'))
-
-  const handleSubmit = e => {
-    
-    e.preventDefault()
-
-    props.acceptRequest(props.otherUser, userDetails.username)
-    accountContext.socket.emit('connectToNewFriend', { sender: userDetails.username, receiver: props.otherUser } )
-  }
 
   let content
 
@@ -25,7 +14,7 @@ const FriendsButton = (props) => {
     case 'senderRequest':
     content = ( <div className='buttons-manage-users'>
                   <div >
-                    <form onSubmit= {handleSubmit}>
+                    <form onSubmit= {e => {e.preventDefault(); props.acceptRequest(props.otherUser, userDetails.username)}}>
                       <Button
                         className='button'
                         variant="outline-info"

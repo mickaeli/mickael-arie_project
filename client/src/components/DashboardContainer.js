@@ -21,8 +21,8 @@ class DashboardContainer extends Component {
     super(props);
 
     this.state = {
-      userDetails: JSON.parse(localStorage.getItem('isLoggedIn')),
       contextValue: {
+        userDetails: JSON.parse(localStorage.getItem('isLoggedIn')),
         socket: io(ENDPOINT),
         friends: [],
         setFriends: this.setFriends
@@ -32,11 +32,35 @@ class DashboardContainer extends Component {
 
   componentDidMount() {
 
-    if(this.state.userDetails.newUser){
-      this.state.contextValue.socket.emit('newUser', { user: this.state.userDetails.username } )
+    this.state.contextValue.socket.on('userDetailsModified', ({user, fullname, description}) => {
+      if(user === this.state.contextValue.userDetails.username){
+        let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+        isLoggedIn.fullname = fullname
+        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
+
+        this.setState({
+          contextValue: {...this.state.contextValue, userDetails: isLoggedIn}
+        })
+      }
+    })
+
+    this.state.contextValue.socket.on('profilePictureModified', ({user, profilePicture}) => {
+      if(user === this.state.contextValue.userDetails.username){
+        let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+        isLoggedIn.profilePicture = profilePicture
+        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
+
+        this.setState({
+          contextValue: {...this.state.contextValue, userDetails: isLoggedIn}
+        })
+      }
+    })
+
+    if(this.state.contextValue.userDetails.newUser){
+      this.state.contextValue.socket.emit('newUser', { user: this.state.contextValue.userDetails.username } )
     }
     
-    axios.get(`/friends/connections/${this.state.userDetails.username}`)
+    axios.get(`/friends/connections/${this.state.contextValue.userDetails.username}`)
     .then(res => {
       if(res.data.success) {
         const contextValue = this.state.contextValue

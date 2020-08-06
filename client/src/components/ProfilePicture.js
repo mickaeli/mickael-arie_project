@@ -103,10 +103,6 @@ class ProfilePicture extends Component {
             loading: false
           })
 
-          let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-          isLoggedIn.profilePicture = 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png'
-          localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
-
           this.context.socket.emit('profilePictureModified', { user: this.state.userDetails.username, profilePicture: 'https://res.cloudinary.com/gooder/image/upload/v1589799979/default_profile_picture.png' } )
         }
       })

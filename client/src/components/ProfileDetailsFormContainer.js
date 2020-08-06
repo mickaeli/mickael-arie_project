@@ -68,13 +68,10 @@ class ProfileDetailsFormContainer extends Component {
     axios.put(`/profile_details/${this.state.profile_details.username}`, params)
     .then(res => {
       if (res.data.success === true) {
-        let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-        isLoggedIn.fullname = res.data.fullname
-        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
 
         this.context.socket.emit('userDetailsModified', { user: this.state.profile_details.username, fullname: res.data.fullname, description: res.data.description } )
 
-        window.location.reload();
+        //window.location.reload();
       } else {
         this.setState({
           errors: res.data.errors

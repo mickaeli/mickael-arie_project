@@ -18,8 +18,7 @@ class WallManager extends Component {
         post_text: '',
         isAnonymous: false
       },
-      posts: [],
-      userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
+      posts: []
     }
 
   }
@@ -80,7 +79,7 @@ class WallManager extends Component {
 
     if(post_text !== "") {
 
-      const params = { post_text: post_text, isAnonymous: this.state.postInputs.isAnonymous, post_author: this.state.userDetails.username }
+      const params = { post_text: post_text, isAnonymous: this.state.postInputs.isAnonymous, post_author: this.context.userDetails.username }
       
       axios.post('/post/', params)
       .then(res => {
@@ -90,9 +89,9 @@ class WallManager extends Component {
           const new_post = {
             id: res.data.post_id,
             text: post_text,
-            profilePicture: this.state.userDetails.profilePicture,
-            authorUsername: this.state.userDetails.username,
-            authorFullname: this.state.userDetails.fullname,
+            profilePicture: this.context.userDetails.profilePicture,
+            authorUsername: this.context.userDetails.username,
+            authorFullname: this.context.userDetails.fullname,
             edited: false,
             isAnonymous: this.state.postInputs.isAnonymous,
             date: res.data.post_date
@@ -114,7 +113,7 @@ class WallManager extends Component {
 
   editPost = (post_id, post_text) => {
 
-    const params = { post_text: post_text, post_author: this.state.userDetails.username }
+    const params = { post_text: post_text, post_author: this.context.userDetails.username }
 
     axios.put(`/post/${post_id}`, params)
     .then(res => {

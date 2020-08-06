@@ -14,27 +14,27 @@ const Wall = ({posts, showFriendsPosts, deletePost, editPost}) => {
   let wallPosts = []
 
   if(showFriendsPosts) {
-    wallPosts = posts.slice().reverse().filter(post => accountContext.friends.includes(post.authorUsername) || post.authorUsername === userDetails.username)
-                                     .map(post => {
-                                        return <div key={post.id}>
-                                        <Post 
-                                          data={post} 
-                                          deletePost={deletePost} 
-                                          editPost = {editPost} 
-                                          />
-                                      </div>
-                                     })
+    wallPosts = posts.slice().reverse().filter(post => (accountContext.friends.includes(post.authorUsername) || post.authorUsername === userDetails.username) && !post.isAnonymous)
+                                        .map(post => {
+                                            return <div key={post.id}>
+                                            <Post 
+                                              data={post} 
+                                              deletePost={deletePost} 
+                                              editPost = {editPost} 
+                                              />
+                                          </div>
+                                        })
   } else {
-    wallPosts = posts.slice().reverse().filter(post => !accountContext.friends.includes(post.authorUsername) && post.authorUsername !== userDetails.username)
-                                     .map(post => {
-                                        return <div key={post.id}>
-                                        <Post 
-                                          data={post} 
-                                          deletePost={deletePost} 
-                                          editPost = {editPost} 
-                                          />
-                                      </div>
-                                     })
+    wallPosts = posts.slice().reverse().filter(post => (!accountContext.friends.includes(post.authorUsername) && post.authorUsername !== userDetails.username) || post.isAnonymous)
+                                        .map(post => {
+                                            return <div key={post.id}>
+                                            <Post 
+                                              data={post} 
+                                              deletePost={deletePost} 
+                                              editPost = {editPost} 
+                                              />
+                                          </div>
+                                        })
   }
   
   return (

@@ -32,6 +32,10 @@ var Post = sequelize.define('posts', {
     type: Sequelize.INTEGER,
     defaultValue: -1,
     allowNull: false
+  },
+  is_anonymous: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false
   }
 });
 

@@ -8,10 +8,11 @@ const UserDetails = require('../models/userDetails');
 
 router.post('/', (req, res) => {
 
-  const { post_text, post_author } = req.body;
+  const { post_text, isAnonymous, post_author } = req.body;
 
   Post.create({
     text: post_text,
+    is_anonymous: isAnonymous,
     author: post_author
   })
   .then(function(post) {
@@ -71,7 +72,8 @@ router.get('/', (req, res) => {
           authorUsername: post.author,
           authorFullname: post['user.users_detail.fullname'],
           edited: post.edited,
-          date: post.updatedAt
+          date: post.updatedAt,
+          isAnonymous: post.is_anonymous
         })
       })
       
@@ -96,66 +98,94 @@ router.put('/', (req, res) => {
 
   const post_id = req.params.id
   const { post_text, post_author } = req.body;
+  let isAnonymous
 
-  //delete post from db for create a new post later
-  Post.destroy({ where: { id: post_id } })
-  .then(row_deleted => {
+  Post.findOne(
+    {where: {id: post_id}},
+    {raw: true}
+  )
+  .then(function (post) {
 
-    //post deleted successfully from db
-    if(row_deleted === 1) {
-        console.log('post deleted successfully')
-    //post deletion from db failed
+    //case 1: there is no post in the db
+    if (post.length === 0) {
+      console.log("no post found")
+      res.json({
+        success: false
+      })
+
+      //case 2: record founded
     } else {
-        console.log('post deleted failed')
+      console.log("post found")
+      isAnonymous = post.is_anonymous
+
+      //delete post from db for create a new post later
+      Post.destroy({ where: { id: post_id } })
+      .then((row_deleted) => {
+        //post deleted successfully from db
+        if(row_deleted === 1) {
+            console.log('post deleted successfully')
+        //post deletion from db failed
+        } else {
+            console.log('post deleted failed')
+            res.json({
+                success: false
+            })
+        }
+
+      })
+      .catch(function(error) {
         res.json({
-            success: false
+          success: false
         })
+      });
+
+      //create new post in db for update its id to the bigger (in order to move up that post at head of the wall)
+      Post.create({
+        text: post_text,
+        is_anonymous: isAnonymous,
+        author: post_author,
+        edited : true
+      })
+      .then(function(new_post) {
+        
+        console.log(`post added`)
+
+        //update comments attached to this post with new id (for father_id column)
+        Post.update(
+        { father_id: new_post.dataValues.id },
+        { where: { father_id: post_id },
+          returning: true,
+          plain: true
+        })
+        .then(function(query_result) {
+          console.log('comments updated')
+          res.json({
+            success: true,
+            post_id: new_post.dataValues.id,
+            post_date: new_post.dataValues.updatedAt
+          })
+        })
+        .catch(function(err) {
+          console.log('comments update failed')
+          res.json({
+            success: true,
+            post_id: new_post.dataValues.id,
+            post_date: new_post.dataValues.updatedAt
+          })
+        })
+
+      })
+      .catch(function(error) {
+        console.log("create post failed")
+        res.json({
+          success: false
+        })
+      });
+
     }
-
-  })
-  .catch(function(error) {
-    res.json({
-      success: false
     })
-  });
-
-  //create new post in db for update its id to the bigger (in order to move up that post at head of the wall)
-  Post.create({
-    text: post_text,
-    author: post_author,
-    edited : true
-  })
-  .then(function(new_post) {
-    
-    console.log(`post added`)
-
-    //update comments attached to this post with new id (for father_id column)
-    Post.update(
-    { father_id: new_post.dataValues.id },
-    { where: { father_id: post_id },
-      returning: true,
-      plain: true
-    })
-    .then(function(query_result) {
-      console.log('comments updated')
-      res.json({
-        success: true,
-        post_id: new_post.dataValues.id,
-        post_date: new_post.dataValues.updatedAt
-      })
-    })
-    .catch(function(err) {
-      console.log('comments update failed')
-      res.json({
-        success: true,
-        post_id: new_post.dataValues.id,
-        post_date: new_post.dataValues.updatedAt
-      })
-    })
-
-  })
-  .catch(function(error) {
-    console.log("create post failed")
+    .catch(function(error) {
+    console.log('post search failed')
     res.json({
       success: false
     })

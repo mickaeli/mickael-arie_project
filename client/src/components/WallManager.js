@@ -14,7 +14,10 @@ class WallManager extends Component {
     super(props);
 
     this.state = {
-      post_text: '',
+      postInputs: {
+        post_text: '',
+        isAnonymous: false
+      },
       posts: [],
       userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
@@ -25,7 +28,8 @@ class WallManager extends Component {
 
     this.context.socket.on("addPost", ({post}) => {
         this.setState({
-          posts: [...this.state.posts, post]
+          posts: [...this.state.posts, post],
+          postInputs: {post_text: '', isAnonymous: false}
         })
     });
 
@@ -35,7 +39,6 @@ class WallManager extends Component {
 
     this.context.socket.on("deletePost", ({postId}) => {
 
-      console.log(postId)
       this.setState({
         posts: this.state.posts.filter(post => {
                 return post.id !== postId
@@ -58,26 +61,32 @@ class WallManager extends Component {
   }
   
 
-  onChange = (event) => {
+  onChangePostText = (event) => {
     this.setState({
-      post_text: event.target.value
+      postInputs: {...this.state.postInputs, post_text: event.target.value}
     });
   }
 
-  addPost = () => {
+  onChangeIsAnonymous = () => {
+    this.setState({
+      postInputs: {...this.state.postInputs, isAnonymous: !this.state.postInputs.isAnonymous}
+    });
+  }
 
-    let post_text = this.state.post_text.trim();
+  addPost = (event) => {
+    event.preventDefault();
+
+    let post_text = this.state.postInputs.post_text.trim();
 
     if(post_text !== "") {
 
-      const params = { post_text: post_text, post_author: this.state.userDetails.username }
+      const params = { post_text: post_text, isAnonymous: this.state.postInputs.isAnonymous, post_author: this.state.userDetails.username }
       
       axios.post('/post/', params)
       .then(res => {
         if (res.data.success === true) {
           
           //add the new post at end of this.state.posts array
-          //let posts = this.state.posts
           const new_post = {
             id: res.data.post_id,
             text: post_text,
@@ -85,20 +94,21 @@ class WallManager extends Component {
             authorUsername: this.state.userDetails.username,
             authorFullname: this.state.userDetails.fullname,
             edited: false,
+            isAnonymous: this.state.postInputs.isAnonymous,
             date: res.data.post_date
           }
 
           this.context.socket.emit('addPost', { post: new_post });
-          //posts.push(new_post);
-          //this.setState({posts});
         }
       })
       .catch(err => {
         console.log("Upload post error: ", err);
+        this.setState({postInputs: {post_text: '', isAnonymous: false}})
       })
+    } else{
+      this.setState({postInputs: {post_text: '', isAnonymous: false}})
     }
-
-    this.setState({post_text:''})
+    
   }
 
 
@@ -122,8 +132,6 @@ class WallManager extends Component {
         })
 
         this.context.socket.emit('editPost', { posts });
-        
-        //this.setState({posts});
       }
     })
     .catch(err => {
@@ -152,7 +160,13 @@ class WallManager extends Component {
 
     return (
       <div className='wall-manager'>
-        <PostInput postText={this.state.post_text} setPostText={this.onChange} sendPost={this.addPost} />
+        <PostInput 
+          postText={this.state.postInputs.post_text} 
+          isAnonymous={this.state.postInputs.isAnonymous} 
+          onChangePostText={this.onChangePostText} 
+          onChangeIsAnonymous={this.onChangeIsAnonymous} 
+          sendPost={this.addPost} 
+        />
         <div className='walls-container'>
           <Wall
             posts={this.state.posts}

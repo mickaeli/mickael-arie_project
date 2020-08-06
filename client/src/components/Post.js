@@ -170,7 +170,13 @@ addComment = () => {
     return (
 
       <div className='post box'>
-        <PostHeader data={ { username: this.props.data.authorUsername, profilePicture: this.props.data.profilePicture, author: this.props.data.authorFullname, post_edited: this.state.post_edited, date: this.props.data.date } } />
+        <PostHeader data={ 
+          { username: this.props.data.authorUsername, 
+            profilePicture: this.props.data.profilePicture, 
+            author: this.props.data.authorFullname, 
+            post_edited: this.state.post_edited, 
+            date: this.props.data.date, 
+            isAnonymous: this.props.data.isAnonymous } } />
 
         { content }
 

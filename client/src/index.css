@@ -138,3 +138,21 @@ textarea {
 input:focus, button:focus {
   outline: none;
 }
+
+.flex-row-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox {
+  margin-right: 1rem;
+}
+
+.checkbox * {
+  cursor: pointer;
+}
+
+.checkbox-element {
+  margin-right: .5rem;
+}

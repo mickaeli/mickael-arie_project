@@ -80,11 +80,11 @@ const socketConnect = (io, socket) => {
   })
 
   socket.on('userDetailsModified', ({user, fullname, description}) => {
-    socket.broadcast.emit('userDetailsModified', {user, fullname, description})
+    io.emit('userDetailsModified', {user, fullname, description})
   })
 
   socket.on('profilePictureModified', ({user, profilePicture}) => {
-    socket.broadcast.emit('profilePictureModified', {user, profilePicture})
+    io.emit('profilePictureModified', {user, profilePicture})
   })
 
 }

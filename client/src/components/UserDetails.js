@@ -25,7 +25,7 @@ class UserDetails extends Component {
   componentDidMount() {
 
     this.context.socket.on('userDetailsModified', ({user, fullname, description}) => {
-      if(user === this.props.username){
+      if(user === this.props.username && !this.props.isAnonymous){
         this.setState({
           userDetails: {...this.state.userDetails, fullname, description}
         })
@@ -33,8 +33,7 @@ class UserDetails extends Component {
     })
 
     this.context.socket.on('profilePictureModified', ({user, profilePicture}) => {
-      console.log('hello from userDetails.js')
-      if(user === this.props.username){
+      if(user === this.props.username && !this.props.isAnonymous){
         this.setState({
           userDetails: {...this.state.userDetails, profilePicture}
         })

@@ -1,26 +1,46 @@
 import React from 'react';
-import { Button } from 'react-bootstrap'
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 
-const PostInput = ({postText, setPostText, sendPost}) => {
+const PostInput = ({postText, isAnonymous, onChangePostText, onChangeIsAnonymous, sendPost}) => {
+
+  const tooltipText = 'If you want to make the post anonymous, you should fill in your contact details in order to contact you'
+
   return (
-    <div className='post-input'>
+    <form onSubmit={sendPost} className='post-input'>
       <textarea 
       className='box' 
       placeholder="Post something"
       value={postText} 
-      onChange={setPostText} 
-      name="post-text" 
+      onChange={onChangePostText} 
+      name="post_text" 
       rows="10"
       />
-      <div className='wrapper-button'>
-        <Button
-          className='button'
-          variant="primary"
-          onClick={sendPost}
-          >Publish 
-        </Button>
+      <div className='flex-row-center'>
+
+        <div className='checkbox'>
+          <input type="checkbox" id='anonymous' checked={isAnonymous} onChange={onChangeIsAnonymous} className='checkbox-element' />
+          <label className='checkbox-element' htmlFor='anonymous'>Anonymize</label>
+          <OverlayTrigger
+            placement='bottom'
+            overlay={
+              <Tooltip id='tooltip-anonymous'>
+                {tooltipText}
+              </Tooltip>
+            }
+          >
+            <FontAwesomeIcon icon={faQuestionCircle} size='1x' aria-hidden="true" />
+          </OverlayTrigger>
+        </div>
+          <Button
+            className='button'
+            variant="primary"
+            type='submit'
+            >Publish 
+          </Button>
       </div>
-    </div>
+    </form>
   );
 };
 

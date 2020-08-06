@@ -14,7 +14,8 @@ router.post('/', (req, res) => {
   Post.create({
     text: comment_text,
     author: comment_author,
-    father_id: post_id
+    father_id: post_id,
+    is_anonymous: false
   })
   .then(function(comment) {
     res.json({

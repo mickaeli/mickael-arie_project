@@ -1,14 +1,16 @@
 import React from 'react';
 
-import {Navbar, Nav, Form, FormControl, Button} from 'react-bootstrap'
+import {Navbar, Nav, Button} from 'react-bootstrap'
 import {Link, NavLink} from 'react-router-dom';
+
+import SearchForm from './SearchForm'
 
 import logo from '../img/logo.png'
 
 import './Header.css'
 import './DashboardHeader.css'
 
-const DashboardHeader = ({urlPrefix}) => {
+const DashboardHeader = ({urlPrefix, ...props}) => {
 
   const handleLogout = () => {
     localStorage.setItem('isLoggedIn', false)
@@ -32,10 +34,7 @@ const DashboardHeader = ({urlPrefix}) => {
             <NavLink exact to={`${urlPrefix}/friends`} activeClassName='link-active' className='link'>Friends</NavLink>
             <NavLink exact to={`${urlPrefix}/photos`} activeClassName='link-active' className='link'>Photos</NavLink>
           </Nav>
-          <Form inline className='mr-4 search-form'>
-            <FormControl type="text" placeholder="Search" className="mr-2 input-form" />
-            <Button variant="info">Search</Button>
-          </Form>
+          <SearchForm urlPrefix={urlPrefix}/>
           <Link to='/'>
             <Button className='signout-button' variant="light" onClick={handleLogout}>Sign out</Button>
           </Link>

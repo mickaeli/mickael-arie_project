@@ -10,6 +10,7 @@ import Friends from './Friends';
 import Photos from './Photos';
 import NotFound from './NotFound'
 import ChatManager from './ChatManager'
+import SearchResults from './SearchResults'
 
 import { AccountContext } from '../Context'
 
@@ -100,6 +101,7 @@ class DashboardContainer extends Component {
             <Route exact path={`${this.props.match.path}/profile`} component={Profile} />
             <Route exact path={`${this.props.match.path}/friends`} component={Friends} />
             <Route exact path={`${this.props.match.path}/photos`} component={Photos} />
+            <Route exact path={`${this.props.match.path}/search`} component={SearchResults} />
             <Route component={NotFound} />
           </Switch>
           

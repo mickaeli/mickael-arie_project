@@ -17,7 +17,7 @@ const Dashboard = () => {
   return (
     <Container fluid className='account'>
       <Row>
-        <Col lg={{ offset: 2, span : 8}} className='main-container'>
+        <Col lg={{ offset: 2, span : 8}}>
           <ProfileBackground />
           <ProfilePicture />
           <UserDetails username={userDetails.username} fullnameTag='h1' fullnameSize='1.5rem' picture={false} description={true} callToServer={true} />

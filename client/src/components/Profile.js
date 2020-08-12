@@ -15,9 +15,9 @@ const Profile = () => {
   const userDetails = JSON.parse(localStorage.getItem('isLoggedIn'))
 
   return (
-    <Container fluid className='profile account'>
+    <Container fluid className='account'>
       <Row>
-        <Col lg={{ offset: 3, span : 6}} className='main-container'>
+        <Col lg={{ offset: 3, span : 6}}>
           <ProfileBackground />
           <ProfilePicture />
           <UserDetails username={userDetails.username} fullnameTag='h1' fullnameSize='1.5rem' picture={false} description={true} callToServer={true} />

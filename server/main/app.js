@@ -20,6 +20,7 @@ const commentRouter = require('./routes/comment')
 
 const friendsRouter = require('./routes/friends')
 
+const searchRouter = require('./routes/search')
 
 var app = express();
 
@@ -63,5 +64,7 @@ app.use('/post/:id?', postRouter)
 app.use('/comment/:father_id?', commentRouter)
 
 app.use('/friends', friendsRouter)
+
+app.use('/search', searchRouter)
 
 module.exports = app;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-
-import { Container, Row, Col, Button } from 'react-bootstrap'
 import axios from 'axios'
+
+import { Container, Row, Col } from 'react-bootstrap'
 
 import Invitations from './Invitations'
 import Connections from './Connections'
@@ -11,96 +11,78 @@ import { AccountContext } from '../Context'
 
 import './Friends.css'
 
-class Friends extends Component {
+class FriendsResults extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      requestsSent: [],
-      requests: [],
-      otherUsers: [],
-      userDetails: JSON.parse(localStorage.getItem('isLoggedIn')),
-      clickOnButton: false
+      friends: props.data.friendsList,
+      requestsSent: props.data.requestsSent,
+      requests: props.data.requests,
+      otherUsers: props.data.otherUsers,
+      userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
   }
 
   componentDidMount() {
-    document.title = 'Dashboard - Friends'
-
     this.setSocketEvents()
-
-    axios.get(`/friends/connections/${this.state.userDetails.username}`)
-    .then(res => {
-      if(res.data.success === true) {
-        this.setState({
-          requestsSent: res.data.requestsSent,
-          requests: res.data.requests
-        })
-      }
-    })
-    .catch(err => {
-      console.log("Get users error: ", err);
-    });
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps !== this.props){
+      this.setState({
+        friends: this.props.data.friendsList,
+        requestsSent: this.props.data.requestsSent,
+        requests: this.props.data.requests,
+        otherUsers: this.props.data.otherUsers
+      })
+    }
+  }
+  
+  
 
   setSocketEvents = () => {
 
-    this.context.socket.on('newUser', ({user}) => {
-      if(this.state.clickOnButton){
-        this.setState({
-          otherUsers: [...this.state.otherUsers, user]
-        })
-      }
-      
-    })
-
     this.context.socket.on('newFriend', ({sender, receiver}) => {
 
-      if(receiver === this.state.userDetails.username){
-        
+      if(receiver === this.state.userDetails.username && this.state.requestsSent.includes(sender)){
+
         this.setState({
           requestsSent: this.state.requestsSent.filter(user => {
                           return user !== sender
-                        })
+                        }),
+          friends: [...this.state.friends, sender]
         })
-
-        this.context.setFriends([...this.context.friends, sender])
       }
     })
 
     this.context.socket.on('ignoreRequest', ({sender, receiver}) => {
 
-      if(receiver === this.state.userDetails.username){
+      if(receiver === this.state.userDetails.username && this.state.requestsSent.includes(sender)){
         this.setState({
           requestsSent: this.state.requestsSent.filter(user => {
                           return user !== sender
-                        })
+                        }),
+          otherUsers: [...this.state.otherUsers, sender]  
         })
-
-        if(this.state.clickOnButton){
-          this.setState({
-            otherUsers: [...this.state.otherUsers, sender]
-          })
-        }
       }
     })
 
     this.context.socket.on('newRequest', ({sender, receiver}) => {
 
-      if(receiver === this.state.userDetails.username){
+      if(receiver === this.state.userDetails.username && this.state.otherUsers.includes(sender)){
 
         this.setState({
+          requests: [...this.state.requests, sender],
           otherUsers: this.state.otherUsers.filter(user => {
-                          return user !== sender
-                        }),
-          requests: [...this.state.requests, sender]
+                      return user !== sender
+                    })
         })
       }
     })
 
   }
-
 
   sendRequest = (senderName, receiverName) => {
 
@@ -135,7 +117,8 @@ class Friends extends Component {
         this.setState({
           requests: this.state.requests.filter(user => {
             return user !== senderName
-          })
+          }),
+          friends: [...this.state.friends, senderName]
         })
 
         this.context.setFriends([...this.context.friends, senderName])
@@ -160,14 +143,9 @@ class Friends extends Component {
         this.setState({
           requests: this.state.requests.filter(user => {
             return user !== senderName
-          })
+          }),
+          otherUsers: [...this.state.otherUsers, senderName]
         })
-
-        if(this.state.clickOnButton){
-          this.setState({
-            otherUsers: [...this.state.otherUsers, senderName]
-          })
-        }
 
         this.context.socket.emit('ignoreRequest', { sender: receiverName, receiver: senderName } )
       }
@@ -178,24 +156,6 @@ class Friends extends Component {
     })
 
   }
-
-
-  getOtherUsers = () => {
-    axios.get(`/friends/other_users/${this.state.userDetails.username}`)
-    .then(res => {
-      if(res.data.success === true) {
-        this.setState({
-          otherUsers: res.data.users
-        })
-      }
-    })
-    .catch(err => {
-      console.log("Get users error: ", err);
-    });
-
-    this.setState({clickOnButton: true})
-  }
-
   
   render() {
 
@@ -204,8 +164,8 @@ class Friends extends Component {
         <Row>
           <Col lg={{ offset: 2, span : 8}}>
             {
-              (this.state.requestsSent.length === 0 && this.state.requests.length === 0 && this.context.friends.length === 0 && this.state.otherUsers.length === 0) &&
-              <p style={ {textAlign: 'center', fontSize: '1.1rem' } }>You have no friends yet. Do you want to connect to a new friend ?</p>
+              (this.state.requestsSent.length === 0 && this.state.requests.length === 0 && this.state.friends.length === 0 && this.state.otherUsers.length === 0) &&
+              <p style={ {textAlign: 'center', fontSize: '1.1rem' } }>No results</p>
             }
             
             {
@@ -214,24 +174,15 @@ class Friends extends Component {
             }
 
             {
-              (this.context.friends.length > 0 || this.state.requestsSent.length > 0) &&
-              <Connections requestsSent={this.state.requestsSent} friends={this.context.friends} />
+              (this.state.friends.length > 0 || this.state.requestsSent.length > 0) &&
+              <Connections requestsSent={this.state.requestsSent} friends={this.state.friends} />
             }
-            <div className='wrapper-button'>
-              <Button
-                className='button'
-                variant="primary"
-                onClick={this.getOtherUsers}
-                >Click here to add a new friend
-              </Button>
-            </div> 
-            {this.state.clickOnButton ?
-             (this.state.otherUsers.length > 0 ?
+
+            {
+              this.state.otherUsers.length > 0 &&
               <OtherUsers otherUsers={this.state.otherUsers} sendRequest={this.sendRequest} />
-            :
-              (<p className='text-center'>No other users exist</p>)) 
-              : null
             }
+            
           </Col>
         </Row>
       </Container>
@@ -239,6 +190,6 @@ class Friends extends Component {
   }
 }
 
-Friends.contextType = AccountContext;
+FriendsResults.contextType = AccountContext;
 
-export default Friends;
+export default FriendsResults;

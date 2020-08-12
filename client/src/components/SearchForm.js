@@ -15,7 +15,8 @@ class SearchForm extends Component {
     }
   }
 
-  handleSearch = () => {
+  handleSearch = (event) => {
+    event.preventDefault()
 
     if(this.state.searchInput !== ''){
       axios.get('/search', {
@@ -52,9 +53,9 @@ class SearchForm extends Component {
   render() {
     return (
       <Fragment>
-        <Form inline className='mr-4 search-form'>
+        <Form inline className='mr-4 search-form' onSubmit={this.handleSearch}>
           <FormControl type="text" placeholder="Search" value={this.state.searchInput} onChange={this.onChange} className="mr-2 input-form" />
-          <Button variant="info" onClick={this.handleSearch}>Search</Button>
+          <Button variant="info" type='submit'>Search</Button>
         </Form>
       </Fragment>
     );

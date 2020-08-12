@@ -5,7 +5,8 @@ import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 
 const PostInput = ({postText, isAnonymous, onChangePostText, onChangeIsAnonymous, sendPost}) => {
 
-  const tooltipText = 'If you choose this option your post will be published anonymously. If you still want people to be able to reach you - you should fill a contact method within the post'
+  const tooltipText = 'If you choose this option your post will be published anonymously. ' +
+   'If you still want people to be able to reach you - you should fill a contact method within the post'
 
   return (
     <form onSubmit={sendPost} className='post-input'>

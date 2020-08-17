@@ -6,41 +6,50 @@ import { AccountContext } from '../Context'
 
 import './Wall.css'
 
-const Wall = ({posts, showFriendsPosts, deletePost, editPost}) => {
+const Wall = ({posts, showAll, showFriendsPosts, deletePost, editPost}) => {
 
   const accountContext = useContext(AccountContext)
 
   const userDetails = JSON.parse(localStorage.getItem('isLoggedIn'))
   let wallPosts = []
 
-  if(showFriendsPosts) {
-    wallPosts = posts.slice().reverse().filter(post => (accountContext.friends.includes(post.authorUsername) || post.authorUsername === userDetails.username) && !post.isAnonymous)
-                                        .map(post => {
+  if(!showAll){
+    if(showFriendsPosts) {
+      wallPosts = posts.slice().reverse().filter(post => (accountContext.friends.includes(post.authorUsername) || post.authorUsername === userDetails.username) && !post.isAnonymous)
+                                          .map(post => {
                                             return <div key={post.id}>
                                             <Post 
                                               data={post} 
                                               deletePost={deletePost} 
                                               editPost = {editPost} 
                                               />
-                                          </div>
-                                        })
-  } else {
-    wallPosts = posts.slice().reverse().filter(post => (!accountContext.friends.includes(post.authorUsername) && post.authorUsername !== userDetails.username) || post.isAnonymous)
-                                        .map(post => {
+                                            </div>
+                                          })
+    } else {
+      wallPosts = posts.slice().reverse().filter(post => (!accountContext.friends.includes(post.authorUsername) && post.authorUsername !== userDetails.username) || post.isAnonymous)
+                                          .map(post => {
                                             return <div key={post.id}>
                                             <Post 
-                                              data={post} 
-                                              deletePost={deletePost} 
-                                              editPost = {editPost} 
+                                              data={post}
                                               />
+                                            </div>
+                                          })
+    }
+  } else{
+    wallPosts = posts.slice().reverse().map(post => {
+                                          return <div key={post.id}>
+                                          <Post 
+                                            data={post}
+                                            />
                                           </div>
                                         })
   }
   
+  
   return (
     
     <div className='wall'>
-      <h1 className='text-center'>{ showFriendsPosts ? 'Friends' : 'Others' }</h1>
+      { !showAll ? <h1 className='text-center'>{ showFriendsPosts ? 'Friends' : 'Others' }</h1> : '' }
       {wallPosts.length === 0 ? <p className='text-center'>No posts yet</p> : wallPosts }
     </div>
   );

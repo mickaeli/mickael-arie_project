@@ -169,12 +169,14 @@ class WallManager extends Component {
         <div className='walls-container'>
           <Wall
             posts={this.state.posts}
+            showAll={false}
             showFriendsPosts={true}
             deletePost={this.deletePost} 
             editPost = {this.editPost} 
           />
           <Wall
             posts={this.state.posts}
+            showAll={false}
             showFriendsPosts={false}
             deletePost={this.deletePost} 
             editPost = {this.editPost} 

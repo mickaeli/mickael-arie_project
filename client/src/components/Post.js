@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
 
+import axios from 'axios';
+
 import { Button } from 'react-bootstrap'
 import Comment from './Comment'
 import PostHeader from './PostHeader'
 import PostBody from './PostBody'
-import axios from 'axios';
+
 
 import { AccountContext } from '../Context'
 

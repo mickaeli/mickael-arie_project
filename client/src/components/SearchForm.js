@@ -39,8 +39,6 @@ class SearchForm extends Component {
       })
     }
 
-    this.setState({searchInput: ''})
-
   }
 
   onChange = event => {

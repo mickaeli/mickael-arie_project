@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom'
 
 import FriendsResults from './FriendsResults'
+import WallManagerResults from './WallManagerResults'
 
 const SearchResults = (props) => {
 
@@ -11,6 +12,7 @@ const SearchResults = (props) => {
   
   return (
     <FriendsResults data={props.location.state.data} />
+    //<WallManagerResults data={props.location.state.data} />
   );
 };
 

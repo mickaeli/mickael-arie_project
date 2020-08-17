@@ -6,12 +6,19 @@ const Op = Sequelize.Op;
 
 const User = require('../models/user');
 const UserDetails = require('../models/userDetails');
-const { request } = require('express');
 
 router.get('/', (req, res) => {
 
   const username = req.query.username
-  const toSearch = req.query.search.toUpperCase() //convert the string to upper case for search is no case sensitive
+  const toSearch = req.query.search.toUpperCase() //convert the string to upper case for search is case insensitive
+  searchResultsInUsers(res, username, toSearch)
+
+})
+
+
+//help functions
+
+const searchResultsInUsers = (res, username, toSearch) => {
 
   UserDetails.findAll({
     where: {username: {[Op.not]: username}}, 
@@ -32,21 +39,15 @@ router.get('/', (req, res) => {
 
       let usersResult = []
 
-      //Look for the string (in toSearch variable) in each record in users and only in 'fullname' and 'description' fields.
-      //Each record (only the 'username 'field) fit to the search string is added to the 'usersResult' variable.
+      //Look for the string (in toSearch variable) in each record in users.
+      //Each record fit to the search string is added (only the 'username 'field) to the 'usersResult' variable.
       const regex = new RegExp("\\b" + toSearch + "\\b", "i");
 
       users.forEach(user => {
-        if(regex.test(user.fullname) || regex.test(user.description)){
+        if(regex.test(user.username) || regex.test(user.fullname) || regex.test(user.description)){
           usersResult.push(user.username)
         }
       });
-      
-      /* users.forEach(user => {
-        if(user.fullname.toUpperCase().includes(toSearch) || user.description.toUpperCase().includes(toSearch)){
-          usersResult.push(user.username)
-        }
-      }); */
 
       //get the record of current user in User table model.
       User.findOne({ 
@@ -66,23 +67,24 @@ router.get('/', (req, res) => {
         } else {
           console.log('user found');
 
-          let requestsSent, requests, friendsList;
+          let requestsSent, requests, friendsList, otherUsers;
 
           //get the intersection between two arrays.
-          requestsSent = arraysIntersection(usersResult, user.requests_sent)
-          requests = arraysIntersection(usersResult, user.requests)
-          friendsList = arraysIntersection(usersResult, user.friends_list)
-          otherUsers = arraysDifference(usersResult, user.requests_sent.concat(user.requests).concat(user.friends_list))
+          requestsSent = getArraysIntersection(usersResult, user.requests_sent)
+          requests = getArraysIntersection(usersResult, user.requests)
+          friendsList = getArraysIntersection(usersResult, user.friends_list)
+          otherUsers = getArraysDifference(usersResult, user.requests_sent.concat(user.requests).concat(user.friends_list))
 
           res.json({
             success: true,
             data: {
-              requestsSent: requestsSent,
-              requests: requests,
-              friendsList: friendsList,
-              otherUsers: otherUsers
+              requestsSent,
+              requests,
+              friendsList,
+              otherUsers
             }
           })
+
         }
       })
       .catch(err => {
@@ -91,7 +93,6 @@ router.get('/', (req, res) => {
           success: false
         })
       });
-
       
     }
   })
@@ -101,15 +102,13 @@ router.get('/', (req, res) => {
       success: false
     })
   });
+}
 
-
-})
-
-const arraysIntersection = (arr1, arr2) => {
+const getArraysIntersection = (arr1, arr2) => {
   return arr1.filter(element => arr2.includes(element))
 }
 
-const arraysDifference = (arr1, arr2) => {
+const getArraysDifference = (arr1, arr2) => {
   return arr1.filter(element => !arr2.includes(element))
 }
 

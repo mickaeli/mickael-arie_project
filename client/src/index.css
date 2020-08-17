@@ -156,3 +156,7 @@ input:focus, button:focus {
 .checkbox-element {
   margin-right: .5rem;
 }
+
+.green-color {
+  color: #17a2b8;
+}

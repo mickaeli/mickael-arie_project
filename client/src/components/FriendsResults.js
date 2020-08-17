@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 
-import { Container, Row, Col } from 'react-bootstrap'
-
 import Invitations from './Invitations'
 import Connections from './Connections'
 import OtherUsers from './OtherUsers'
 
 import { AccountContext } from '../Context'
 
-import './Friends.css'
+import './FriendsResults.css'
 
 class FriendsResults extends Component {
 
@@ -17,10 +15,10 @@ class FriendsResults extends Component {
     super(props);
 
     this.state = {
-      friends: props.data.friendsList,
-      requestsSent: props.data.requestsSent,
-      requests: props.data.requests,
-      otherUsers: props.data.otherUsers,
+      friends: props.users.friendsList,
+      requestsSent: props.users.requestsSent,
+      requests: props.users.requests,
+      otherUsers: props.users.otherUsers,
       userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
   }
@@ -32,10 +30,10 @@ class FriendsResults extends Component {
   componentDidUpdate(prevProps, prevState) {
     if(prevProps !== this.props){
       this.setState({
-        friends: this.props.data.friendsList,
-        requestsSent: this.props.data.requestsSent,
-        requests: this.props.data.requests,
-        otherUsers: this.props.data.otherUsers
+        friends: this.props.users.friendsList,
+        requestsSent: this.props.users.requestsSent,
+        requests: this.props.users.requests,
+        otherUsers: this.props.users.otherUsers
       })
     }
   }
@@ -160,9 +158,8 @@ class FriendsResults extends Component {
   render() {
 
     return (
-      <Container fluid className='friends account'>
-        <Row>
-          <Col lg={{ offset: 2, span : 8}}>
+      <div className='friends-results account'>
+        <h1 className='text-center green-color' style={{fontWeight: 600}}>Friends</h1>
             {
               (this.state.requestsSent.length === 0 && this.state.requests.length === 0 && this.state.friends.length === 0 && this.state.otherUsers.length === 0) &&
               <p style={ {textAlign: 'center', fontSize: '1.1rem' } }>No results</p>
@@ -182,10 +179,7 @@ class FriendsResults extends Component {
               this.state.otherUsers.length > 0 &&
               <OtherUsers otherUsers={this.state.otherUsers} sendRequest={this.sendRequest} />
             }
-            
-          </Col>
-        </Row>
-      </Container>
+      </div>
     );
   }
 }

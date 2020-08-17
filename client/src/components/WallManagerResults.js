@@ -14,17 +14,12 @@ class WallManagerResults extends Component {
     super(props);
 
     this.state = {
-      posts: []
+      posts: props.posts
     }
 
   }
 
   componentDidMount() {
-
-    //set event listeners
-    this.context.socket.on("editPost", ({posts}) => {
-        this.setState({posts})
-    });
 
     this.context.socket.on("deletePost", ({postId}) => {
 
@@ -35,6 +30,14 @@ class WallManagerResults extends Component {
       })
       
     });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps !== this.props){
+      this.setState({
+        posts: this.props.posts,
+      })
+    }
   }
 
 
@@ -85,7 +88,8 @@ class WallManagerResults extends Component {
   render() {
 
     return (
-      <div className='wall-manager'>
+      <div className='account wall-manager'>
+        <h1 className='text-center green-color'>Posts</h1>
         {
           this.state.posts.length === 0 ?
           <p style={ {textAlign: 'center', fontSize: '1.1rem' } }>No results</p>

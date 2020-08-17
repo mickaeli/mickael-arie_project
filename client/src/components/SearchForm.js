@@ -27,9 +27,10 @@ class SearchForm extends Component {
       })
       .then(res => {
         if(res.data.success){
+
           this.props.history.push({
           pathname: `${this.props.urlPrefix}/search`,
-          state: { data: res.data.data }
+          state: { users: res.data.users, posts: res.data.posts }
       })
         }
 

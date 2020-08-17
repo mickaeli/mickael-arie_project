@@ -1,0 +1,8 @@
+.search-results {
+  display: flex;
+  justify-content: space-around;
+}
+
+.search-part {
+  width: 48%;
+}

@@ -40,6 +40,8 @@ const Wall = ({posts, showAll, showFriendsPosts, deletePost, editPost}) => {
                                           return <div key={post.id}>
                                           <Post 
                                             data={post}
+                                            deletePost={deletePost} 
+                                            editPost = {editPost}
                                             />
                                           </div>
                                         })
@@ -49,7 +51,7 @@ const Wall = ({posts, showAll, showFriendsPosts, deletePost, editPost}) => {
   return (
     
     <div className='wall'>
-      { !showAll ? <h1 className='text-center'>{ showFriendsPosts ? 'Friends' : 'Others' }</h1> : '' }
+      { !showAll ? <h1 className='text-center green-color'>{ showFriendsPosts ? 'Friends' : 'Others' }</h1> : '' }
       {wallPosts.length === 0 ? <p className='text-center'>No posts yet</p> : wallPosts }
     </div>
   );

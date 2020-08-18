@@ -37,11 +37,11 @@ class ChatManager extends Component {
 
     this.context.socket.on("activeUsers", users => {
 
-      //looking for active users who are my friends
-      const activeFriends = users.filter(user => this.context.friends.indexOf(user) >= 0)
-      this.setState({
-        activeFriends
-      })
+        //looking for active users who are my friends
+        this.setState({
+          activeFriends: users.filter(user => this.context.friends.indexOf(user) >= 0)
+        })
+      
     });
 
 

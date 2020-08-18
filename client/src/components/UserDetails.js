@@ -94,6 +94,11 @@ class UserDetails extends Component {
         <div>
           {fullname}
           {
+            !this.props.isAnonymous ? 
+            <p className='username'>({this.props.username})</p> : ''
+          }
+          
+          {
             this.props.description ? (<p className='description'> { this.state.userDetails.description } </p>) : ''
           }
         </div>

@@ -33,7 +33,35 @@ class DashboardContainer extends Component {
 
   componentDidMount() {
 
-    this.state.contextValue.socket.on('userDetailsModified', ({user, fullname, description}) => {
+    this.setSocketEvents()
+
+    if(this.state.contextValue.userDetails.newUser){
+      this.state.contextValue.socket.emit('newUser', { user: this.state.contextValue.userDetails.username } )
+    }
+    
+    axios.get(`/friends/connections/${this.state.contextValue.userDetails.username}`)
+    .then(res => {
+      if(res.data.success) {
+        const contextValue = this.state.contextValue
+
+        contextValue.friends = res.data.friendsList
+
+        this.setState({
+          contextValue
+        })
+      }
+    })
+    .catch(err => {
+      console.log('get friends error: ', err);
+    })
+  }
+
+  componentWillUnmount() {
+    this.state.contextValue.socket.close()
+  }
+
+  setSocketEvents = () => {
+    this.state.contextValue.socket.on('userDetailsModified', ({user, fullname}) => {
       if(user === this.state.contextValue.userDetails.username){
         let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
         isLoggedIn.fullname = fullname
@@ -56,29 +84,6 @@ class DashboardContainer extends Component {
         })
       }
     })
-
-    if(this.state.contextValue.userDetails.newUser){
-      this.state.contextValue.socket.emit('newUser', { user: this.state.contextValue.userDetails.username } )
-    }
-    
-    axios.get(`/friends/connections/${this.state.contextValue.userDetails.username}`)
-    .then(res => {
-      if(res.data.success) {
-        const contextValue = this.state.contextValue
-        contextValue.friends = res.data.friendsList
-        this.setState({
-          contextValue
-        })
-      }
-    })
-    .catch(err => {
-      console.log('get friends error: ', err);
-    })
-  }
-  
-
-  componentWillUnmount() {
-    this.state.contextValue.socket.close()
   }
 
   setFriends = value => {

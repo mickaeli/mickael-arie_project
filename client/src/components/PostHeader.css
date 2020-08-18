@@ -5,7 +5,7 @@
   justify-content: space-between;
 }
 
-.post-header p {
+.post-header > p {
   font-size: 15px;
   margin: 16px 0;
 }

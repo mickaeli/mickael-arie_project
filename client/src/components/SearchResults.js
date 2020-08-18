@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom'
 
-import { Container, Row, Col } from 'react-bootstrap'
-
 import FriendsResults from './FriendsResults'
 import WallManagerResults from './WallManagerResults'
 

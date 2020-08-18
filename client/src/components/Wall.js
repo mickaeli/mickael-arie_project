@@ -4,8 +4,6 @@ import Post from './Post';
 
 import { AccountContext } from '../Context'
 
-import './Wall.css'
-
 const Wall = ({posts, showAll, showFriendsPosts, deletePost, editPost}) => {
 
   const accountContext = useContext(AccountContext)

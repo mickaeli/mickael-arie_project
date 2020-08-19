@@ -16,6 +16,7 @@
 
 .username {
   opacity: .5;
+  margin-bottom: .4rem;
 }
 
 .user-details h1, h2 {

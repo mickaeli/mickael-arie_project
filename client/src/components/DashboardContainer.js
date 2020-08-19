@@ -22,7 +22,7 @@ class DashboardContainer extends Component {
     super(props);
 
     this.state = {
-      contextValue: {
+      context: {
         userDetails: JSON.parse(localStorage.getItem('isLoggedIn')),
         socket: io(ENDPOINT),
         friends: [],
@@ -35,19 +35,19 @@ class DashboardContainer extends Component {
 
     this.setSocketEvents()
 
-    if(this.state.contextValue.userDetails.newUser){
-      this.state.contextValue.socket.emit('newUser', { user: this.state.contextValue.userDetails.username } )
+    if(this.state.context.userDetails.newUser){
+      this.state.context.socket.emit('newUser', { user: this.state.context.userDetails.username } )
     }
     
-    axios.get(`/friends/connections/${this.state.contextValue.userDetails.username}`)
+    axios.get(`/friends/connections/${this.state.context.userDetails.username}`)
     .then(res => {
       if(res.data.success) {
-        const contextValue = this.state.contextValue
+        const context = this.state.context
 
-        contextValue.friends = res.data.friendsList
+        context.friends = res.data.friendsList
 
         this.setState({
-          contextValue
+          context
         })
       }
     })
@@ -57,40 +57,40 @@ class DashboardContainer extends Component {
   }
 
   componentWillUnmount() {
-    this.state.contextValue.socket.close()
+    this.state.context.socket.close()
   }
 
   setSocketEvents = () => {
-    this.state.contextValue.socket.on('userDetailsModified', ({user, fullname}) => {
-      if(user === this.state.contextValue.userDetails.username){
+    this.state.context.socket.on('userDetailsModified', ({user, fullname}) => {
+      if(user === this.state.context.userDetails.username){
         let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
         isLoggedIn.fullname = fullname
         localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
 
         this.setState({
-          contextValue: {...this.state.contextValue, userDetails: isLoggedIn}
+          context: {...this.state.context, userDetails: isLoggedIn}
         })
       }
     })
 
-    this.state.contextValue.socket.on('profilePictureModified', ({user, profilePicture}) => {
-      if(user === this.state.contextValue.userDetails.username){
+    this.state.context.socket.on('profilePictureModified', ({user, profilePicture}) => {
+      if(user === this.state.context.userDetails.username){
         let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
         isLoggedIn.profilePicture = profilePicture
         localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
 
         this.setState({
-          contextValue: {...this.state.contextValue, userDetails: isLoggedIn}
+          context: {...this.state.context, userDetails: isLoggedIn}
         })
       }
     })
   }
 
   setFriends = value => {
-    const contextValue = this.state.contextValue
-    contextValue.friends = value
+    const context = this.state.context
+    context.friends = value
     this.setState({
-      contextValue
+      context
     })
   }
 
@@ -98,7 +98,7 @@ class DashboardContainer extends Component {
 
     return (
       <Fragment>
-        <AccountContext.Provider value={this.state.contextValue}>
+        <AccountContext.Provider value={this.state.context}>
           <DashboardHeader urlPrefix={this.props.match.url} />
           
           <Switch>
@@ -110,7 +110,7 @@ class DashboardContainer extends Component {
             <Route component={NotFound} />
           </Switch>
           
-          <ChatManager />
+          <ChatManager context={this.state.context}/>
         </AccountContext.Provider>
         
       </Fragment> 

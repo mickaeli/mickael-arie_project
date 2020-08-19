@@ -26,7 +26,6 @@ const socketConnect = (io, socket) => {
   socket.on('join', name => {
     const user = addUser({ id: socket.id, name });
     console.log(`user ${user.name} added in activeUsers`);
-
     socket.emit('activeUsers', getUsers());
 
     socket.broadcast.emit('userConnected', name)

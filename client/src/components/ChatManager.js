@@ -7,7 +7,6 @@ import { Container, Row, Col } from 'react-bootstrap'
 import ActiveFriends from './ActiveFriends'
 import Chat from './Chat'
 
-import { AccountContext } from '../Context'
 import { createRoomName } from '../utils'
  
 import chatLogo from '../img/chat_logo.png'
@@ -28,34 +27,35 @@ class ChatManager extends Component {
   }
 
   componentDidMount() {
-    this.setSocketEvents()
+    //run function setSocketEvents after one second for waiting this.props.context.friends is ready in DashBoardContainer component
+    setTimeout(this.setSocketEvents, 1000)
   }
 
   setSocketEvents = () => {
 
-    this.context.socket.emit('join', this.state.userDetails.username);
+    this.props.context.socket.emit('join', this.state.userDetails.username);
 
-    this.context.socket.on("activeUsers", users => {
+    this.props.context.socket.on("activeUsers", users => {
 
         //looking for active users who are my friends
         this.setState({
-          activeFriends: users.filter(user => this.context.friends.indexOf(user) >= 0)
+          activeFriends: users.filter(user => this.props.context.friends.indexOf(user) >= 0)
         })
       
     });
 
 
-    this.context.socket.on('userConnected', user => {
+    this.props.context.socket.on('userConnected', user => {
 
       //if user is my friend add it to active friends variable
-      if(this.context.friends.indexOf(user) >= 0) {
+      if(this.props.context.friends.indexOf(user) >= 0) {
         this.setState({
           activeFriends: [...this.state.activeFriends, user]
         })
       }
     })
 
-    this.context.socket.on('newFriendConnected', ({sender, receiver}) => {
+    this.props.context.socket.on('newFriendConnected', ({sender, receiver}) => {
 
       if(receiver === this.state.userDetails.username) {
 
@@ -65,7 +65,7 @@ class ChatManager extends Component {
       }
     })
 
-    this.context.socket.on('userDisconnected', user => {
+    this.props.context.socket.on('userDisconnected', user => {
       this.setState({
         activeFriends: this.state.activeFriends.filter(friend => {
           return friend !== user
@@ -76,10 +76,10 @@ class ChatManager extends Component {
       })
     })
 
-    this.context.socket.on('joinToRoom', ({friendName, roomName}) => {
+    this.props.context.socket.on('joinToRoom', ({friendName, roomName}) => {
 
       if(friendName === this.state.userDetails.username && this.state.rooms.indexOf(roomName) === -1) {
-          this.context.socket.emit('joinToRoom', {
+          this.props.context.socket.emit('joinToRoom', {
             roomName,
             sendEventToFriend: false
           });
@@ -97,7 +97,7 @@ class ChatManager extends Component {
 
     const roomName = createRoomName(this.state.userDetails.username, friendName)
 
-    this.context.socket.emit('joinToRoom', {
+    this.props.context.socket.emit('joinToRoom', {
       friendName, 
       roomName,
       sendEventToFriend: true
@@ -110,7 +110,7 @@ class ChatManager extends Component {
 
   closeChat = roomName => {
 
-    this.context.socket.emit('leaveRoom', {roomName, sendEventToFriend: true})
+    this.props.context.socket.emit('leaveRoom', {roomName, sendEventToFriend: true})
 
     this.setState({
       rooms: this.state.rooms.filter(room => {
@@ -158,6 +158,5 @@ class ChatManager extends Component {
   }
 }
 
-ChatManager.contextType = AccountContext;
 
 export default withRouter(ChatManager);

@@ -67,7 +67,7 @@ class UserDetails extends Component {
 
     let fullname
     if(this.props.fullnameTag === 'h1') {
-      fullname = (<h1 style={{fontSize: this.props.fullnameSize}} > { this.state.userDetails.fullname } </h1>)
+      fullname = (<h1 style={{fontSize: this.props.fullnameSize, marginBottom: !this.props.isAnonymous ? 0 : ''}} > { this.state.userDetails.fullname } </h1>)
 
     } else if(this.props.fullnameTag === 'h2') {
       fullname = (<h2> { this.state.userDetails.fullname } </h2>)

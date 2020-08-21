@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap'
 import Comment from './Comment'
 import PostHeader from './PostHeader'
 import PostBody from './PostBody'
+import PostInput from './PostInput'
 
 
 import { AccountContext } from '../Context'
@@ -23,13 +24,23 @@ class Post extends Component {
       edit_mode: false,
 
       post_edited: props.data.edited,
-      comment_text: '',
+      commentInputs: {
+        comment_text: '',
+        isAnonymous:  false 
+      },
       comments: []
     }
 
   }
 
   componentDidMount() {
+
+    this.context.socket.on("addComment", ({comment}) => {
+      this.setState({
+        comments: [...this.state.comments, comment],
+        commentInputs: {comment_text: '', isAnonymous: false}
+      })
+  });
 
     this._isMounted = true
 
@@ -50,9 +61,21 @@ class Post extends Component {
     this._isMounted = false
   }
 
-  onChange = (event) => {
+  onChangePostText = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      post_text_value: event.target.value
+    });
+  }
+
+  onChangeCommentText = (event) => {
+    this.setState({
+      commentInputs: {...this.state.commentInputs, comment_text: event.target.value}
+    });
+  }
+
+  onChangeIsAnonymous = () => {
+    this.setState({
+      commentInputs: {...this.state.commentInputs, isAnonymous: !this.state.commentInputs.isAnonymous}
     });
   }
   
@@ -97,39 +120,51 @@ class Post extends Component {
     }
 }
 
-addComment = () => {
+addComment = (event) => {
+  event.preventDefault();
 
-  let comment_text = this.state.comment_text.trim();
+  let comment_text = this.state.commentInputs.comment_text.trim();
 
     if(comment_text !== "") {
 
       //'post_id' indicates the id of the post for which we want add a comment.
-      const params = { post_id: this.props.data.id, comment_text: comment_text, comment_author: this.context.userDetails.username }
+      const params = { post_id: this.props.data.id, comment_text: comment_text, isAnonymous: this.state.commentInputs.isAnonymous, comment_author: this.context.userDetails.username }
       
       axios.post('/comment/', params)
       .then(res => {
         if (res.data.success === true) {
           
           //add the new comment at end of this.state.comments array
-          let comments = this.state.comments
+          //let comments = this.state.comments
           const new_comment = {
             id: res.data.comment_id,
             text: comment_text,
             profilePicture: this.context.userDetails.profilePicture,
             authorUsername: this.context.userDetails.username,
             authorFullname: this.context.userDetails.fullname,
+            isAnonymous: this.state.commentInputs.isAnonymous,
             date: res.data.comment_date
           }
-          comments.push(new_comment);
-          this.setState({comments});
+
+          this.context.socket.emit('addComment', { comment: new_comment });
+
+          /* comments.push(new_comment);
+          this.setState({
+            comments,
+            commentInputs: {comment_text: '', isAnonymous: false}
+          }); */
+
         }
       })
       .catch(err => {
-        console.log("Upload post error: ", err);
+        console.log("Upload comment error: ", err);
+        this.setState({commentInputs: {comment_text: '', isAnonymous: false}})
       })
+    } else {
+        this.setState({commentInputs: {comment_text: '', isAnonymous: false}})
     }
 
-    this.setState({comment_text:''})
+    //this.setState({comment_text:''})
 }
 
   render() {
@@ -141,7 +176,7 @@ addComment = () => {
           <textarea 
             className='box'
             value={ this.state.post_text_value } 
-            onChange={this.onChange} 
+            onChange={this.onChangePostText} 
             name="post_text_value" 
             rows="10"
             autoFocus
@@ -203,24 +238,17 @@ addComment = () => {
           : null
         }
 
-        <div>
-          <textarea 
-          className='box' 
-          placeholder="Reply"
-          value={this.state.comment_text} 
-          onChange={this.onChange}
-          name="comment_text" 
-          rows="5"
-          />
-          <div className='wrapper-button'>
-            <Button
-              className='button'
-              variant="primary"
-              onClick={this.addComment}
-              >Send
-            </Button>
-          </div> 
-        </div>
+        <PostInput 
+          placeHolder="Reply"
+          rows={5}
+          postText={this.state.commentInputs.comment_text} 
+          isAnonymous={this.state.commentInputs.isAnonymous} 
+          onChangePostText={this.onChangeCommentText} 
+          onChangeIsAnonymous={this.onChangeIsAnonymous} 
+          sendPost={this.addComment} 
+          tooltipText = 'If you choose this option your comment will be published anonymously. If you still want people to be able to reach you - you should fill a contact method within the comment'
+          sendText='Send'
+        />
         
         <h2 className='comment-header' style= { { fontSize: '0.9rem' } }><span>Comments</span></h2>
         {comments}

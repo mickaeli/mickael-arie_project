@@ -29,6 +29,8 @@ const Wall = ({posts, showAll, showFriendsPosts, deletePost, editPost}) => {
                                             return <div key={post.id}>
                                             <Post 
                                               data={post}
+                                              deletePost={deletePost} 
+                                              editPost = {editPost}
                                               />
                                             </div>
                                           })

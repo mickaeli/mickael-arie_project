@@ -3,20 +3,17 @@ import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 
-const PostInput = ({postText, isAnonymous, onChangePostText, onChangeIsAnonymous, sendPost}) => {
-
-  const tooltipText = 'If you choose this option your post will be published anonymously. ' +
-   'If you still want people to be able to reach you - you should fill a contact method within the post'
+const PostInput = ({placeHolder, rows, postText, isAnonymous, onChangePostText, onChangeIsAnonymous, sendPost, tooltipText, sendText}) => {
 
   return (
     <form onSubmit={sendPost} className='post-input'>
       <textarea 
       className='box' 
-      placeholder="Post something"
+      placeholder={placeHolder}
       value={postText} 
       onChange={onChangePostText} 
       name="post_text" 
-      rows="10"
+      rows={rows}
       />
       <div className='flex-row-center'>
 
@@ -38,7 +35,7 @@ const PostInput = ({postText, isAnonymous, onChangePostText, onChangeIsAnonymous
             className='button'
             variant="primary"
             type='submit'
-            >Publish 
+            >{sendText}
           </Button>
       </div>
     </form>

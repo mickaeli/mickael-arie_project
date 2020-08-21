@@ -78,6 +78,11 @@ const socketConnect = (io, socket) => {
     io.emit('deletePost', {postId})
   })
 
+  socket.on('addComment', ({comment}) => {
+
+    io.emit('addComment', {comment})
+  })
+
   socket.on('userDetailsModified', ({user, fullname, description}) => {
     io.emit('userDetailsModified', {user, fullname, description})
   })

@@ -104,7 +104,7 @@ class WallManager extends Component {
         console.log("Upload post error: ", err);
         this.setState({postInputs: {post_text: '', isAnonymous: false}})
       })
-    } else{
+    } else {
       this.setState({postInputs: {post_text: '', isAnonymous: false}})
     }
     
@@ -160,11 +160,15 @@ class WallManager extends Component {
     return (
       <div className='wall-manager'>
         <PostInput 
+          placeHolder="Post something"
+          rows={10}
           postText={this.state.postInputs.post_text} 
           isAnonymous={this.state.postInputs.isAnonymous} 
           onChangePostText={this.onChangePostText} 
           onChangeIsAnonymous={this.onChangeIsAnonymous} 
           sendPost={this.addPost} 
+          tooltipText = 'If you choose this option your post will be published anonymously. If you still want people to be able to reach you - you should fill a contact method within the post'
+          sendText='Publish'
         />
         <div className='walls-container'>
           <Wall

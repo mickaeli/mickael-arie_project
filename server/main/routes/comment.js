@@ -1,6 +1,5 @@
 var express = require('express')
 var router = express.Router({ mergeParams: true })
-var Sequelize = require('sequelize');
 
 const Post = require('../models/post');
 const User = require('../models/user');
@@ -9,13 +8,13 @@ const UserDetails = require('../models/userDetails');
 
 router.post('/', (req, res) => {
 
-  const { post_id, comment_text, comment_author } = req.body;
+  const { post_id, comment_text, isAnonymous, comment_author } = req.body;
 
   Post.create({
     text: comment_text,
+    is_anonymous: isAnonymous,
     author: comment_author,
-    father_id: post_id,
-    is_anonymous: false
+    father_id: post_id
   })
   .then(function(comment) {
     res.json({
@@ -74,7 +73,8 @@ router.get('/', (req, res) => {
           profilePicture: comment['user.users_detail.url_picture'],
           authorUsername: comment.author,
           authorFullname: comment['user.users_detail.fullname'],
-          date: comment.updatedAt
+          date: comment.updatedAt,
+          isAnonymous: comment.is_anonymous
         })
       })
       

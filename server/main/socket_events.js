@@ -63,14 +63,16 @@ const socketConnect = (io, socket) => {
     callback()
   })
 
-  socket.on('addPost', ({post}) => {
+  socket.on('addPost', ({post}, cb) => {
 
     io.emit('addPost', {post})
+
+    cb()
   })
 
-  socket.on('editPost', ({posts}) => {
+  socket.on('editPost', ({postId, newFields}) => {
 
-    io.emit('editPost', {posts})
+    io.emit('editPost', {postId, newFields})
   })
 
   socket.on('deletePost', ({postId}) => {
@@ -78,9 +80,11 @@ const socketConnect = (io, socket) => {
     io.emit('deletePost', {postId})
   })
 
-  socket.on('addComment', ({comment}) => {
+  socket.on('addComment', ({postId, comment}, cb) => {
 
-    io.emit('addComment', {comment})
+    io.emit('addComment', {postId, comment})
+
+    cb()
   })
 
   socket.on('userDetailsModified', ({user, fullname, description}) => {

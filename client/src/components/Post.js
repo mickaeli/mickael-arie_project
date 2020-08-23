@@ -35,11 +35,14 @@ class Post extends Component {
 
   componentDidMount() {
 
-    this.context.socket.on("addComment", ({comment}) => {
-      this.setState({
-        comments: [...this.state.comments, comment],
-        commentInputs: {comment_text: '', isAnonymous: false}
-      })
+    this.context.socket.on("addComment", ({postId, comment}) => {
+
+      if(this.props.data.id === postId){
+        this.setState({
+          comments: [...this.state.comments, comment]
+        })
+      }
+
   });
 
     this._isMounted = true
@@ -134,8 +137,6 @@ addComment = (event) => {
       .then(res => {
         if (res.data.success === true) {
           
-          //add the new comment at end of this.state.comments array
-          //let comments = this.state.comments
           const new_comment = {
             id: res.data.comment_id,
             text: comment_text,
@@ -146,13 +147,7 @@ addComment = (event) => {
             date: res.data.comment_date
           }
 
-          this.context.socket.emit('addComment', { comment: new_comment });
-
-          /* comments.push(new_comment);
-          this.setState({
-            comments,
-            commentInputs: {comment_text: '', isAnonymous: false}
-          }); */
+          this.context.socket.emit('addComment', { postId: this.props.data.id, comment: new_comment }, () => this.setState({ commentInputs: {comment_text: '', isAnonymous: false} }) );
 
         }
       })

@@ -27,14 +27,29 @@ class WallManager extends Component {
 
     this.context.socket.on("addPost", ({post}) => {
         this.setState({
-          posts: [...this.state.posts, post],
-          postInputs: {post_text: '', isAnonymous: false}
+          posts: [...this.state.posts, post]
         })
     });
 
-    this.context.socket.on("editPost", ({posts}) => {
-        this.setState({posts})
+    this.context.socket.on("editPost", ({postId, newFields}) => {
+
+      let posts = this.state.posts
+
+      posts.forEach(post => {
+        if(post.id === postId) {
+          post.id = newFields.id
+          post.text = newFields.text
+          post.edited = newFields.edited
+          post.date = newFields.date
+        }
+
+        console.log(post)
     });
+
+    this.setState({
+      posts
+    })
+  })
 
     this.context.socket.on("deletePost", ({postId}) => {
 
@@ -97,7 +112,7 @@ class WallManager extends Component {
             date: res.data.post_date
           }
 
-          this.context.socket.emit('addPost', { post: new_post });
+          this.context.socket.emit('addPost', { post: new_post }, () => this.setState({ postInputs: {post_text: '', isAnonymous: false} }) );
         }
       })
       .catch(err => {
@@ -118,19 +133,15 @@ class WallManager extends Component {
     axios.put(`/post/${post_id}`, params)
     .then(res => {
       if (res.data.success === true) {
-        
-        let posts = this.state.posts
 
-        posts.forEach(post => {
-          if(post.id === post_id) {
-            post.id = res.data.post_id
-            post.text = post_text
-            post.edited = true
-            post.date = res.data.post_date
-          }
-        })
+        const newFields = {
+          id: res.data.post_id,
+          text: post_text,
+          edited: true,
+          date: res.data.post_date
+        }
 
-        this.context.socket.emit('editPost', { posts });
+        this.context.socket.emit('editPost', { postId: post_id, newFields });
       }
     })
     .catch(err => {

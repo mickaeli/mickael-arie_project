@@ -28,7 +28,7 @@ const Footer = () => {
               <p>Gooder&trade; were made as a final project at Hadassah Academic College, Computer Science department, by Mickael Israel (...) & Arie Noyoz (....)</p>
               <ul className="features">
                 <li>
-                  <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faTwitterSquare} size='3x' aria-hidden="true">
                       <span className="sr-only">Lindekin</span>
                     </FontAwesomeIcon>

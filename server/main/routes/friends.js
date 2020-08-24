@@ -168,9 +168,8 @@ router.get('/other_users/:username', (req, res) => {
         } else {
 
           console.log("users found")
-          console.log(users);
+          
           const users_names = users.map(user => user.username)
-          console.log(users_names);
           
           res.json({
             success: true,

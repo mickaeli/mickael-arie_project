@@ -32,7 +32,6 @@ const DashboardHeader = ({urlPrefix, ...props}) => {
             <NavLink exact to={`${urlPrefix}`} activeClassName='link-active' className='link'>Home</NavLink>
             <NavLink exact to={`${urlPrefix}/profile`} activeClassName='link-active' className='link'>Profile</NavLink>
             <NavLink exact to={`${urlPrefix}/friends`} activeClassName='link-active' className='link'>Friends</NavLink>
-            <NavLink exact to={`${urlPrefix}/photos`} activeClassName='link-active' className='link'>Photos</NavLink>
           </Nav>
           <SearchForm urlPrefix={urlPrefix}/>
           <Link to='/'>

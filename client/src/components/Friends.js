@@ -21,7 +21,8 @@ class Friends extends Component {
       requests: [],
       otherUsers: [],
       userDetails: JSON.parse(localStorage.getItem('isLoggedIn')),
-      clickOnButton: false
+      clickOnButton: false,
+      textIfNonOtherUsers: ''
     }
   }
 
@@ -187,6 +188,11 @@ class Friends extends Component {
         this.setState({
           otherUsers: res.data.users
         })
+        if(res.data.users.length === 0){
+          this.setState({
+            textIfNonOtherUsers: 'No other users exist'
+          })
+        }
       }
     })
     .catch(err => {
@@ -229,7 +235,7 @@ class Friends extends Component {
              (this.state.otherUsers.length > 0 ?
               <OtherUsers otherUsers={this.state.otherUsers} sendRequest={this.sendRequest} />
             :
-              (<p className='text-center'>No other users exist</p>)) 
+             (<p className='text-center'>{this.state.textIfNonOtherUsers}</p>)) 
               : null
             }
           </Col>

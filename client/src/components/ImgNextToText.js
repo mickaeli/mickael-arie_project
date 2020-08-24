@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 
 import './ImgNextToText.css';
 
-const ImgNextToText = ({url_img, header, paragraphs,imgSize, hasButton}) => {
+const ImgNextToText = ({url_img, header, paragraphs,imgSize, hasButton, id}) => {
   let button, height;
   button = hasButton ? (<Link to='/about' ><Button className='button' variant="outline-dark" size="lg">Learn more</Button></Link>) : ''
   height = (imgSize === 'large') ? '50rem' : '25rem'
@@ -19,7 +19,7 @@ const ImgNextToText = ({url_img, header, paragraphs,imgSize, hasButton}) => {
           <Image src={url_img} alt={url_img} style={{ minHeight: height}}/>
         </Col>
         <Col sm={12} lg={6} xl={4}>
-          <div className='container-wrapper'>
+          <div className='container-wrapper' id={id}>
             <h1>{header}</h1>
             {list}
             {button}

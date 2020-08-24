@@ -83,9 +83,7 @@ const About = () => {
   return (
     <div className='about'>
       <HeroImage header={(<h1>{header1}</h1>)} paragraph={<p>{paragraph}</p>} url_img={winter} heroType='withArrow' heroSize='large' />  
-      <div id='down'>
-        <ImgNextToText url_img={mountain} header={header2} paragraphs={paragraphs} imgSize='large' hasButton={false} />
-      </div>
+        <ImgNextToText url_img={mountain} header={header2} paragraphs={paragraphs} imgSize='large' hasButton={false} id='down'/>
       <HeroImage header={(<h1>{header3}</h1>)} paragraph={(<p>John Holmes</p>)} url_img={sun} heroType='bg_blue2' heroSize='small' hasSigninButton />
       <Container fluid className='list-next-to-image'>
         <Row>

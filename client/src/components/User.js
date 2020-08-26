@@ -5,7 +5,7 @@ import UserDetails from './UserDetails'
 
 import './User.css'
 
-const User = ({otherUser, userType, acceptRequest, rejectRequest, sendRequest}) => {
+const User = ({otherUser, userType, acceptRequest, rejectRequest, sendRequest, deleteFriend}) => {
 
     let button
 
@@ -15,7 +15,7 @@ const User = ({otherUser, userType, acceptRequest, rejectRequest, sendRequest}) 
         break;
       case 'receiverRequest':
       case 'friend':
-        button = (<FriendsButton userType={userType} />)
+        button = (<FriendsButton userType={userType} deleteFriend={deleteFriend} otherUser={otherUser}/>)
         break;
       case 'otherUser':
         button = (<FriendsButton userType={userType} sendRequest={sendRequest} otherUser={otherUser} />)

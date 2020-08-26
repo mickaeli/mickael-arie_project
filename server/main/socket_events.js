@@ -23,6 +23,13 @@ const socketConnect = (io, socket) => {
     socket.broadcast.emit('newRequest', {sender, receiver})
   })
 
+  socket.on('deleteFriend', ({sender, receiver}) => {
+
+    socket.broadcast.emit('deleteFriend', {sender, receiver})
+    socket.emit('deleteFriend', {sender: receiver, receiver: sender, closeChat: true})
+
+  })
+
   socket.on('join', name => {
     const user = addUser({ id: socket.id, name });
     console.log(`user ${user.name} added in activeUsers`);

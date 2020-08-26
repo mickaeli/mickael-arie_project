@@ -65,6 +65,23 @@ class ChatManager extends Component {
       }
     })
 
+    this.props.context.socket.on('deleteFriend', ({sender, receiver, closeChat}) => {
+
+      if(receiver === this.state.userDetails.username) {
+
+        this.setState({
+          activeFriends: this.state.activeFriends.filter(user => {
+            return user !== sender
+          })
+        })
+
+        if(closeChat){
+          this.closeChat(createRoomName(this.state.userDetails.username, sender))
+        }
+        
+      }
+    })
+
     this.props.context.socket.on('userDisconnected', user => {
       this.setState({
         activeFriends: this.state.activeFriends.filter(friend => {

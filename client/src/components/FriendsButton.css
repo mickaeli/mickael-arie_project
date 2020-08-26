@@ -2,3 +2,7 @@
   margin: auto initial auto auto;
   display: flex;
 }
+
+.dropDown:after {
+  display: none;
+}

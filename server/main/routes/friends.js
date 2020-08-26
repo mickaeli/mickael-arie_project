@@ -129,6 +129,45 @@ router.put('/reject_request/:senderName/:receiverName', (req, res) => {
 })
 
 
+router.put('/delete_friend/:username/:friendName', (req, res) => {
+
+  const username = req.params.username
+  const friendName = req.params.friendName
+  
+  User.update(
+    { friends_list: Sequelize.fn('array_remove', Sequelize.col('friends_list'), friendName) },
+    {where: {username: username} }
+  )
+  .then( () => {
+    console.log('updating friends_list 1 successfully');
+  })
+  .catch(err => {
+    console.log('updating friends_list 1 failed');
+    res.json({
+      success: false
+    })
+  })
+
+  User.update(
+    { friends_list: Sequelize.fn('array_remove', Sequelize.col('friends_list'), username) },
+    {where: {username: friendName} }
+  )
+  .then( () => {
+    console.log('updating friends_list 2 successfully');
+    res.json({
+      success: true
+    })
+  })
+  .catch(err => {
+    console.log('updating friends_list 2 failed');
+    res.json({
+      success: false
+    })
+  })
+
+})
+
+
 router.get('/other_users/:username', (req, res) => {
 
   const username = req.params.username

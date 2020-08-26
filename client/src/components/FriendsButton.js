@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 
-import { Button } from 'react-bootstrap'
+import { Button, Dropdown } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 import './FriendsButton.css'
 
@@ -44,7 +46,15 @@ const FriendsButton = (props) => {
                 </Button>)
       break;
     case 'friend':
-      content = null
+      content = (<Dropdown className='buttons-manage-users' >
+                  <Dropdown.Toggle variant="secondary" id="dropdown-basic" className='dropDown'>
+                    <FontAwesomeIcon icon={faEllipsisV} size='1x' aria-hidden="true" />
+                  </Dropdown.Toggle>
+                
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={ e => {e.preventDefault(); props.deleteFriend(props.otherUser)} }> Delete</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>)
       break;
     case 'otherUser':
       content = (<form className='buttons-manage-users' onSubmit={ e => {e.preventDefault(); props.sendRequest(userDetails.username, props.otherUser)} }>

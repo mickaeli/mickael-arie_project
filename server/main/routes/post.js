@@ -93,8 +93,69 @@ router.get('/', (req, res) => {
 
 })
 
+router.get('/personal_post/:username', (req, res) => {
 
-router.put('/', (req, res) => {
+  const username = req.params.username
+
+  Post.findAll({
+    include: [{
+      model: User,
+      required: true,
+      include: [{model: UserDetails, required: true }]
+     }],
+    where: {father_id: -1, author: username},   
+    order: [
+      ['id', 'ASC']
+    ],
+    raw: true
+  })
+  .then(function (posts) {
+
+    //case 1: there is no post in the db
+    if (posts.length === 0) {
+      console.log("no post found")
+      res.json({
+        success: false
+      })
+
+      //case 2: record founded
+    } else {
+
+      console.log("posts found")
+
+      var posts_array = []
+
+      posts.forEach( post => {
+        posts_array.push({
+          id: post.id,
+          text: post.text,
+          profilePicture: post['user.users_detail.url_picture'],
+          authorUsername: post.author,
+          authorFullname: post['user.users_detail.fullname'],
+          edited: post.edited,
+          date: post.updatedAt,
+          isAnonymous: post.is_anonymous
+        })
+      })
+      
+      res.json({
+        success: true,
+        posts: posts_array
+      })
+      
+    }
+  })
+  .catch(function(error) {
+    console.log('post search failed')
+    res.json({
+      success: false
+    })
+  });
+
+})
+
+
+router.put('/:id', (req, res) => {
 
   const post_id = req.params.id
   const { post_text, post_author } = req.body;
@@ -195,7 +256,7 @@ router.put('/', (req, res) => {
 
 
 //delete post and its comments
-router.delete('/', (req, res) => {
+router.delete('/:id', (req, res) => {
 
   const post_id = req.params.id
 

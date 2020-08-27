@@ -60,7 +60,7 @@ app.use('/profile_background/:username', profileBgRouter)
 
 app.use('/profile_details/:username?', profileDetailsRouter)
 
-app.use('/post/:id?', postRouter)
+app.use('/post/', postRouter)
 app.use('/comment/:father_id?', commentRouter)
 
 app.use('/friends', friendsRouter)

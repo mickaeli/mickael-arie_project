@@ -21,7 +21,7 @@ const Dashboard = () => {
           <ProfileBackground />
           <ProfilePicture />
           <UserDetails username={userDetails.username} fullnameTag='h1' fullnameSize='1.5rem' picture={false} description={true} callToServer={true} />
-          <WallManager />
+          <WallManager personalWall={false}/>
         </Col>
       </Row>
     </Container>

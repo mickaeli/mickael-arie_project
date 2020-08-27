@@ -25,28 +25,47 @@ class WallManager extends Component {
 
   componentDidMount() {
 
-    this.setSocketEvents()
-
-    axios.get('/post/')
-    .then(res => {
-      if(res.data.success === true) {
-        this.setState({
-          posts: res.data.posts
-        })
-      }
-    })
-    .catch(err => {
-      console.log("Get posts error: ", err);
-    });
-  }
-
-  setSocketEvents = () => {
-
     this.context.socket.on("addPost", ({post}) => {
       this.setState({
         posts: [...this.state.posts, post]
       })
     });
+
+    if(this.props.personalWall) {
+
+      axios.get(`/post/personal_post/${this.context.userDetails.username}`)
+      .then(res => {
+        if(res.data.success === true) {
+          this.setState({
+            posts: res.data.posts
+          })
+        }
+      })
+      .catch(err => {
+        console.log("Get posts error: ", err);
+      });
+      
+    }else {
+
+      this.setSocketEvents()
+
+      axios.get('/post/')
+      .then(res => {
+        if(res.data.success === true) {
+          this.setState({
+            posts: res.data.posts
+          })
+        }
+      })
+      .catch(err => {
+        console.log("Get posts error: ", err);
+      });
+
+    }
+    
+  }
+
+  setSocketEvents = () => {
 
     this.context.socket.on("editPost", ({postId, newFields}) => {
 
@@ -174,7 +193,11 @@ class WallManager extends Component {
   render() {
 
     return (
-      <div className='wall-manager'>
+      <div className='wall-manager' style={{width: this.props.personalWall ? '70%' : '90%'}}>
+        {
+          this.props.personalWall ?
+          <h1 className='text-center green-color' style={{fontSize: '1.8rem', marginTop: '3rem'}}>My Posts</h1> : ''
+        }
         <PostInput 
           placeHolder="Post something"
           rows={10}
@@ -186,7 +209,16 @@ class WallManager extends Component {
           tooltipText = 'If you choose this option your post will be published anonymously. If you still want people to be able to reach you - you should fill a contact method within the post'
           sendText='Publish'
         />
-        <div className='walls-container'>
+        {
+          this.props.personalWall ? 
+            (<Wall
+            posts={this.state.posts}
+            showAll={true}
+            deletePost={this.deletePost} 
+            editPost = {this.editPost} 
+          />) 
+          :
+          (<div className='walls-container'>
           <Wall
             posts={this.state.posts}
             showAll={false}
@@ -201,7 +233,9 @@ class WallManager extends Component {
             deletePost={this.deletePost} 
             editPost = {this.editPost} 
           />
-        </div>
+        </div>)
+        }
+        
       </div>
     );
   }

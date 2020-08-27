@@ -5,7 +5,7 @@ import ProfilePicture from './ProfilePicture';
 import ProfileBackground from './ProfileBackground';
 import UserDetails from './UserDetails'
 import ProfileDetailsFormContainer from './ProfileDetailsFormContainer';
-import PersonalWallManager from './PersonalWallManager'
+import WallManager from './WallManager'
 
 const Profile = () => {
 
@@ -23,7 +23,7 @@ const Profile = () => {
           <ProfilePicture />
           <UserDetails username={userDetails.username} fullnameTag='h1' fullnameSize='1.5rem' picture={false} description={true} callToServer={true} />
           <ProfileDetailsFormContainer />
-          <PersonalWallManager />
+          <WallManager personalWall={true}/>
         </Col>
       </Row>
     </Container>

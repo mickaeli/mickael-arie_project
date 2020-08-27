@@ -25,11 +25,7 @@ class WallManager extends Component {
 
   componentDidMount() {
 
-    this.context.socket.on("addPost", ({post}) => {
-      this.setState({
-        posts: [...this.state.posts, post]
-      })
-    });
+    this.setSocketEvents()
 
     if(this.props.personalWall) {
 
@@ -44,10 +40,8 @@ class WallManager extends Component {
       .catch(err => {
         console.log("Get posts error: ", err);
       });
-      
-    }else {
 
-      this.setSocketEvents()
+    } else {
 
       axios.get('/post/')
       .then(res => {
@@ -66,6 +60,24 @@ class WallManager extends Component {
   }
 
   setSocketEvents = () => {
+
+    this.context.socket.on("addPost", ({post}) => {
+
+      if(this.props.personalWall){
+
+        if(post.authorUsername === this.context.userDetails.username) {
+          this.setState({
+            posts: [...this.state.posts, post]
+          })
+        }
+
+      } else{
+          this.setState({
+          posts: [...this.state.posts, post]
+        })
+      }
+      
+    });
 
     this.context.socket.on("editPost", ({postId, newFields}) => {
 

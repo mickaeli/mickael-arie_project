@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 
 import PostInput from './PostInput'
@@ -133,6 +133,7 @@ class WallManager extends Component {
 
     return (
       <div className='wall-manager' style={{width: '70%'}}>
+        <h1 className='text-center green-color' style={{fontSize: '1.8rem', marginTop: '2rem'}}>Posts</h1>
         <PostInput 
           placeHolder="Post something"
           rows={10}

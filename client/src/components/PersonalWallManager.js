@@ -25,6 +25,8 @@ class WallManager extends Component {
 
   componentDidMount() {
 
+    this.setSocketEvents()
+
     axios.get(`/post/personal_post/${this.context.userDetails.username}`)
     .then(res => {
       if(res.data.success === true) {
@@ -36,6 +38,16 @@ class WallManager extends Component {
     .catch(err => {
       console.log("Get posts error: ", err);
     });
+  }
+
+  setSocketEvents = () => {
+
+    this.context.socket.on("addPost", ({post}) => {
+      this.setState({
+        posts: [...this.state.posts, post]
+      })
+    });
+
   }
 
   onChangePostText = (event) => {

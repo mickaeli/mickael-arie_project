@@ -57,7 +57,10 @@ const socketConnect = (io, socket) => {
 
       const user = getUserById(socket.id)
 
-      socket.broadcast.to(roomName).emit('message', {message: {user: 'admin', text: `${user.name} has left. To continue the discussion, please open a new window`}, room: roomName})
+      if(user){
+        socket.broadcast.to(roomName).emit('message', {message: {user: 'admin', text: `${user.name} has left. To continue the discussion, please open a new window`}, room: roomName})
+      }
+
     }
   })
 

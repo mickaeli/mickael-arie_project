@@ -17,6 +17,7 @@ router.put('/', (req, res) => {
 
   var username = req.params.username
   var file = req.files.profile_picture
+  console.log('file = ', file)
 
   //upload picture to cloudinary account
   cloudinary.uploader.upload(file.tempFilePath,
@@ -46,6 +47,7 @@ router.put('/', (req, res) => {
     //picture upload failed
     } else {
       console.log("picture upload failed")
+      console.log(err)
       
       res.json({
         success: false

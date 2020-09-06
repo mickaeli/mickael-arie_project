@@ -146,6 +146,8 @@ class Friends extends Component {
 
   acceptRequest = (senderName, receiverName) => {
 
+    console.log('I am in acceptRequest function')
+
     axios.put(`/friends/accept_request/${senderName}/${receiverName}`)
     .then(res => {
       if (res.data.success === true) {

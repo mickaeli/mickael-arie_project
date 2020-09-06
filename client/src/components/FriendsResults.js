@@ -52,7 +52,27 @@ class FriendsResults extends Component {
                         }),
           friends: [...this.state.friends, sender]
         })
+
+        this.context.setFriends([...this.context.friends, sender])
       }
+    })
+
+    this.context.socket.on('deleteFriend', ({sender, receiver}) => {
+
+      if(receiver === this.state.userDetails.username && this.state.friends.includes(sender)){
+
+        this.context.setFriends(this.context.friends.filter(user => {
+                                  return user !== sender
+                                }))
+
+        this.setState({
+          friends: this.state.friends.filter(user => {
+            return user !== sender
+          }),
+          otherUsers: [...this.state.otherUsers, sender]
+        })
+      }
+
     })
 
     this.context.socket.on('ignoreRequest', ({sender, receiver}) => {
@@ -154,6 +174,22 @@ class FriendsResults extends Component {
     })
 
   }
+
+  deleteFriend = friend => {
+
+    axios.put(`/friends/delete_friend/${this.state.userDetails.username}/${friend}`)
+    .then(res => {
+      if (res.data.success === true) {
+
+        this.context.socket.emit('deleteFriend', { sender: this.state.userDetails.username, receiver: friend } )
+      }
+
+    })
+    .catch(err => {
+      console.log('deleteFriend failed');
+    })
+
+  }
   
   render() {
 
@@ -172,7 +208,7 @@ class FriendsResults extends Component {
 
             {
               (this.state.friends.length > 0 || this.state.requestsSent.length > 0) &&
-              <Connections requestsSent={this.state.requestsSent} friends={this.state.friends} />
+              <Connections requestsSent={this.state.requestsSent} friends={this.state.friends} deleteFriend={this.deleteFriend}/>
             }
 
             {

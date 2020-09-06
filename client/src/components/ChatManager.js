@@ -61,7 +61,7 @@ class ChatManager extends Component {
 
         this.setState({
           activeFriends: [...this.state.activeFriends, sender]
-          })
+        })
       }
     })
 

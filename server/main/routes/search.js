@@ -17,10 +17,8 @@ router.get('/', (req, res) => {
   searchResultsInUsers(username, toSearch, users => {
 
     if(toSearch === 'anonymous'){
-      console.log('---hello')
-      getAnonymousPosts(posts => {
 
-        console.log('-----', posts, users)
+      getAnonymousPosts(posts => {
 
         res.json({
           success: true,
@@ -31,7 +29,7 @@ router.get('/', (req, res) => {
 
     } else {
         searchResultsInPosts(toSearch, posts => {
-        console.log('---bye')
+          
         res.json({
           success: true,
           users,

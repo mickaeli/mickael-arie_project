@@ -7,6 +7,8 @@ class Signup extends Component {
   constructor(props) {
     super(props);
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       errors: {},
       user: {
@@ -25,6 +27,10 @@ class Signup extends Component {
 
   componentDidMount() {
     document.title = 'Sign up - Gooder'
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled in Signup');
   }
 
   validateForm(event) {
@@ -53,7 +59,9 @@ class Signup extends Component {
 
   submitSignup(user) {
     let params = { username: user.usr, fullname: user.name, email: user.email, password: user.pw, pwconfirm: user.pwconfirm };
-    axios.post("/signup", params)
+    axios.post("/signup", params, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
 
@@ -71,7 +79,12 @@ class Signup extends Component {
       }
     })
     .catch(err => {
-      console.log("Sign up data submit error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in Signup
+      } else {
+        console.log("Sign up data submit error: ", err);
+      }
+      
     });
   }
 

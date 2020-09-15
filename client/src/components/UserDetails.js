@@ -13,6 +13,8 @@ class UserDetails extends Component {
   constructor(props) {
     super(props)
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       userDetails: {
         fullname: '',
@@ -41,7 +43,9 @@ class UserDetails extends Component {
     })
     
     if(this.props.callToServer){
-      axios.get(`/profile_details/${this.props.username}`)
+      axios.get(`/profile_details/${this.props.username}`, {
+        cancelToken: this.signal.token
+      })
       .then(res => {
         if(res.data.success === true) {
           this.setState({
@@ -50,14 +54,25 @@ class UserDetails extends Component {
         }
       })
       .catch(err => {
-        console.log('get profile_details error: ', err);
+        if(axios.isCancel(err)) {
+          console.log('Error: ', err.message); // => prints: Api is being canceled in UserDetails
+        } else {
+          console.log('get profile_details error: ', err);
+        }
+        
       })
-    } else{
+    } else {
       this.setState({
         userDetails: this.props.userDetails
       })
     }
     
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled in UserDetails');
+    this.context.socket.off('userDetailsModified');
+    this.context.socket.off('profilePictureModified');
   }
 
 

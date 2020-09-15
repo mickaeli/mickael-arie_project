@@ -11,6 +11,8 @@ class ProfileDetailsFormContainer extends Component {
   constructor(props) {
     super(props);
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       errors: {},
       profile_details: {
@@ -24,7 +26,9 @@ class ProfileDetailsFormContainer extends Component {
 
   componentDidMount() {
 
-    axios.get(`/profile_details/${this.state.profile_details.username}`)
+    axios.get(`/profile_details/${this.state.profile_details.username}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if(res.data.success === true) {
         this.setState(prevState => {
@@ -35,9 +39,18 @@ class ProfileDetailsFormContainer extends Component {
       }
     })
     .catch(err => {
-      console.log("Get data error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in ProfileDetailsFormContainer
+      } else {
+        console.log("Get data error: ", err);
+      }
+      
     });
 
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled in ProfileDetailsFormContainer');
   }
 
   validateForm = (event) => {
@@ -65,7 +78,9 @@ class ProfileDetailsFormContainer extends Component {
     const limit_description = 255
 
     let params = { fullname: profile_details.fullname, description: profile_details.description, limit_description: limit_description };
-    axios.put(`/profile_details/${this.state.profile_details.username}`, params)
+    axios.put(`/profile_details/${this.state.profile_details.username}`, params, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
 
@@ -79,7 +94,12 @@ class ProfileDetailsFormContainer extends Component {
       }
     })
     .catch(err => {
-      console.log("Profile details data submit error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in ProfileDetailsFormContainer
+      } else {
+        console.log("Profile details data submit error: ", err);
+      }
+      
     });
   }
 

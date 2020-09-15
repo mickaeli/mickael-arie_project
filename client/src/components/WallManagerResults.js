@@ -13,6 +13,8 @@ class WallManagerResults extends Component {
   constructor(props) {
     super(props);
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       posts: props.posts
     }
@@ -40,12 +42,18 @@ class WallManagerResults extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled in WallManagerResults');
+    this.context.socket.off('deletePost');
+  }
 
   editPost = (post_id, post_text) => {
 
     const params = { post_text: post_text, post_author: this.context.userDetails.username }
 
-    axios.put(`/post/${post_id}`, params)
+    axios.put(`/post/${post_id}`, params, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
         
@@ -64,7 +72,12 @@ class WallManagerResults extends Component {
       }
     })
     .catch(err => {
-      console.log("Edit post error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in WallManagerResults
+      } else {
+        console.log("Edit post error: ", err);
+      }
+      
     })
   }
 
@@ -72,7 +85,9 @@ class WallManagerResults extends Component {
   deletePost = (postId) => {
     
     //delete post and its comments
-    axios.delete(`/post/${postId}`)
+    axios.delete(`/post/${postId}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
 
@@ -80,7 +95,12 @@ class WallManagerResults extends Component {
       }
     })
     .catch(err => {
-      console.log("Delete post error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in WallManagerResults
+      } else {
+        console.log("Delete post error: ", err);
+      }
+      
     });
   }
 

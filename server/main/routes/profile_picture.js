@@ -16,11 +16,10 @@ router.put('/', (req, res) => {
   res.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
 
   var username = req.params.username
-  var file = req.files.profile_picture
-  console.log('file = ', file)
+  //var file = req.files.profile_picture
 
   //upload picture to cloudinary account
-  cloudinary.uploader.upload(file.tempFilePath,
+  cloudinary.uploader.upload(req.body.urlEncoded64,
   { public_id: username + '_picture' },
   (err, result) => {
 

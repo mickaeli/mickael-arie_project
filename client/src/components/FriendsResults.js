@@ -14,6 +14,8 @@ class FriendsResults extends Component {
   constructor(props) {
     super(props);
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       friends: props.users.friendsList,
       requestsSent: props.users.requestsSent,
@@ -38,7 +40,10 @@ class FriendsResults extends Component {
     }
   }
   
-  
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled in FriendsResults');
+    this.closeSocketEvents()
+  }
 
   setSocketEvents = () => {
 
@@ -102,9 +107,18 @@ class FriendsResults extends Component {
 
   }
 
+  closeSocketEvents = () => {
+    this.context.socket.off('newFriend');
+    this.context.socket.off('deleteFriend');
+    this.context.socket.off('ignoreRequest');
+    this.context.socket.off('newRequest');
+  }
+
   sendRequest = (senderName, receiverName) => {
 
-    axios.put(`/friends/send_request/${senderName}/${receiverName}`)
+    axios.put(`/friends/send_request/${senderName}/${receiverName}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
 
@@ -120,7 +134,12 @@ class FriendsResults extends Component {
 
     })
     .catch(err => {
-      console.log('send_request failed');
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in FriendsResults
+      } else {
+        console.log('send_request failed', err);
+      }
+      
     })
 
   }
@@ -128,7 +147,9 @@ class FriendsResults extends Component {
 
   acceptRequest = (senderName, receiverName) => {
 
-    axios.put(`/friends/accept_request/${senderName}/${receiverName}`)
+    axios.put(`/friends/accept_request/${senderName}/${receiverName}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
 
@@ -146,7 +167,12 @@ class FriendsResults extends Component {
 
     })
     .catch(err => {
-      console.log('accept_request failed');
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in FriendsResults
+      } else {
+        console.log('accept_request failed', err);
+      }
+      
     })
 
   }
@@ -154,7 +180,9 @@ class FriendsResults extends Component {
 
   rejectRequest = (senderName, receiverName) => {
 
-    axios.put(`/friends/reject_request/${senderName}/${receiverName}`)
+    axios.put(`/friends/reject_request/${senderName}/${receiverName}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
 
@@ -170,14 +198,21 @@ class FriendsResults extends Component {
 
     })
     .catch(err => {
-      console.log('reject_request failed');
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in FriendsResults
+      } else {
+        console.log('reject_request failed', err);
+      }
+      
     })
 
   }
 
   deleteFriend = friend => {
 
-    axios.put(`/friends/delete_friend/${this.state.userDetails.username}/${friend}`)
+    axios.put(`/friends/delete_friend/${this.state.userDetails.username}/${friend}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
 
@@ -186,7 +221,12 @@ class FriendsResults extends Component {
 
     })
     .catch(err => {
-      console.log('deleteFriend failed');
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in FriendsResults
+      } else {
+        console.log('deleteFriend failed', err);
+      }
+      
     })
 
   }

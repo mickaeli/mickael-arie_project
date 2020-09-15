@@ -8,6 +8,8 @@ class Signin extends Component {
   constructor(props) {
     super(props);
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       errors: {},
       user: {
@@ -23,6 +25,10 @@ class Signin extends Component {
 
   componentDidMount() {
     document.title = 'Login - Gooder'
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled in Signin');
   }
 
   validateForm(event) {
@@ -47,10 +53,14 @@ class Signin extends Component {
 
   submitSignin(user) {
     let params = { username: user.usr, password: user.pw };
-    axios.post("/signin", params)
+    axios.post("/signin", params, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
-        axios.get(`/profile_details/${user.usr}`)
+        axios.get(`/profile_details/${user.usr}`, {
+          cancelToken: this.signal.token
+        })
         .then(res => {
           if(res.data.success === true) {
             //do setting in cookie
@@ -63,7 +73,12 @@ class Signin extends Component {
           }
         })
         .catch(err => {
-          console.log("get data error: ", err);
+          if(axios.isCancel(err)) {
+            console.log('Error: ', err.message); // => prints: Api is being canceled in Signin
+          } else {
+            console.log("get data error: ", err);
+          }
+          
         });
 
       } else {
@@ -73,7 +88,12 @@ class Signin extends Component {
       }
     })
     .catch(err => {
-      console.log("Sign in data submit error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in Signin
+      } else {
+        console.log("Sign in data submit error: ", err);
+      }
+      
     });
   }
 

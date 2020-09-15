@@ -13,6 +13,8 @@ class WallManager extends Component {
   constructor(props) {
     super(props);
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       postInputs: {
         post_text: '',
@@ -29,7 +31,9 @@ class WallManager extends Component {
 
     if(this.props.personalWall) {
 
-      axios.get(`/post/personal_post/${this.context.userDetails.username}`)
+      axios.get(`/post/personal_post/${this.context.userDetails.username}`, {
+        cancelToken: this.signal.token
+      })
       .then(res => {
         if(res.data.success === true) {
           this.setState({
@@ -38,12 +42,18 @@ class WallManager extends Component {
         }
       })
       .catch(err => {
-        console.log("Get posts error: ", err);
+        if(axios.isCancel(err)) {
+          console.log('Error: ', err.message); // => prints: Api is being canceled in WallManager
+        } else {
+          console.log("Get posts error: ", err);
+        }
       });
 
     } else {
 
-      axios.get('/post/')
+      axios.get('/post/', {
+        cancelToken: this.signal.token
+      })
       .then(res => {
         if(res.data.success === true) {
           this.setState({
@@ -52,11 +62,21 @@ class WallManager extends Component {
         }
       })
       .catch(err => {
-        console.log("Get posts error: ", err);
+        if(axios.isCancel(err)) {
+          console.log('Error: ', err.message); // => prints: Api is being canceled in WallManager
+        } else {
+          console.log("Get posts error: ", err);
+        }
+        
       });
 
     }
     
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled in WallManager');
+    this.closeSocketEvents();
   }
 
   setSocketEvents = () => {
@@ -109,6 +129,12 @@ class WallManager extends Component {
     });
 
   }
+
+  closeSocketEvents = () => {
+    this.context.socket.off('addPost');
+    this.context.socket.off('editPost');
+    this.context.socket.off('deletePost');
+  }
   
 
   onChangePostText = (event) => {
@@ -132,7 +158,9 @@ class WallManager extends Component {
 
       const params = { post_text: post_text, isAnonymous: this.state.postInputs.isAnonymous, post_author: this.context.userDetails.username }
       
-      axios.post('/post/', params)
+      axios.post('/post/', params, {
+        cancelToken: this.signal.token
+      })
       .then(res => {
         if (res.data.success === true) {
           
@@ -152,7 +180,12 @@ class WallManager extends Component {
         }
       })
       .catch(err => {
-        console.log("Upload post error: ", err);
+        if(axios.isCancel(err)) {
+          console.log('Error: ', err.message); // => prints: Api is being canceled in WallManager
+        } else {
+          console.log("Upload post error: ", err);
+        }
+        
         this.setState({postInputs: {post_text: '', isAnonymous: false}})
       })
     } else {
@@ -166,7 +199,9 @@ class WallManager extends Component {
 
     const params = { post_text: post_text, post_author: this.context.userDetails.username }
 
-    axios.put(`/post/${post_id}`, params)
+    axios.put(`/post/${post_id}`, params, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
 
@@ -181,7 +216,12 @@ class WallManager extends Component {
       }
     })
     .catch(err => {
-      console.log("Edit post error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in WallManager
+      } else {
+        console.log("Edit post error: ", err);
+      }
+      
     })
   }
 
@@ -189,7 +229,9 @@ class WallManager extends Component {
   deletePost = (postId) => {
     
     //delete post and its comments
-    axios.delete(`/post/${postId}`)
+    axios.delete(`/post/${postId}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
 
@@ -197,7 +239,12 @@ class WallManager extends Component {
       }
     })
     .catch(err => {
-      console.log("Delete post error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in WallManager
+      } else {
+        console.log("Delete post error: ", err);
+      }
+      
     });
   }
 

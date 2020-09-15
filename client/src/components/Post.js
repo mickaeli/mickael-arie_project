@@ -18,6 +18,8 @@ class Post extends Component {
   constructor(props) {
     super(props);
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       post_text_value: props.data.text,
       post_text: props.data.text,
@@ -45,23 +47,29 @@ class Post extends Component {
 
   });
 
-    this._isMounted = true
-
-    axios.get(`/comment/${this.props.data.id}`)
+    axios.get(`/comment/${this.props.data.id}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
-      if(res.data.success === true && this._isMounted) {
+      if(res.data.success === true) {
         this.setState({
           comments: res.data.comments
         })
       }
     })
     .catch(err => {
-      console.log("Get comments error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in Post
+      } else {
+        console.log("Get comments error: ", err);
+      }
+      
     });
   }
 
   componentWillUnmount() {
-    this._isMounted = false
+    this.signal.cancel('Api is being canceled in Post');
+    this.context.socket.off('addComment');
   }
 
   onChangePostText = (event) => {
@@ -133,7 +141,9 @@ addComment = (event) => {
       //'post_id' indicates the id of the post for which we want add a comment.
       const params = { post_id: this.props.data.id, comment_text: comment_text, isAnonymous: this.state.commentInputs.isAnonymous, comment_author: this.context.userDetails.username }
       
-      axios.post('/comment/', params)
+      axios.post('/comment/', params, {
+        cancelToken: this.signal.token,
+      })
       .then(res => {
         if (res.data.success === true) {
           
@@ -152,7 +162,12 @@ addComment = (event) => {
         }
       })
       .catch(err => {
-        console.log("Upload comment error: ", err);
+        if(axios.isCancel(err)) {
+          console.log('Error: ', err.message); // => prints: Api is being canceled in Post
+        } else {
+          console.log("Upload comment error: ", err);
+        }
+        
         this.setState({commentInputs: {comment_text: '', isAnonymous: false}})
       })
     } else {

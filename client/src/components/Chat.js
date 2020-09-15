@@ -22,10 +22,9 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    this._isMounted = true
     
     this.context.socket.on("message", ({message, room}) => {
-      if(room === this.props.room && this._isMounted) {
+      if(room === this.props.room) {
         this.setState({
           messages: [...this.state.messages, message]
         })
@@ -34,7 +33,7 @@ class Chat extends Component {
   }
 
   componentWillUnmount() {
-    this._isMounted = false
+    this.context.socket.off('message');
   }
   
 

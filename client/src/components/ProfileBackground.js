@@ -10,6 +10,8 @@ class ProfileBackground extends Component {
   constructor(props) {
     super(props);
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       profile_background: "",
       selected_background: "",
@@ -22,7 +24,9 @@ class ProfileBackground extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/profile_details/${this.state.userDetails.username}`)
+    axios.get(`/profile_details/${this.state.userDetails.username}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -31,8 +35,17 @@ class ProfileBackground extends Component {
       }
     })
     .catch(err => {
-      console.log("Get data error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in ProfileBackground
+      } else {
+        console.log("Get data error: ", err);
+      }
+      
     });
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled in ProfileBackground');
   }
 
   handleClose = () => this.setState({show: false})
@@ -57,10 +70,16 @@ class ProfileBackground extends Component {
     this.setState({
       loading: true
     })
-    const data = new FormData()
-    data.append('profile_background', this.state.selected_background)
+    //const data = new FormData()
+    //data.append('profile_background', this.state.selected_background)
 
-    axios.put(`/profile_background/${this.state.userDetails.username}`, data)
+    const reader = new FileReader()
+    reader.readAsDataURL(this.state.selected_background)
+
+    reader.onloadend = () => {
+    axios.put(`/profile_background/${this.state.userDetails.username}`, { urlEncoded64: reader.result }, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if (res.data.success === true) {
         this.setState({
@@ -78,8 +97,14 @@ class ProfileBackground extends Component {
       }
     })
     .catch(err => {
-      console.log("Upload data error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in ProfileBackground
+      } else {
+        console.log("Upload data error: ", err);
+      }
+      
     });
+  }
 
     this.setState({
       isButtonDisabled : true
@@ -94,7 +119,9 @@ class ProfileBackground extends Component {
       const data = new FormData()
       data.append('profile_background', this.state.profile_background)
     
-      axios.delete(`/profile_background/${this.state.userDetails.username}`, { data: { data: data } })
+      axios.delete(`/profile_background/${this.state.userDetails.username}`, { data: { data: data } }, {
+        cancelToken: this.signal.token
+      })
       .then(res => {
         if (res.data.success === true) {
           this.setState({
@@ -106,7 +133,12 @@ class ProfileBackground extends Component {
         }
       })
       .catch(err => {
-        console.log("delete background error: ", err);
+        if(axios.isCancel(err)) {
+          console.log('Error: ', err.message); // => prints: Api is being canceled in ProfileBackground
+        } else {
+          console.log("delete background error: ", err);
+        }
+        
       });
     
     }

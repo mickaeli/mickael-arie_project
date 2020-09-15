@@ -27,9 +27,16 @@ class ChatManager extends Component {
   }
 
   componentDidMount() {
+
     //run function setSocketEvents after one second for waiting this.props.context.friends is ready in DashBoardContainer component
-    setTimeout(this.setSocketEvents, 1000)
+    this.timeout = setTimeout(this.setSocketEvents, 1000)
   }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
+    this.closeSocketEvents()
+  }
+  
 
   setSocketEvents = () => {
 
@@ -38,9 +45,10 @@ class ChatManager extends Component {
     this.props.context.socket.on("activeUsers", users => {
 
         //looking for active users who are my friends
-        this.setState({
-          activeFriends: users.filter(user => this.props.context.friends.indexOf(user) >= 0)
-        })
+          this.setState({
+            activeFriends: users.filter(user => this.props.context.friends.indexOf(user) >= 0)
+          })
+        
       
     });
 
@@ -69,11 +77,12 @@ class ChatManager extends Component {
 
       if(receiver === this.state.userDetails.username) {
 
-        this.setState({
-          activeFriends: this.state.activeFriends.filter(user => {
-            return user !== sender
+          this.setState({
+            activeFriends: this.state.activeFriends.filter(user => {
+              return user !== sender
+            })
           })
-        })
+        
 
         if(closeChat){
           this.closeChat(createRoomName(this.state.userDetails.username, sender))
@@ -83,14 +92,15 @@ class ChatManager extends Component {
     })
 
     this.props.context.socket.on('userDisconnected', user => {
-      this.setState({
-        activeFriends: this.state.activeFriends.filter(friend => {
-          return friend !== user
-        }),
-        rooms: this.state.rooms.filter(room => {
-          return room.indexOf(user) === -1
+        this.setState({
+          activeFriends: this.state.activeFriends.filter(friend => {
+            return friend !== user
+          }),
+          rooms: this.state.rooms.filter(room => {
+            return room.indexOf(user) === -1
+          })
         })
-      })
+      
     })
 
     this.props.context.socket.on('joinToRoom', ({friendName, roomName}) => {
@@ -101,13 +111,22 @@ class ChatManager extends Component {
             sendEventToFriend: false
           });
 
-          this.setState({
-            rooms: [...this.state.rooms, roomName]
-          })
+            this.setState({
+              rooms: [...this.state.rooms, roomName]
+            })
         
       }
       
     })
+  }
+
+  closeSocketEvents = () => {
+    this.context.socket.off('activeUsers');
+    this.context.socket.off('userConnected');
+    this.context.socket.off('newFriendConnected');
+    this.context.socket.off('deleteFriend');
+    this.context.socket.off('userDisconnected');
+    this.context.socket.off('joinToRoom');
   }
 
   openChat = friendName => {
@@ -120,24 +139,26 @@ class ChatManager extends Component {
       sendEventToFriend: true
     });
 
-    this.setState({
-      rooms: [...this.state.rooms, roomName]
-    })
+      this.setState({
+        rooms: [...this.state.rooms, roomName]
+      })
+    
   }
 
   closeChat = roomName => {
 
     this.props.context.socket.emit('leaveRoom', {roomName, sendEventToFriend: true})
 
-    this.setState({
-      rooms: this.state.rooms.filter(room => {
-        return room !== roomName
+      this.setState({
+        rooms: this.state.rooms.filter(room => {
+          return room !== roomName
+        })
       })
-    })
+    
   }
 
-  showActiveFriends = () => { this.setState({showActiveFriends: true}) }
-  hideActiveFriends = () => { this.setState({showActiveFriends: false}) }
+  showActiveFriends = () => this.setState({showActiveFriends: true})
+  hideActiveFriends = () => this.setState({showActiveFriends: false})
 
   render() {
 

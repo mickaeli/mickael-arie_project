@@ -14,6 +14,8 @@ class ProfilePicture extends Component {
   constructor(props) {
     super(props);
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       profile_picture: "",
       selected_picture: "",
@@ -25,7 +27,9 @@ class ProfilePicture extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/profile_details/${this.state.userDetails.username}`)
+    axios.get(`/profile_details/${this.state.userDetails.username}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if(res.data.success === true) {
         this.setState({
@@ -34,8 +38,17 @@ class ProfilePicture extends Component {
       }
     })
     .catch(err => {
-      console.log("Get data error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in ProfilePicture
+      } else {
+        console.log("Get data error: ", err);
+      }
+      
     });
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled in ProfilePicture');
   }
 
   handleClose = () => this.setState({show: false})
@@ -52,35 +65,46 @@ class ProfilePicture extends Component {
     this.setState({
       loading: true
     })
-    const data = new FormData()
-    data.append('profile_picture', this.state.selected_picture)
+    //const data = new FormData()
+    //data.append('profile_picture', this.state.selected_picture)
 
-    axios.put(`/profile_picture/${this.state.userDetails.username}`, data)
-    .then(res => {
-      if (res.data.success === true) {
-        this.setState({
-          profile_picture: res.data.url,
-          show: false,
-          loading: false
-        })
+    const reader = new FileReader()
+    reader.readAsDataURL(this.state.selected_picture)
 
-        let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-        isLoggedIn.profilePicture = res.data.url
-        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
+    reader.onloadend = () => {
+      axios.put(`/profile_picture/${this.state.userDetails.username}`, { urlEncoded64: reader.result }, {
+        cancelToken: this.signal.token
+      })
+      .then(res => {
+        if (res.data.success === true) {
+          this.setState({
+            profile_picture: res.data.url,
+            show: false,
+            loading: false
+          })
 
-        this.context.socket.emit('profilePictureModified', { user: this.state.userDetails.username, profilePicture: res.data.url } )
+          let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+          isLoggedIn.profilePicture = res.data.url
+          localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
 
-      } else {
-        this.setState({
-          show: false,
-          loading: false
-        })
-        alert("Picture upload failed. Please try again")
-      }
-    })
-    .catch(err => {
-      console.log("Upload data error: ", err);
-    });
+          this.context.socket.emit('profilePictureModified', { user: this.state.userDetails.username, profilePicture: res.data.url } )
+
+        } else {
+          this.setState({
+            show: false,
+            loading: false
+          })
+          alert("Picture upload failed. Please try again")
+        }
+      })
+      .catch(err => {
+        if(axios.isCancel(err)) {
+          console.log('Error: ', err.message); // => prints: Api is being canceled in ProfilePicture
+        } else {
+          console.log("Upload data error: ", err);
+        }
+      });
+    }
 
     this.setState({
       isButtonDisabled : true
@@ -93,7 +117,9 @@ class ProfilePicture extends Component {
       loading: true
     })
 
-    axios.delete(`/profile_picture/${this.state.userDetails.username}`)
+    axios.delete(`/profile_picture/${this.state.userDetails.username}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
         if (res.data.success === true) {
           this.setState({
@@ -107,7 +133,12 @@ class ProfilePicture extends Component {
         }
       })
     .catch(err => {
-      console.log("Delete picture error: ", err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in ProfilePicture
+      } else {
+        console.log("Delete picture error: ", err);
+      }
+      
     });
 
   }

@@ -20,6 +20,8 @@ class DashboardContainer extends Component {
   constructor(props) {
     super(props);
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       context: {
         userDetails: JSON.parse(localStorage.getItem('isLoggedIn')),
@@ -38,7 +40,9 @@ class DashboardContainer extends Component {
       this.state.context.socket.emit('newUser', { user: this.state.context.userDetails.username } )
     }
     
-    axios.get(`/friends/connections/${this.state.context.userDetails.username}`)
+    axios.get(`/friends/connections/${this.state.context.userDetails.username}`, {
+      cancelToken: this.signal.token
+    })
     .then(res => {
       if(res.data.success) {
         const context = this.state.context
@@ -51,12 +55,19 @@ class DashboardContainer extends Component {
       }
     })
     .catch(err => {
-      console.log('get friends error: ', err);
+      if(axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled in DashboardContainer
+      } else {
+        console.log('get friends error: ', err);
+      }
+      
     })
   }
 
   componentWillUnmount() {
     this.state.context.socket.close()
+    this.closeSocketEvents()
+    this.signal.cancel('Api is being canceled in DashboardContainer');
   }
 
   setSocketEvents = () => {
@@ -83,6 +94,11 @@ class DashboardContainer extends Component {
         })
       }
     })
+  }
+
+  closeSocketEvents = () => {
+    this.context.socket.off('userDetailsModified');
+    this.context.socket.off('profilePictureModified');
   }
 
   setFriends = value => {

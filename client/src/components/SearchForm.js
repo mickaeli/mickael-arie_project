@@ -9,10 +9,16 @@ class SearchForm extends Component {
   constructor(props){
     super(props);
 
+    this.signal = axios.CancelToken.source();
+
     this.state = {
       searchInput: '',
       userDetails: JSON.parse(localStorage.getItem('isLoggedIn'))
     }
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled in SearchForm');
   }
 
   handleSearch = (event) => {
@@ -24,7 +30,7 @@ class SearchForm extends Component {
           username: this.state.userDetails.username,
           search: this.state.searchInput
         }
-      })
+      }, { cancelToken: this.signal.token })
       .then(res => {
         if(res.data.success){
 
@@ -36,7 +42,12 @@ class SearchForm extends Component {
 
       })
       .catch(err => {
-        console.log('search failed', err)
+        if(axios.isCancel(err)) {
+          console.log('Error: ', err.message); // => prints: Api is being canceled in SearchForm
+        } else {
+          console.log('search failed', err)
+        }
+        
       })
     }
 

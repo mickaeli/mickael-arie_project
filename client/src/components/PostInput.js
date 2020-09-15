@@ -18,7 +18,7 @@ const PostInput = ({placeHolder, rows, postText, isAnonymous, onChangePostText, 
       <div className='flex-row-center'>
 
         <div className='checkbox'>
-          <input type="checkbox" id='anonymous' checked={isAnonymous} onChange={onChangeIsAnonymous} className='checkbox-element' />
+          <input type="checkbox" checked={isAnonymous} onChange={onChangeIsAnonymous} className='checkbox-element' />
           <label className='checkbox-element' htmlFor='anonymous'>Anonymize</label>
           <OverlayTrigger
             placement='bottom'
